@@ -119,7 +119,8 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.jsoup)
 
-
+    implementation (libs.androidx.work.runtime.ktx)
+    implementation (libs.kotlinx.coroutines.android)
     //Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
