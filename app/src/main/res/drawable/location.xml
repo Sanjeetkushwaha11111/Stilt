@@ -1,0 +1,29 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="50dp"
+    android:height="50dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+
+    <!-- Red Outer Circle -->
+    <path
+        android:fillColor="#FB3636"
+        android:fillType="evenOdd"
+        android:pathData="M19.999,35C15.169,35 7.5,26.598 7.5,17.664C7.5,10.671 13.095,5 19.999,5C26.903,5 32.5,10.671 32.5,17.664C32.5,26.598 24.831,35 19.999,35Z"
+        android:strokeWidth="2.66667"
+        android:strokeColor="#0E0E0E"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- Red Inner Circle -->
+
+
+    <!-- White Circle in the Middle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M19.999,17.851C18.553,17.851 17.207,18.197 16.056,18.849C14.906,19.501 14.217,20.639 14.217,21.999C14.217,23.359 14.906,24.497 16.056,25.149C17.207,25.801 18.553,26.147 19.999,26.147C21.445,26.147 22.791,25.801 23.942,25.149C25.092,24.497 25.782,23.359 25.782,21.999C25.782,20.639 25.092,19.501 23.942,18.849C22.791,18.197 21.445,17.851 19.999,17.851Z"
+        android:strokeWidth="2.66667"
+        android:strokeColor="#0E0E0E"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>
