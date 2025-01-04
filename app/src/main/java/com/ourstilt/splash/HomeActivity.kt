@@ -1,23 +1,15 @@
 package com.ourstilt.splash
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
-import com.ourstilt.base.fadeIn
-import com.ourstilt.base.fadeOut
-import com.ourstilt.base.hide
-import com.ourstilt.base.isGone
-import com.ourstilt.base.isVisible
-import com.ourstilt.base.show
+import com.ourstilt.utils.fadeIn
+import com.ourstilt.utils.fadeOut
+import com.ourstilt.utils.hide
+import com.ourstilt.utils.show
 import com.ourstilt.databinding.ActivityHomeBinding
 import kotlin.math.abs
 

@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ourstilt.base.startWithSlideUp
+import com.ourstilt.utils.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
 import dagger.hilt.android.AndroidEntryPoint
 

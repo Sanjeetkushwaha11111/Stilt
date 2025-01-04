@@ -81,7 +81,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.lifecycle.extensions)
-
+    implementation (libs.androidx.navigation.ui.ktx)
+    implementation (libs.flexbox)
 
     //Firebase
     implementation(platform(libs.firebase.bom))
