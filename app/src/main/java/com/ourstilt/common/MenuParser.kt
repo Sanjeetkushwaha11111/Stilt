@@ -1,4 +1,4 @@
-package com.ourstilt.utils
+package com.ourstilt.common
 
 import android.content.Context
 import android.os.Build

@@ -4,14 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.ourstilt.utils.startWithSlideUp
+import com.ourstilt.base.BaseViewPagerAdapter
+import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
+import com.ourstilt.homepage.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LandingActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivitySplashBinding.inflate(layoutInflater)
+    }
+
+    private val pagerAdapter by lazy {
+        BaseViewPagerAdapter(supportFragmentManager, lifecycle)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -24,12 +24,12 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.ourstilt.R
-import com.ourstilt.utils.dpPx
-import com.ourstilt.utils.getColorResCompat
-import com.ourstilt.utils.getTextColor
-import com.ourstilt.utils.MenuParser
-import com.ourstilt.utils.NavigationComponentHelper
-import com.ourstilt.utils.Utils
+import com.ourstilt.common.dpPx
+import com.ourstilt.common.getColorResCompat
+import com.ourstilt.common.getTextColor
+import com.ourstilt.common.MenuParser
+import com.ourstilt.common.NavigationComponentHelper
+import com.ourstilt.common.Utils
 
 
 class AnimatedBottomBar @JvmOverloads constructor(

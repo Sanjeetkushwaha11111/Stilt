@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.Dimension
-import com.ourstilt.utils.dpPx
+import com.ourstilt.common.dpPx
 import kotlin.math.max
 
 class BadgeView @JvmOverloads constructor(

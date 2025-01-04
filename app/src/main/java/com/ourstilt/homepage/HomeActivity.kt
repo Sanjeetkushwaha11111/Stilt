@@ -1,16 +1,19 @@
-package com.ourstilt.splash
+package com.ourstilt.homepage
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.appbar.AppBarLayout
-import com.ourstilt.utils.fadeIn
-import com.ourstilt.utils.fadeOut
-import com.ourstilt.utils.hide
-import com.ourstilt.utils.show
+import com.ourstilt.common.Constants.tabToLand
+import com.ourstilt.common.fadeIn
+import com.ourstilt.common.fadeOut
+import com.ourstilt.common.hide
+import com.ourstilt.common.loggableFormat
+import com.ourstilt.common.show
 import com.ourstilt.databinding.ActivityHomeBinding
+import timber.log.Timber
 import kotlin.math.abs
 
 class HomeActivity : AppCompatActivity() {
@@ -19,13 +22,42 @@ class HomeActivity : AppCompatActivity() {
         ActivityHomeBinding.inflate(layoutInflater)
     }
 
+    private val homeViewModel: HomeViewModel by viewModels()
+    private var currentTabPosition = 0
+    private var screenName = "HomePage"
+
+    private val homeFragment by lazy {
+        HomeFragment()
+    }
+    private val homeFragment2 by lazy {
+        HomeFragment()
+    }
+    private val homeFragment3 by lazy {
+        HomeFragment()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
         setupScreen()
         setupAppBarBehavior()
+        homeViewModel.getHomeActivityData()
+        val tabToLand = intent.getIntExtra(tabToLand, -1)
+        viewModelObserver(tabToLand)
     }
+
+    private fun viewModelObserver(tabToLand: Int) {
+        homeViewModel.homeData.observe(this) {
+
+        }
+    }
+
+
+    private fun setUpViewPager(tabData: Any, tabToLand: Int) {
+
+    }
+
 
     private fun setupScreen() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
@@ -38,8 +70,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setupAppBarBehavior() {
         val searchBarPinned = binding.searchBarPinned
         val searchBarFloating = binding.searchBarFloating
-
-        binding.appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+        binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
             val totalScrollRange = binding.appbar.totalScrollRange
             // Detect when the AppBar just starts expanding
             if (verticalOffset > -10 && verticalOffset < 0) {
@@ -61,6 +92,6 @@ class HomeActivity : AppCompatActivity() {
                     searchBarPinned.hide()
                 }
             }
-        })
+        }
     }
 }

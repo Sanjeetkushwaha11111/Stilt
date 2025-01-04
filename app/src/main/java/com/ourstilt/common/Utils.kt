@@ -1,4 +1,4 @@
-package com.ourstilt.utils
+package com.ourstilt.common
 
 import android.annotation.SuppressLint
 import android.content.Context

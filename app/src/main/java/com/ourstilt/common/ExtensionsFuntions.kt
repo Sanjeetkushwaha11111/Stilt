@@ -1,4 +1,4 @@
-package com.ourstilt.utils
+package com.ourstilt.common
 
 import android.app.Activity
 import android.app.ActivityOptions
@@ -10,8 +10,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.core.animation.ValueAnimator
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 import com.ourstilt.R
 import kotlin.math.roundToInt
 
@@ -54,7 +54,6 @@ fun View.isVisible(): Boolean = visibility == View.VISIBLE
 fun View.isGone(): Boolean = visibility == View.GONE
 
 
-
 @ColorInt
 internal fun Context.getColorResCompat(@AttrRes id: Int): Int {
     return ContextCompat.getColor(this, getResourceId(id))
@@ -81,7 +80,6 @@ internal fun Context.getResourceId(id: Int): Int {
 }
 
 
-
 internal val Int.dpPx: Int
     get() = (this * Resources.getSystem().displayMetrics.density).roundToInt()
 
@@ -103,4 +101,8 @@ fun Context.showToastShort(message: String?) {
     currentShortToast = Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
         show()
     }
+}
+
+fun Any.loggableFormat(): String {
+    return Gson().toJson(this)
 }

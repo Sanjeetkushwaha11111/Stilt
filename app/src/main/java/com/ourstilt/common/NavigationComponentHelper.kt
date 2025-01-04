@@ -1,4 +1,4 @@
-package com.ourstilt.utils
+package com.ourstilt.common
 
 import android.os.Bundle
 import android.view.Menu

@@ -25,8 +25,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.widget.ImageViewCompat
 import androidx.core.widget.TextViewCompat
-import com.ourstilt.utils.dpPx
-import com.ourstilt.utils.getResourceId
+import com.ourstilt.common.dpPx
+import com.ourstilt.common.getResourceId
 
 internal class TabView @JvmOverloads constructor(
     context: Context,
