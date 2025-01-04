@@ -350,16 +350,7 @@ class AnimatedBottomBar @JvmOverloads constructor(
         tabIndicator.applyStyle()
     }
 
-    /**
-     * Creates a new [Tab] instance with the given parameters.
-     *
-     * @param icon A drawable of the tab icon.
-     * @param title The title of the tab.
-     * @param id A unique identifier of a tab.
-     * @param iconSize Size of icon.
-     * Unlike [AnimatedBottomBar.iconSize], sets size of icon only for this tab.
-     * Should be either -1 to use [AnimatedBottomBar.iconSize] or positive value
-     */
+
     fun createTab(icon: Drawable?, title: String, @IdRes id: Int = -1, iconSize: Int = -1): Tab {
         if (icon == null) {
             throw IllegalArgumentException("Icon drawable cannot be null.")
@@ -373,77 +364,33 @@ class AnimatedBottomBar @JvmOverloads constructor(
         return Tab(icon, iconSize, title, id)
     }
 
-    /**
-     * Creates a new [Tab] instance with the given parameters.
-     *
-     * @param iconRes A drawable resource of the tab icon.
-     * @param title The title of the tab.
-     * @param iconSize Size of icon.
-     * Unlike [AnimatedBottomBar.iconSize], sets size of icon only for this tab.
-     * Should be either -1 to use [AnimatedBottomBar.iconSize] or positive value
-     */
+
     fun createTab(@DrawableRes iconRes: Int, title: String, @IdRes id: Int = -1, iconSize: Int = -1): Tab {
         val icon = ContextCompat.getDrawable(context, iconRes)
         return createTab(icon, title, id, iconSize)
     }
 
-    /**
-     * Creates a new [Tab] instance with the given parameters.
-     *
-     * @param iconRes A drawable resource of the tab icon.
-     * @param titleRes A string resourceRes of the tab title.
-     * @param id A unique identifier of a tab.
-     * @param iconSize Size of icon.
-     * Unlike [AnimatedBottomBar.iconSize], sets size of icon only for this tab.
-     * Should be either -1 to use [AnimatedBottomBar.iconSize] or positive value
-     */
     fun createTab(@DrawableRes iconRes: Int, @StringRes titleRes: Int, @IdRes id: Int = -1, iconSize: Int = -1): Tab {
         val title = context.getString(titleRes)
         return createTab(iconRes, title, id, iconSize)
     }
 
-    /**
-     * Appends the given tab to the end of the BottomBar.
-     *
-     * @param tab The [Tab] to be appended.
-     */
     fun addTab(tab: Tab) {
         adapter.addTab(tab)
     }
 
-    /**
-     * Appends given array of tabs to the end of the BottomBar
-     *
-     * @param tabs array of tabs to be appended
-     */
     fun addTabs(tabs: Array<out Tab>) {
         adapter.addTabs(tabs)
     }
 
-    /**
-     * Appends given collection of tabs to the end of the BottomBar
-     *
-     * @param tabs collection of tabs to be appended
-     */
     fun addTabs(tabs: Collection<Tab>) {
         adapter.addTabs(tabs)
     }
 
-    /**
-     * Adds the given tab to the specified [tabIndex].
-     *
-     * @param tabIndex The index the tab needs to be added at.
-     * @param tab The [Tab] to be appended.
-     */
     fun addTabAt(tabIndex: Int, tab: Tab) {
         adapter.addTab(tab, tabIndex)
     }
 
-    /**
-     * Remove a tab from the BottomBar by the specified [tabIndex] index.
-     *
-     * @param tabIndex The index of the tab to be removed.
-     */
     fun removeTabAt(tabIndex: Int) {
         if (tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IndexOutOfBoundsException("Tab index $tabIndex is out of bounds.")
@@ -452,11 +399,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.removeTabAt(tabIndex)
     }
 
-    /**
-     * Remove a tab from the BottomBar by the specified tab [id].
-     *
-     * @param id The id of the tab to be removed.
-     */
     fun removeTabById(@IdRes id: Int) {
         val tabIndex = indexOfTabWithId(id)
         if(tabIndex < 0) {
@@ -466,20 +408,10 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.removeTabAt(tabIndex)
     }
 
-    /**
-     * Remove a tab from the BottomBar by [Tab] instance, use [tabs] to retrieve a list of tabs.
-     *
-     * @param tab The [Tab] instance to be removed.
-     */
     fun removeTab(tab: Tab) {
         adapter.removeTab(tab)
     }
 
-    /**
-     * Select a tab on the BottomBar by the specified [tabIndex] index.
-     *
-     * @param tabIndex The index of the tab to be selected.
-     */
     fun selectTabAt(tabIndex: Int, animate: Boolean = true) {
         if (tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IndexOutOfBoundsException("Tab index $tabIndex is out of bounds.")
@@ -488,11 +420,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.selectTabAt(tabIndex, animate)
     }
 
-    /**
-     * Select a tab on the BottomBar by the specified tab [id].
-     *
-     * @param id The id of the tab to be selected.
-     */
     fun selectTabById(@IdRes id: Int, animate: Boolean = true) {
         val tabIndex = indexOfTabWithId(id)
         if(tabIndex < 0) {
@@ -501,28 +428,14 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.selectTabAt(tabIndex, animate)
     }
 
-    /**
-     * Select a tab on the BottomBar by [Tab] instance, use [tabs] to retrieve a list of tabs.
-     *
-     * @param tab The [Tab] instance to be selected.
-     */
     fun selectTab(tab: Tab, animate: Boolean = true) {
         adapter.selectTab(tab, animate)
     }
 
-    /**
-     * Deselect the selected tab.
-     */
     fun clearSelection(animate: Boolean = true) {
         adapter.clearSelection(animate)
     }
 
-    /**
-     * Enable/disabled a tab on the BottomBar by the specified [tabIndex] index.
-     *
-     * @param tabIndex The index of the tab to be enabled or disabled.
-     * @param enabled Whether the tab state should be enabled or disabled.
-     */
     fun setTabEnabledAt(tabIndex: Int, enabled: Boolean) {
         if (tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IndexOutOfBoundsException("Tab index $tabIndex is out of bounds.")
@@ -531,12 +444,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.selectTabAt(tabIndex, enabled)
     }
 
-    /**
-     * Enable/disable a tab on the BottomBar by the specified tab [id].
-     *
-     * @param id The id of the tab to be enabled or disabled.
-     * @param enabled Whether the tab state should be enabled or disabled.
-     */
     fun setTabEnabledById(@IdRes id: Int, enabled: Boolean) {
         val index = indexOfTabWithId(id)
         if(index < 0) {
@@ -546,23 +453,11 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.selectTabAt(index, enabled)
     }
 
-    /**
-     * Enable/disable a tab on the BottomBar by [Tab] instance, use [tabs] to retrieve a list of tabs.
-     *
-     * @param tab The [Tab] instance to be enabled or disabled.
-     * @param enabled Whether the tab state should be enabled or disabled.
-     */
     fun setTabEnabled(tab: Tab, enabled: Boolean) {
         tab.enabled = enabled
         adapter.notifyTabChanged(tab)
     }
 
-    /**
-     * Add a badge to a tab on the BottomBar by the specified [tabIndex] index.
-     *
-     * @param tabIndex The index of the tab which the given [Badge] should be added to.
-     * @param badge The badge you want to add to the tab.
-     */
     fun setBadgeAtTabIndex(tabIndex: Int, badge: Badge? = null) {
         if (tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IndexOutOfBoundsException("Tab index $tabIndex is out of bounds.")
@@ -573,12 +468,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.applyTabBadgeAt(tabIndex, badge ?: Badge())
     }
 
-    /**
-     * Add a badge to a tab on the BottomBar by the specified tab [id].
-     *
-     * @param id The id of the tab which the given [Badge] should be added to.
-     * @param badge The badge you want to add to the tab.
-     */
     fun setBadgeAtTabId(@IdRes id: Int, badge: Badge? = null) {
         val index = indexOfTabWithId(id)
         if(index >= 0) {
@@ -587,22 +476,11 @@ class AnimatedBottomBar @JvmOverloads constructor(
         setBadgeAtTabIndex(index, badge)
     }
 
-    /**
-     * Add a badge to a BottomBar tab by [Tab] instance, use [tabs] to retrieve a list of tabs.
-     *
-     * @param tab The [Tab] instance which the given [Badge] should be added to.
-     * @param badge The badge you want to add to the tab.
-     */
     fun setBadgeAtTab(tab: Tab, badge: Badge? = null) {
         tab.badge = badge
         adapter.applyTabBadge(tab, badge ?: Badge())
     }
 
-    /**
-     * Remove a badge from a tab by the specified [tabIndex] index.
-     *
-     * @param tabIndex The index of the tab which the badge should be removed of.
-     */
     fun clearBadgeAtTabIndex(tabIndex: Int) {
         if (tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IndexOutOfBoundsException("Tab index $tabIndex is out of bounds.")
@@ -613,11 +491,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.applyTabBadgeAt(tabIndex, null)
     }
 
-    /**
-     * Remove a badge from a tab by the specified tab [id].
-     *
-     * @param id The id of the tab which the badge should be removed of.
-     */
     fun clearBadgeAtTabId(@IdRes id: Int) {
         val index = indexOfTabWithId(id)
         if(index < 0) {
@@ -626,22 +499,11 @@ class AnimatedBottomBar @JvmOverloads constructor(
         clearBadgeAtTabIndex(index)
     }
 
-    /**
-     * Remove a badge from a tab.
-     *
-     * @param tab The [Tab] instance which the badge should be removed of.
-     */
     fun clearBadgeAtTab(tab: Tab) {
         tab.badge = null
         adapter.applyTabBadge(tab, null)
     }
 
-    /**
-     * Sets custom size of icon at tab.
-     *
-     * @param tab The [Tab] which icon size should be changed.
-     * @param iconSize Should be either -1 (to use [AnimatedBottomBar.iconSize] value) or positive value.
-     */
     fun setIconSizeAtTab(tab: Tab, iconSize: Int) {
         if(iconSize < -1 || iconSize == 0) {
             throw IllegalArgumentException("iconSize should be either -1 or positive value.")
@@ -651,12 +513,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.applyIconSize(tab, iconSize)
     }
 
-    /**
-     * Sets custom size of icon at tab.
-     *
-     * @param tabIndex Index of [Tab] which icon size should be changed.
-     * @param iconSize Should be either -1 (to use [AnimatedBottomBar.iconSize] value) or positive value.
-     */
     fun setIconSizeAtTabIndex(tabIndex: Int, iconSize: Int) {
         if(tabIndex < 0 || tabIndex >= adapter.tabs.size) {
             throw IllegalArgumentException("Tab index is out of bounds.")
@@ -670,12 +526,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         adapter.applyIconSize(tabIndex, iconSize)
     }
 
-    /**
-     * Sets custom size of icon at tab.
-     *
-     * @param id Id of [Tab] which icon size should be changed.
-     * @param iconSize Should be either -1 (to use [AnimatedBottomBar.iconSize] value) or positive value.
-     */
     fun setIconSizeAtTabId(@IdRes id: Int, iconSize: Int) {
         val index = indexOfTabWithId(id)
         if(index < 0) {
@@ -693,56 +543,8 @@ class AnimatedBottomBar @JvmOverloads constructor(
         recycler.isNestedScrollingEnabled = enabled
     }
 
-    /**
-     * This method will link the given ViewPager and this AnimatedBottomBar together so that changes in one are automatically reflected in the other. This includes scroll state changes and clicks.
-     *
-     * @param viewPager The ViewPager to link to, or null to clear any previous link
-     */
-    fun setupWithViewPager(viewPager: ViewPager?) {
-        this.viewPager = viewPager
 
-        if (viewPager != null) {
-            selectTabAt(viewPager.currentItem, false)
-            viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-                private var previousState: Int = ViewPager.SCROLL_STATE_IDLE
-                private var userScrollChange = false
 
-                override fun onPageScrollStateChanged(state: Int) {
-                    // Use Scroll state to detect whether the user is sliding
-                    if (previousState == ViewPager.SCROLL_STATE_DRAGGING
-                        && state == ViewPager.SCROLL_STATE_SETTLING
-                    ) {
-                        userScrollChange = true
-                    } else if (previousState == ViewPager.SCROLL_STATE_SETTLING
-                        && state == ViewPager.SCROLL_STATE_IDLE
-                    ) {
-                        userScrollChange = false
-                    }
-                    previousState = state
-                }
-
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                }
-
-                override fun onPageSelected(position: Int) {
-                    if (userScrollChange) {
-                        // Swap by user's touch, change adapter to new tab.
-                        selectTabAt(position)
-                    }
-                }
-            })
-        }
-    }
-
-    /**
-     * This method will link the given ViewPager2 and this AnimatedBottomBar together so that changes in one are automatically reflected in the other. This includes scroll state changes and clicks.
-     *
-     * @param viewPager2 The ViewPager2 to link to, or null to clear any previous link
-     */
     fun setupWithViewPager2(viewPager2: ViewPager2?) {
         this.viewPager2 = viewPager2
 
@@ -777,12 +579,6 @@ class AnimatedBottomBar @JvmOverloads constructor(
         }
     }
 
-    /**
-     * This method will link the given NavController to the AnimatedBottomBar together so that changes in one are automatically reflected in the other.
-     *
-     * @param menu The menu used in combination with the NavController and AnimatedBottomBar.
-     * @param navController NavController The NavController the AnimatedBottomBar should be linked to.
-     */
     fun setupWithNavController(menu: Menu, navController: NavController) {
         NavigationComponentHelper.setupWithNavController(this, menu, navController)
     }
@@ -805,31 +601,15 @@ class AnimatedBottomBar @JvmOverloads constructor(
             applyTabStyle(BottomBarStyle.StyleUpdateType.TAB_TYPE)
         }
 
-    /**
-     * Retrieve a list of all tabs.
-     */
     val tabs
         get() = ArrayList(adapter.tabs)
 
-    /**
-     * Get the number of tabs in the BottomBar.
-     */
     val tabCount
         get() = adapter.tabs.size
 
-    /**
-     * Get the currently selected [Tab] instance.
-     *
-     * @return Currently selected tab, null when no tab is selected.
-     */
     val selectedTab
         get() = adapter.selectedTab
 
-    /**
-     * Get the currently selected tab index.
-     *
-     * @return Currently selected tab index, -1 when no tab is selected.
-     */
     val selectedIndex
         get() = adapter.selectedIndex
 

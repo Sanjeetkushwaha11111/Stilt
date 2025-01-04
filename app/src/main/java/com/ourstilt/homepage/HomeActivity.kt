@@ -1,16 +1,22 @@
 package com.ourstilt.homepage
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.ourstilt.R
+import com.ourstilt.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.common.Constants.tabToLand
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
-import com.ourstilt.common.loggableFormat
 import com.ourstilt.common.show
 import com.ourstilt.databinding.ActivityHomeBinding
 import timber.log.Timber
@@ -22,9 +28,15 @@ class HomeActivity : AppCompatActivity() {
         ActivityHomeBinding.inflate(layoutInflater)
     }
 
+
     private val homeViewModel: HomeViewModel by viewModels()
     private var currentTabPosition = 0
     private var screenName = "HomePage"
+
+
+    private val bottomBar by lazy {
+        binding.bottomBar
+    }
 
     private val homeFragment by lazy {
         HomeFragment()
@@ -49,13 +61,10 @@ class HomeActivity : AppCompatActivity() {
 
     private fun viewModelObserver(tabToLand: Int) {
         homeViewModel.homeData.observe(this) {
-
+            it?.let {
+                addBottomBarTabs(it.tabsData, it.tabToLand)
+            }
         }
-    }
-
-
-    private fun setUpViewPager(tabData: Any, tabToLand: Int) {
-
     }
 
 
@@ -92,6 +101,74 @@ class HomeActivity : AppCompatActivity() {
                     searchBarPinned.hide()
                 }
             }
+        }
+    }
+
+
+    private fun addBottomBarTabs(tabsData: List<TabData>?, tabToLand: Int?) {
+        if (tabsData.isNullOrEmpty()) {
+            return
+        }
+        var tabsAdded = 0
+        val totalTabs = tabsData.size
+
+        tabsData.forEachIndexed { index, tabData ->
+            if (tabData.tabImage != null) {
+                Glide.with(this)
+                    .asDrawable()
+                    .load(tabData.tabImage)
+                    .into(object : CustomTarget<Drawable>() {
+                        override fun onResourceReady(
+                            resource: Drawable,
+                            transition: Transition<in Drawable>?
+                        ) {
+                            val tab = bottomBar.createTab(
+                                icon = resource,
+                                title = tabData.tabName ?: "",
+                                id = index
+                            )
+                            bottomBar.addTab(tab)
+
+                            if (!tabData.badgeCount.isNullOrEmpty()) {
+                                val badge = AnimatedBottomBar.Badge(tabData.badgeCount)
+                                bottomBar.setBadgeAtTabIndex(index, badge)
+                            }
+
+                            tabsAdded++
+                            checkAndSelectTab(tabToLand, tabsAdded, totalTabs)
+                        }
+
+                        override fun onLoadCleared(placeholder: Drawable?) {}
+                    })
+            } else {
+                val fallbackIcon = ContextCompat.getDrawable(this, R.drawable.location)
+                val tab = bottomBar.createTab(
+                    icon = fallbackIcon,
+                    title = tabData.tabName ?: "",
+                    id = index
+                )
+                bottomBar.addTab(tab)
+
+                if (!tabData.badgeCount.isNullOrEmpty()) {
+                    val badge = AnimatedBottomBar.Badge(tabData.badgeCount)
+                    bottomBar.setBadgeAtTabIndex(index, badge)
+                }
+                tabsAdded++
+                checkAndSelectTab(tabToLand, tabsAdded, totalTabs)
+            }
+        }
+    }
+
+    private fun checkAndSelectTab(tabToLand: Int?, tabsAdded: Int, totalTabs: Int) {
+        if (tabsAdded == totalTabs && tabToLand != null) {
+            try {
+                bottomBar.selectTabAt(tabToLand)
+            } catch (e: IndexOutOfBoundsException) {
+                bottomBar.selectTabAt(0)
+                Timber.e(">>>>>>>>>>>>>Invalid tabToLand index: $tabToLand. Total tabs: $totalTabs")
+            }
+        } else {
+            bottomBar.selectTabAt(0)
         }
     }
 }

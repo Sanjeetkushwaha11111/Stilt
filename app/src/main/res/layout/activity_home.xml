@@ -198,12 +198,11 @@
         app:abb_indicatorMargin="@dimen/_14sdp"
         app:abb_selectedIndex="0"
         android:elevation="@dimen/_4sdp"
-        app:abb_animationDuration="200"
+        app:abb_animationDuration="500"
         app:abb_selectedTabType="text"
         app:abb_textStyle="bold"
         app:abb_iconSize="@dimen/_23sdp"
-        app:abb_textSize="@dimen/_12sdp"
-        app:abb_tabs="@menu/bottom_bar_tabs" />
+        app:abb_textSize="@dimen/_12sdp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/recyclerView"
