@@ -4,6 +4,7 @@ agp = "8.6.1"
 cardview = "1.0.0"
 coreAnimation = "1.0.0"
 firebaseBom = "33.7.0"
+flexbox = "3.0.0"
 jsoup = "1.15.4"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -24,6 +25,7 @@ firebasePref = "1.4.2"
 hiltAndroidVersion = "2.51.1"
 hiltWorkVersion = "1.2.0"
 glide = "4.16.0"
+navigationUiKtx = "2.8.5"
 playServicesLocation = "21.3.0"
 sdpAndroid = "1.0.6"
 sspAndroidVersion = "1.1.1"
@@ -56,8 +58,10 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
+androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+flexbox = { module = "com.google.android.flexbox:flexbox", version.ref = "flexbox" }
 jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
