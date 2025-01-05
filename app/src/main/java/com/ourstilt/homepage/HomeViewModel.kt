@@ -14,10 +14,10 @@ class HomeViewModel : BaseViewModel() {
         launch {
             val imgUrl = "https://i.postimg.cc/9XDbsQHG/home.png"
             val tabsData = arrayListOf(
-                TabData("Home", imgUrl, null),
-                TabData("Home2", imgUrl, null),
-                TabData("Home3", imgUrl, null),
-                TabData("Home4", imgUrl, null)
+                TabData("1", "Home", imgUrl, null),
+                TabData("2", "Home2", imgUrl, null),
+                TabData("3", "Home3", imgUrl, null),
+                TabData("4", "Home4", imgUrl, null)
             )
             val hd = HomeDataModel(
                 null,
@@ -25,7 +25,7 @@ class HomeViewModel : BaseViewModel() {
                 0,
                 false,
                 tabsData,
-                0,
+                2,
                 "https://i.postimg.cc/xqrc4RDF/home-top-bg.png",
                 "What you want to eat today?"
             )

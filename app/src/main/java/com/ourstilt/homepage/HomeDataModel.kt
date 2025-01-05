@@ -18,6 +18,7 @@ class HomeDataModel(
 
 @Parcelize
 data class TabData(
+    var tabSlug: String? = null,
     var tabName: String? = null,
     var tabImage: String? = null,
     var badgeCount: String? = null,
