@@ -25,7 +25,7 @@ class HomeViewModel : BaseViewModel() {
                 0,
                 false,
                 tabsData,
-                2,
+                1,
                 "https://i.postimg.cc/xqrc4RDF/home-top-bg.png",
                 "What you want to eat today?"
             )
