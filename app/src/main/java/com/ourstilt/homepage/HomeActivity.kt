@@ -1,9 +1,14 @@
 package com.ourstilt.homepage
 
+import android.graphics.RenderEffect
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -20,6 +25,9 @@ import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
 import com.ourstilt.databinding.ActivityHomeBinding
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderEffectBlur
+import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,6 +56,20 @@ class HomeActivity : AppCompatActivity() {
         Timber.e(">>>>>>>>>>>>>>Setting up UI")
         configureWindowInsets()
         setupAppBarBehavior()
+        setupBlurView()
+    }
+
+    private fun setupBlurView() {
+        val decorView = window.decorView
+        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            binding.blurView.setupWith(rootView).setFrameClearDrawable(windowBackground)
+                .setBlurRadius(10f)
+        } else {
+            binding.bottomBar.setBackgroundResource(R.drawable.rounded_bg_with_border_gradient)
+        }
     }
 
     private fun observeViewModel() {

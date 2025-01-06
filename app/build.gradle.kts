@@ -119,7 +119,7 @@ dependencies {
     implementation(libs.truecaller.sdk)
     implementation(libs.lottie)
     implementation(libs.jsoup)
-
+    implementation (libs.blurview)
     implementation (libs.androidx.work.runtime.ktx)
     implementation (libs.kotlinx.coroutines.android)
     //Testing

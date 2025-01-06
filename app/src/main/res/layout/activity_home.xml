@@ -187,27 +187,34 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.ourstilt.animatedbottombar.AnimatedBottomBar
-        android:id="@+id/bottom_bar"
+    <!-- BlurView wrapping AnimatedBottomBar -->
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:elevation="@dimen/_4sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/rounded_bg_with_border"
-        android:elevation="@dimen/_4sdp"
-        app:abb_animationDuration="500"
-        app:abb_iconSize="@dimen/_23sdp"
-        app:abb_indicatorAppearance="round"
-        app:abb_indicatorHeight="@dimen/_4sdp"
-        app:abb_indicatorMargin="@dimen/_14sdp"
-        app:abb_selectedIndex="0"
-        app:abb_selectedTabType="text"
-        app:abb_textSize="@dimen/_12sdp"
-        app:abb_textStyle="bold" />
+        android:layout_gravity="bottom">
+
+        <com.ourstilt.animatedbottombar.AnimatedBottomBar
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:abb_animationDuration="500"
+            app:abb_iconSize="@dimen/_23sdp"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorHeight="@dimen/_4sdp"
+            app:abb_indicatorMargin="@dimen/_14sdp"
+            app:abb_selectedIndex="0"
+            app:abb_selectedTabType="text"
+            app:abb_textSize="@dimen/_12sdp"
+            app:abb_textStyle="bold" />
+    </eightbitlab.com.blurview.BlurView>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
