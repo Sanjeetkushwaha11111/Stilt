@@ -7,12 +7,15 @@ import android.content.Intent
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
+import org.jsoup.Jsoup
 import kotlin.math.roundToInt
 
 
@@ -106,3 +109,21 @@ fun Context.showToastShort(message: String?) {
 fun Any.loggableFormat(): String {
     return Gson().toJson(this)
 }
+
+fun String.fromHtml(): String {
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+}
+
+fun TextView.setTextFromHtmlOrHide(value: String?) {
+    if (value.isNullOrEmpty()) {
+        hide()
+    } else {
+        show()
+        text = value.fromHtml()
+    }
+}
+
+fun String.plainTextFromHtmlForAnalytics(): String {
+    return Jsoup.parse(this).text()
+}
+

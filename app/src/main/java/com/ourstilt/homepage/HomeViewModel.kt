@@ -13,6 +13,7 @@ class HomeViewModel : BaseViewModel() {
     fun getHomeActivityData() {
         launch {
             val imgUrl = "https://i.postimg.cc/9XDbsQHG/home.png"
+            val topUrl=""
             val tabsData = arrayListOf(
                 TabData("1", "Home", imgUrl, null),
                 TabData("2", "Home2", imgUrl, null),
@@ -27,7 +28,7 @@ class HomeViewModel : BaseViewModel() {
                 tabsData,
                 1,
                 "https://i.postimg.cc/xqrc4RDF/home-top-bg.png",
-                "What you want to eat today?"
+                "<span style=\"color: black; font-weight: bold; font-size: 26px;\">What you want to eat today?</span>\n"
             )
 
             delay(1000)
