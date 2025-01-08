@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel : BaseViewModel() {
 
     val homeData = MutableLiveData<HomeDataModel>()
+    val homeFragmentData = MutableLiveData<HomeDataModel>()
 
 
     fun getHomeActivityData() {
@@ -34,5 +35,9 @@ class HomeViewModel : BaseViewModel() {
             delay(1000)
             homeData.postValue(hd)
         }
+    }
+
+    fun getHomeFragmentData() {
+
     }
 }

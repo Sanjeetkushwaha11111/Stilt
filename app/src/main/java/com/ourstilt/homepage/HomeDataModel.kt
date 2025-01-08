@@ -26,5 +26,14 @@ data class TabData(
 
 
 data class ApiData(
-    var type: String? = null
+    var type: String? = null,
+    var filterData: ArrayList<FilterData>? = null
 )
+
+@Parcelize
+data class FilterData(
+    var slug: String? = null,
+    var text: String? = null,
+    var icon: String? = null,
+    var showCross: Boolean? = false
+) : Parcelable

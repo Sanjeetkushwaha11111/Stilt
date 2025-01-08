@@ -1,31 +1,18 @@
 package com.ourstilt.homepage
 
-import android.animation.ArgbEvaluator
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.RenderEffect
-import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.os.Looper
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.Transformation
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.annotation.ColorInt
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.animation.AccelerateDecelerateInterpolator
-import androidx.core.animation.Animator
-import androidx.core.animation.AnimatorListenerAdapter
-import androidx.core.animation.ObjectAnimator
-import androidx.core.animation.ValueAnimator
 import androidx.core.content.ContextCompat
-import androidx.core.os.HandlerCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -33,26 +20,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.ourstilt.R
 import com.ourstilt.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.base.BaseViewPagerAdapter
-import com.ourstilt.common.Constants
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
-import com.ourstilt.common.loggableFormat
 import com.ourstilt.common.setTextFromHtmlOrHide
-import com.ourstilt.common.show
 import com.ourstilt.databinding.ActivityHomeBinding
-import eightbitlab.com.blurview.BlurView
-import eightbitlab.com.blurview.RenderEffectBlur
-import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -146,7 +123,11 @@ class HomeActivity : AppCompatActivity() {
         if (tabsData.isNullOrEmpty()) {
             return
         }
-        binding.recyclerView.adapter = pagerAdapter
+        binding.recyclerView.apply {
+            adapter = pagerAdapter
+            offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
+            isUserInputEnabled = false
+        }
         lifecycleScope.launch(Dispatchers.Main) {
             val icons = withContext(Dispatchers.IO) {
                 tabsData.map { tabData ->
@@ -172,16 +153,22 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupTab(index: Int, tabData: TabData, icon: Drawable?, fragment: Fragment) {
-        val tab = bottomBar.createTab(icon = icon, title = tabData.tabName ?: "", id = index)
-        bottomBar.addTab(tab)
+        val fragmentTag = tabData.tabName ?: ""
+        val existingFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+        if (binding.bottomBar.tabs.none { it.title == fragmentTag }) {
+            val tab = binding.bottomBar.createTab(icon = icon, title = fragmentTag, id = index)
+            binding.bottomBar.addTab(tab)
 
-        if (!tabData.badgeCount.isNullOrEmpty()) {
-            val badge = AnimatedBottomBar.Badge(tabData.badgeCount)
-            bottomBar.setBadgeAtTabIndex(index, badge)
+            if (!tabData.badgeCount.isNullOrEmpty()) {
+                val badge = AnimatedBottomBar.Badge(tabData.badgeCount)
+                binding.bottomBar.setBadgeAtTabIndex(index, badge)
+            }
         }
-
-        pagerAdapter.addFragment(fragment, tabData.tabName ?: "")
+        if (existingFragment == null) {
+            pagerAdapter.addFragment(fragment, fragmentTag)
+        }
     }
+
 
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
         bottomBar.setupWithViewPager2(binding.recyclerView)

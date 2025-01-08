@@ -138,17 +138,6 @@
                         android:text="Search to eat..."
                         android:textColor="#5D5959"
                         android:textSize="@dimen/_13sdp" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/share"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_10sdp"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:paddingHorizontal="@dimen/_7sdp"
-                        android:paddingVertical="@dimen/_7sdp"
-                        app:srcCompat="@drawable/ic_search" />
                 </com.google.android.material.appbar.MaterialToolbar>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -182,19 +171,17 @@
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <!-- BlurView wrapping AnimatedBottomBar -->
     <eightbitlab.com.blurview.BlurView
         android:id="@+id/blurView"
         android:elevation="@dimen/_4sdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom">
 
         <com.ourstilt.animatedbottombar.AnimatedBottomBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:abb_animationDuration="500"
             app:abb_iconSize="@dimen/_23sdp"
             app:abb_indicatorAppearance="round"
@@ -211,7 +198,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
-        android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

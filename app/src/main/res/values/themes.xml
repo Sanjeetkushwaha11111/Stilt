@@ -11,7 +11,6 @@
             <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
             <item name="colorSurface">@color/md_theme_light_surface</item>
             <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
-            …..
         </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
