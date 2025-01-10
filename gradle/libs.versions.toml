@@ -45,6 +45,8 @@ lottieVersion = "6.4.0"
 coreSplashscreenVersion = "1.0.1"
 playServicesAuthApiPhone = "18.1.0"
 workRuntimeKtx = "2.10.0"
+annotation = "1.9.1"
+navigationFragment = "2.8.5"
 
 
 
@@ -98,6 +100,8 @@ truecaller-sdk = { module = "com.truecaller.android.sdk:truecaller-sdk", version
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottieVersion" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreenVersion" }
 play-services-auth-api-phone = { module = "com.google.android.gms:play-services-auth-api-phone", version.ref = "playServicesAuthApiPhone" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 
 
 
