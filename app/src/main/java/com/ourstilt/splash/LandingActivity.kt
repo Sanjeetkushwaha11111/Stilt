@@ -8,6 +8,7 @@ import com.ourstilt.base.BaseViewPagerAdapter
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
 import com.ourstilt.homepage.HomeActivity
+import com.ourstilt.user.ui.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class LandingActivity : AppCompatActivity() {
 
         splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
             splashScreenViewProvider.remove()
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startWithSlideUp(intent)
         }
     }

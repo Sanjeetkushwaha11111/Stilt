@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/_20ssp"
+    android:background="@drawable/fragment_rounded_background"
+    tools:context=".user.ui.login.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="@dimen/_500sdp"
+        android:text="register user fragment" />
+
+</FrameLayout>

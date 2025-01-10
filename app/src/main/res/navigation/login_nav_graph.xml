@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.ourstilt.user.ui.login.PhoneLoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_phone_login">
+        <action
+            android:id="@+id/action_loginFragment_to_otpFragment"
+            app:destination="@id/otpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otpFragment"
+        android:name="com.ourstilt.user.ui.login.OtpFragment"
+        android:label="OTP"
+        tools:layout="@layout/fragment_otp">
+        <action
+            android:id="@+id/action_otpFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.ourstilt.user.ui.login.ProfileFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_profile" />
+</navigation>

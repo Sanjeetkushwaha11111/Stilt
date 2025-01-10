@@ -94,6 +94,8 @@ dependencies {
 
     // Dagger Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.annotation)
+    implementation(libs.androidx.navigation.fragment)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 
