@@ -9,6 +9,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewStub
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
+import com.ourstilt.customViews.SpinningLoader
 import org.jsoup.Jsoup
 import kotlin.math.roundToInt
 

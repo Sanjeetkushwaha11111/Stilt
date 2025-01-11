@@ -1,23 +1,23 @@
 package com.ourstilt.user.ui.login
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.ourstilt.R
+import androidx.fragment.app.Fragment
+import com.ourstilt.customViews.SpinningLoader
 import com.ourstilt.databinding.FragmentPhoneLoginBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
-class PhoneLoginFragment : DialogFragment() {
+class PhoneLoginFragment : Fragment() {
 
     private lateinit var binding: FragmentPhoneLoginBinding
+
+    private val loaderView by lazy {
+        val viewStub = binding.loaderStub
+        viewStub.inflate() as SpinningLoader
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -29,20 +29,21 @@ class PhoneLoginFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loginButton.apply {
-            setOnClickListener {
-                val spinner = binding.loaderImage
-                spinner.showWithPopupEffect()
-                spinner.setColor(Color.parseColor("#FFFFFF"))
-            }
-            lifecycleScope.launch {
-                delay(10000)
-                binding.loaderImage.apply {
-                    hideWithPopInEffect()
-                }
-                findNavController().navigate(R.id.action_loginFragment_to_otpFragment)
+        binding.loginButton.setOnClickListener {
+            showLoader(true, loaderView)
+        }
+        binding.root.setOnClickListener {
+            showLoader(false, loaderView)
+        }
+    }
+
+    private fun showLoader(show: Boolean, loaderView: SpinningLoader) {
+        loaderView.apply {
+            if (show) {
+                showWithPopupEffect()
+            } else {
+                hideWithPopInEffect()
             }
         }
-
     }
 }

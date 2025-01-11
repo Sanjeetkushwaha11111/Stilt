@@ -5,10 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ourstilt.databinding.FragmentOtpBinding
 
 
-class OtpFragment : DialogFragment() {
+class OtpFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentOtpBinding
 
@@ -19,10 +20,8 @@ class OtpFragment : DialogFragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
     }
 
