@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_500sdp"
+    android:id="@+id/main_cl"
     android:background="@color/white"
-    tools:context=".user.ui.login.PhoneLoginFragment">
+    android:layout_height="wrap_content"
+    tools:context=".userlogin.ui.PhoneLoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/top_cl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/header_title"
@@ -19,16 +23,16 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/bebasneue_regular"
             android:gravity="center"
-            android:letterSpacing="0.3"
+            android:letterSpacing="0.5"
             android:paddingHorizontal="@dimen/_10sdp"
             android:paddingVertical="@dimen/_10sdp"
             android:text="Now Stilt\nyour phone"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_25ssp"
+            app:layout_constraintBottom_toTopOf="@id/phone_ll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/phone_ll"
@@ -48,10 +52,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:fontFamily="@font/montserrat_semi_lbold"
+                android:textColor="@color/colorBlack"
                 android:gravity="center_vertical"
                 android:paddingVertical="@dimen/_10sdp"
                 android:text="+91"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -64,13 +69,19 @@
                 android:layout_marginStart="@dimen/_10sdp"
                 android:background="@null"
                 android:hint="Enter your phone number"
+                android:inputType="phone"
+                android:letterSpacing=".05"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:minLines="1"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_13sdp"
                 android:paddingBottom="@dimen/_2sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/phone_country_code"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/phone_country_code"
                 app:layout_constraintTop_toTopOf="@+id/phone_country_code" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btn_cl"
@@ -113,10 +124,40 @@
                 app:layout_constraintStart_toStartOf="@+id/login_button"
                 app:layout_constraintTop_toTopOf="@+id/login_button" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/policy_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_160sdp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="By continuing, you agree to our:"
+            android:textColor="@color/colorGrey"
+            android:textSize="@dimen/_9sdp"
+            app:layout_constraintBottom_toTopOf="@id/policy_txt_click"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_cl" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/policy_txt_click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:includeFontPadding="true"
+            android:text="Term of Services and Policies"
+            android:textColor="@color/md_theme_dark_onPrimary"
+            android:textSize="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/policy_txt" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

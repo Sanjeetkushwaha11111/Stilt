@@ -7,8 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ourstilt.base.BaseViewPagerAdapter
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
-import com.ourstilt.homepage.HomeActivity
-import com.ourstilt.user.ui.login.LoginActivity
+import com.ourstilt.userlogin.ui.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

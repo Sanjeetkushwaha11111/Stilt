@@ -39,10 +39,10 @@
         tools:replace="android:icon,android:allowBackup,android:fullBackupContent"
         tools:targetApi="35">
         <activity
-            android:name=".user.ui.login.LoginActivity"
+            android:name=".userlogin.ui.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApp.LoginActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".homepage.HomeActivity"

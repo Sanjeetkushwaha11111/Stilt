@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
+import com.ourstilt.common.Constants.PATTERN
 import com.ourstilt.customViews.SpinningLoader
 import org.jsoup.Jsoup
 import kotlin.math.roundToInt
@@ -143,4 +144,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
-
+fun String.isPhoneNumber(): Boolean {
+    val matcher = PATTERN.matcher(this)
+    return matcher.matches()
+}

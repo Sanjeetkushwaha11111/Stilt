@@ -1,4 +1,4 @@
-package com.ourstilt.user.ui.login
+package com.ourstilt.userlogin.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

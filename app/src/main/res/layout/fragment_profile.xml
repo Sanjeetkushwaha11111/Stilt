@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/_20ssp"
     android:background="@drawable/fragment_rounded_background"
-    tools:context=".user.ui.login.ProfileFragment">
+    tools:context=".userlogin.ui.ProfileFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.ourstilt.user.ui.login.PhoneLoginFragment"
+        android:name="com.ourstilt.userlogin.ui.PhoneLoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_phone_login">
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/otpFragment"
-        android:name="com.ourstilt.user.ui.login.OtpFragment"
+        android:name="com.ourstilt.userlogin.ui.OtpFragment"
         android:label="OTP"
         tools:layout="@layout/fragment_otp">
         <action
@@ -34,7 +34,7 @@
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.ourstilt.user.ui.login.ProfileFragment"
+        android:name="com.ourstilt.userlogin.ui.ProfileFragment"
         android:label="Register"
         tools:layout="@layout/fragment_profile" />
 </navigation>

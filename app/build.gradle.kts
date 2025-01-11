@@ -76,14 +76,12 @@ dependencies {
     implementation(libs.play.services.auth.api.phone)
     implementation(libs.activity.ktx)
     implementation(libs.androidx.core.animation)
-    implementation(libs.material)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.cardview)
     implementation(libs.androidx.lifecycle.extensions)
     implementation (libs.androidx.navigation.ui.ktx)
     implementation (libs.flexbox)
-    implementation (libs.material.v190)
 
     //Firebase
     implementation(platform(libs.firebase.bom))

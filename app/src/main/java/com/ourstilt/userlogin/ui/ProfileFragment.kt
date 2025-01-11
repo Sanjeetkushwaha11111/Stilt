@@ -1,4 +1,4 @@
-package com.ourstilt.user.ui.login
+package com.ourstilt.userlogin.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.ourstilt.R
-import com.ourstilt.base.BaseFragment
 import com.ourstilt.databinding.FragmentProfileBinding
 
 class ProfileFragment : DialogFragment() {
