@@ -5,7 +5,7 @@ import android.os.Build
 import android.view.MenuInflater
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
-import com.ourstilt.animatedbottombar.AnimatedBottomBar
+import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 
 
 internal object MenuParser {

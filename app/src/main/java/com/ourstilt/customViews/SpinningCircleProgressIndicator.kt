@@ -1,4 +1,4 @@
-package com.ourstilt.spinner
+package com.ourstilt.customViews
 
 import android.content.Context
 import android.graphics.Canvas

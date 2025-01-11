@@ -6,8 +6,8 @@ import androidx.annotation.IdRes
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.ui.NavigationUI
-import com.ourstilt.animatedbottombar.AnimatedBottomBar
-import com.ourstilt.animatedbottombar.AnimatedBottomBar.OnTabSelectListener
+import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
+import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar.OnTabSelectListener
 import java.lang.ref.WeakReference
 
 /**

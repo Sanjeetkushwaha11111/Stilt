@@ -1,4 +1,4 @@
-package com.ourstilt.animatedbottombar
+package com.ourstilt.customViews.animatedbottombar
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

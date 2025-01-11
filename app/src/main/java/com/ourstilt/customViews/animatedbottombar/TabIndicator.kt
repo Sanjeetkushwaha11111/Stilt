@@ -1,4 +1,4 @@
-package com.ourstilt.animatedbottombar
+package com.ourstilt.customViews.animatedbottombar
 
 import android.animation.ObjectAnimator
 import android.graphics.Canvas

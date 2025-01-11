@@ -103,7 +103,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:toggleCheckedStateOnClick="true" />
 
-            <com.ourstilt.spinner.SpinningLoader
+            <com.ourstilt.customViews.SpinningLoader
                 android:id="@+id/loader_image"
                 android:layout_width="30dp"
                 android:layout_height="30dp"

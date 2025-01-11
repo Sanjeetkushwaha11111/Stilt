@@ -1,4 +1,4 @@
-package com.ourstilt.animatedbottombar
+package com.ourstilt.customViews.animatedbottombar
 
 internal class NoCopyArrayList<T>(private val data: Array<out T>): AbstractList<T>() {
     override val size: Int

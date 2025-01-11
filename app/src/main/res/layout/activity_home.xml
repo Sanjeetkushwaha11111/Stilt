@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <!-- AppBarLayout containing CollapsingToolbarLayout -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -178,7 +177,7 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom">
 
-        <com.ourstilt.animatedbottombar.AnimatedBottomBar
+        <com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
             android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
