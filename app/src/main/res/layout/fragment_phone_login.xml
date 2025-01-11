@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/fragment_rounded_background"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     tools:context=".user.ui.login.PhoneLoginFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/top_cl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/_100sdp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/header_title"
@@ -43,7 +44,7 @@
             app:layout_constraintTop_toBottomOf="@id/header_title">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/header"
+                android:id="@+id/phone_country_code"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_10sdp"
@@ -57,6 +58,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phone_et"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center_vertical"
@@ -64,10 +66,56 @@
                 android:background="@null"
                 android:hint="Enter your phone number"
                 android:paddingBottom="@dimen/_2sdp"
-                app:layout_constraintBottom_toBottomOf="@+id/header"
+                app:layout_constraintBottom_toBottomOf="@+id/phone_country_code"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/header"
-                app:layout_constraintTop_toTopOf="@+id/header" />
+                app:layout_constraintStart_toEndOf="@+id/phone_country_code"
+                app:layout_constraintTop_toTopOf="@+id/phone_country_code" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/btn_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_marginEnd="25dp"
+            app:layout_constraintEnd_toEndOf="@id/phone_ll"
+            app:layout_constraintStart_toStartOf="@id/phone_ll"
+            app:layout_constraintTop_toBottomOf="@id/phone_ll">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/comment_background"
+                android:backgroundTint="@color/colorBlack"
+                android:fontFamily="@font/montserrat_semi_lbold"
+                android:gravity="center"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="OTP less sign in"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:toggleCheckedStateOnClick="true" />
+
+            <com.ourstilt.spinner.SpinningLoader
+                android:id="@+id/loader_image"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/_185sdp"
+                android:visibility="gone"
+                app:itemCount="8"
+                app:layout_constraintBottom_toBottomOf="@+id/login_button"
+                app:layout_constraintEnd_toEndOf="@+id/login_button"
+                app:layout_constraintStart_toStartOf="@+id/login_button"
+                app:layout_constraintTop_toTopOf="@+id/login_button"
+                app:rotationSpeed="10" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

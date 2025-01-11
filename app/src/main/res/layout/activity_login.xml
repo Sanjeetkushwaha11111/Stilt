@@ -9,7 +9,7 @@
     tools:context=".user.ui.login.LoginActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView"
+        android:id="@+id/image"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:defaultNavHost="true"
+        app:layout_optimizationLevel="standard"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

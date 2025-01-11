@@ -1,14 +1,19 @@
 package com.ourstilt.user.ui.login
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.ourstilt.R
-import com.ourstilt.base.BaseFragment
 import com.ourstilt.databinding.FragmentPhoneLoginBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 class PhoneLoginFragment : DialogFragment() {
 
@@ -21,15 +26,23 @@ class PhoneLoginFragment : DialogFragment() {
         return binding.root
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.RoundedFragmentStyle)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_otpFragment)
+        binding.loginButton.apply {
+            setOnClickListener {
+                val spinner = binding.loaderImage
+                spinner.showWithPopupEffect()
+                spinner.setColor(Color.parseColor("#FFFFFF"))
+            }
+            lifecycleScope.launch {
+                delay(10000)
+                binding.loaderImage.apply {
+                    hideWithPopInEffect()
+                }
+                findNavController().navigate(R.id.action_loginFragment_to_otpFragment)
+            }
         }
+
     }
 }
