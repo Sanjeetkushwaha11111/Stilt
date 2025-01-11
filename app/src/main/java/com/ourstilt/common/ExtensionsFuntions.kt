@@ -1,26 +1,34 @@
 package com.ourstilt.common
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewStub
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
 import com.ourstilt.common.Constants.PATTERN
-import com.ourstilt.customViews.SpinningLoader
 import org.jsoup.Jsoup
 import kotlin.math.roundToInt
 
@@ -147,4 +155,55 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
 fun String.isPhoneNumber(): Boolean {
     val matcher = PATTERN.matcher(this)
     return matcher.matches()
+}
+
+private fun Activity.getScreenWidth(): Int {
+    val displayMetrics = DisplayMetrics()
+    val windowManager = this.windowManager
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels
+    } else {
+        return windowManager.currentWindowMetrics.bounds.width()
+    }
+}
+
+fun ImageView.animateBackButton() {
+    // Create a rounded black background
+    val shape = GradientDrawable().apply {
+        shape = GradientDrawable.OVAL
+        setColor(Color.BLACK)
+    }
+
+    // Set rounded black background with a smooth transition
+    this.background = shape
+
+    // Pop animation (scale)
+    val scaleX = ObjectAnimator.ofFloat(this, "scaleX", 1f, 1.2f, 1f)
+    val scaleY = ObjectAnimator.ofFloat(this, "scaleY", 1f, 1.2f, 1f)
+    scaleX.duration = 300
+    scaleY.duration = 300
+
+    // Animate color change of the arrow from black to white
+    val colorAnimator = ObjectAnimator.ofObject(
+        this.drawable,
+        "tint",
+        ArgbEvaluator(),
+        Color.BLACK,  // Start color (arrow)
+        Color.WHITE   // End color (arrow)
+    ).apply {
+        duration = 300
+    }
+
+    // Start animations together
+    scaleX.start()
+    scaleY.start()
+    colorAnimator.start()
+}
+
+fun View.showKeyboard() {
+    this.post {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
 }
