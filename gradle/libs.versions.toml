@@ -27,6 +27,7 @@ hiltAndroidVersion = "2.51.1"
 hiltWorkVersion = "1.2.0"
 glide = "4.16.0"
 navigationUiKtx = "2.8.5"
+otpview = "0.2.5"
 playServicesLocation = "21.3.0"
 sdpAndroid = "1.0.6"
 sspAndroidVersion = "1.1.1"
@@ -82,6 +83,7 @@ androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWo
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidVersion" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidVersion" }
+otpview = { module = "com.github.KevinSchildhorn:OTPView", version.ref = "otpview" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sspAndroidVersion" }
 sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }

@@ -1,16 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/_500sdp"
-    android:background="@color/white"
-    tools:context=".userlogin.ui.OtpFragment">
+    android:id="@+id/main"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_500sdp"
-        android:layout_gravity="center"
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backButton"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_margin="@dimen/_15sdp"
+        android:background="@drawable/back_black_arrow"
+        android:padding="@dimen/_15sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/backText"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fontFamily="@font/montserrat_semi_lbold"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/_10sdp"
+        android:text="OTP Verification"
+        android:textColor="@color/colorGrey"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/backButton"
+        app:layout_constraintEnd_toStartOf="@id/help"
+        app:layout_constraintStart_toEndOf="@id/backButton"
+        app:layout_constraintTop_toTopOf="@+id/backButton" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/help"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:background="@drawable/ic_help"
+        android:padding="@dimen/_15sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/backText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/backText"
+        app:layout_constraintTop_toTopOf="@+id/backText" />
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/otp_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:fontFamily="@font/montserrat_semi_lbold"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/_8sdp"
+        android:text="We have sent a verification code to \n +918840706932"
+        android:textColor="@color/colorGrey"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toTopOf="@id/otp_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backText" />
+
+
+    <com.kevinschildhorn.otpview.OTPView
+        android:id="@+id/otp_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:autofillHints=""
         android:gravity="center_horizontal"
-        android:text="otp fragment" />
+        android:inputType="textCapCharacters|textNoSuggestions"
+        app:layout_constraintBottom_toTopOf="@id/resend_btn"
+        app:layout_constraintEnd_toEndOf="@+id/help"
+        app:layout_constraintStart_toStartOf="@+id/backButton"
+        app:layout_constraintTop_toBottomOf="@+id/otp_heading"
+        app:otp_cursorColor="@color/colorPrimary"
+        app:otp_filledTextSize="@dimen/_20ssp"
+        app:otp_highlightedTextSize="24sp"
+        app:otp_itemCount="6"
+        app:otp_itemHeight="@dimen/_35ssp"
+        app:otp_itemWidth="@dimen/_35ssp"
+        app:otp_showCursor="true"
+        app:otp_textColor="@color/colorPrimary"
+        app:otp_underscoreCursor="true" />
 
-</FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/resend_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:fontFamily="@font/montserrat_medium"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/_8sdp"
+        android:text="Didn't get the OTP? Resend SMS"
+        android:textColor="@color/colorGrey"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toTopOf="@id/btn_cl"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/otp_view" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btn_cl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/otp_view"
+        app:layout_constraintStart_toStartOf="@+id/otp_view"
+        app:layout_constraintTop_toBottomOf="@id/resend_btn">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/login_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/comment_background"
+            android:backgroundTint="@color/colorBlack"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:gravity="center"
+            android:paddingVertical="@dimen/_10sdp"
+            android:text="Request OTP"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:toggleCheckedStateOnClick="true" />
+
+        <ViewStub
+            android:id="@+id/loader_stub"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="@dimen/_185sdp"
+            android:layout="@layout/spinning_loader"
+            app:layout_constraintBottom_toBottomOf="@+id/login_button"
+            app:layout_constraintEnd_toEndOf="@+id/login_button"
+            app:layout_constraintStart_toStartOf="@+id/login_button"
+            app:layout_constraintTop_toTopOf="@+id/login_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

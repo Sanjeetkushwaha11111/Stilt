@@ -42,8 +42,8 @@
             android:name=".userlogin.ui.LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.MyApp.LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".homepage.HomeActivity"
             android:exported="false"
