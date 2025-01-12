@@ -22,8 +22,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         window.decorView.clipToOutline = true
-        window.setBackgroundDrawableResource(R.drawable.fragment_rounded_background)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setContentView(binding.root)
     }
 

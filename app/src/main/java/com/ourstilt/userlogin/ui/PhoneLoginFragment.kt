@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -45,6 +46,8 @@ class PhoneLoginFragment : BottomSheetDialogFragment() {
             binding.phoneEt.requestFocus()
             binding.phoneEt.showKeyboard()
         }
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
     }
 
     private fun setTelephoner() {
@@ -89,6 +92,7 @@ class PhoneLoginFragment : BottomSheetDialogFragment() {
             }
         }
     }
+
 }
 
 

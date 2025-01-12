@@ -68,22 +68,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_25sdp"
-        android:autofillHints=""
         android:gravity="center_horizontal"
-        android:inputType="textCapCharacters|textNoSuggestions"
+        android:inputType="phone"
+        app:otp_itemCount="6"
+        app:otp_itemHeight="@dimen/_35ssp"
+        app:otp_itemWidth="@dimen/_35ssp"
         app:layout_constraintBottom_toTopOf="@id/resend_btn"
         app:layout_constraintEnd_toEndOf="@+id/help"
         app:layout_constraintStart_toStartOf="@+id/backButton"
         app:layout_constraintTop_toBottomOf="@+id/otp_heading"
-        app:otp_cursorColor="@color/colorPrimary"
-        app:otp_filledTextSize="@dimen/_20ssp"
-        app:otp_highlightedTextSize="24sp"
-        app:otp_itemCount="6"
-        app:otp_itemHeight="@dimen/_35ssp"
-        app:otp_itemWidth="@dimen/_35ssp"
-        app:otp_showCursor="true"
-        app:otp_textColor="@color/colorPrimary"
-        app:otp_underscoreCursor="true" />
+        />
 
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.ourstilt.R
 import com.ourstilt.databinding.FragmentProfileBinding
 
@@ -28,6 +29,7 @@ class ProfileFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.setOnClickListener {
+            findNavController().navigateUp()
 
         }
     }
