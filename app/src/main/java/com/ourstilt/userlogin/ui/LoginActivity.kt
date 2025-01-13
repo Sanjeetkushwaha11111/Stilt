@@ -1,21 +1,17 @@
 package com.ourstilt.userlogin.ui
 
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
-import com.ourstilt.R
 import com.ourstilt.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val navController by lazy {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navHostFragment.navController
+
+    private val viewModel by lazy {
+        LoginViewModel()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +20,5 @@ class LoginActivity : AppCompatActivity() {
         window.decorView.clipToOutline = true
         setContentView(binding.root)
     }
-
-
 }
+

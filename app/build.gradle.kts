@@ -40,6 +40,7 @@ android {
 
     buildTypes {
         release {
+            isDebuggable = true
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -57,6 +58,7 @@ android {
     buildFeatures {
         buildConfig = true
         dataBinding = true
+
         viewBinding = true
     }
 }
@@ -82,6 +84,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.extensions)
     implementation (libs.androidx.navigation.ui.ktx)
     implementation (libs.flexbox)
+    implementation (libs.androidx.core.ktx)
 
     //Firebase
     implementation(platform(libs.firebase.bom))

@@ -23,11 +23,11 @@ class LandingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-
         splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
             splashScreenViewProvider.remove()
             val intent = Intent(this, LoginActivity::class.java)
             startWithSlideUp(intent)
+            finish()
         }
     }
 }

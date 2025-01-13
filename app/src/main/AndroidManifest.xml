@@ -43,21 +43,25 @@
             android:exported="false"
             android:theme="@style/Theme.MyApp.LoginActivity"
             android:label="@string/title_activity_login"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize" />
+
         <activity
             android:name=".homepage.HomeActivity"
             android:exported="false"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".splash.LandingActivity"
             android:exported="true"
             android:theme="@style/Theme.App.Starting">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

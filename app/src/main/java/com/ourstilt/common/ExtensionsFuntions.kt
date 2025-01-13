@@ -207,3 +207,18 @@ fun View.showKeyboard() {
         imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
+
+fun View.hideKeyboard() {
+    this.post {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+}
+fun TextView.slideDown(duration: Long = 500) {
+    this.translationY = -this.height.toFloat()
+    this.visibility = View.VISIBLE
+    ObjectAnimator.ofFloat(this, "translationY", 0f).apply {
+        this.duration = duration
+        start()
+    }
+}

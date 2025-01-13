@@ -31,7 +31,6 @@
         tools:layout="@layout/fragment_otp">
         <action
             android:id="@+id/action_otpFragment_to_registerFragment"
-            app:destination="@id/registerFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -41,9 +40,4 @@
             app:argType="string" />
     </fragment>
 
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.ourstilt.userlogin.ui.ProfileFragment"
-        android:label="Register"
-        tools:layout="@layout/fragment_profile" />
 </navigation>
