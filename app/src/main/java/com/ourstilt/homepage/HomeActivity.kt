@@ -23,14 +23,16 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.ourstilt.R
-import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.base.BaseViewPagerAdapter
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
 import com.ourstilt.common.setTextFromHtmlOrHide
+import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
+import com.ourstilt.userlogin.ui.UserProfileFragment
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
@@ -51,6 +53,11 @@ class HomeActivity : AppCompatActivity() {
         setupUI()
         observeViewModel()
         homeViewModel.getHomeActivityData()
+        lifecycleScope.launch {
+            delay(2000)
+            val bottomSheetFragment = UserProfileFragment()
+            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+        }
     }
 
     private fun setupUI() {
@@ -59,10 +66,8 @@ class HomeActivity : AppCompatActivity() {
         setupBlurView()
     }
 
-
     private fun observeViewModel() {
         homeViewModel.homeData.observe(this) { data ->
-
             data?.let {
                 setupTabsWithPager(data.tabsData, data.tabToLand)
                 val welcomeTextBlack = "#111111"
@@ -168,7 +173,6 @@ class HomeActivity : AppCompatActivity() {
             pagerAdapter.addFragment(fragment, fragmentTag)
         }
     }
-
 
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
         bottomBar.setupWithViewPager2(binding.recyclerView)

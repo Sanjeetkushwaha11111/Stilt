@@ -7,6 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.ourstilt.base.BaseViewPagerAdapter
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
+import com.ourstilt.homepage.HomeActivity
 import com.ourstilt.userlogin.ui.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +26,7 @@ class LandingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
             splashScreenViewProvider.remove()
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             startWithSlideUp(intent)
             finish()
         }
