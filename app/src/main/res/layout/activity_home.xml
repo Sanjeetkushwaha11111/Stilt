@@ -118,22 +118,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:clickable="false"
+                    android:contextClickable="false"
+                    android:transitionName="searchBar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/optional_tv"
                     app:layout_scrollFlags="scroll|enterAlways">
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/edtMessage"
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/search_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:background="@drawable/comment_background"
-                        android:inputType="textMultiLine|textCapSentences"
-                        android:maxLines="4"
+                        android:drawableEnd="@drawable/ic_search"
+                        android:drawablePadding="@dimen/_10sdp"
                         android:minHeight="45dp"
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingStart="@dimen/_10sdp"
-                        android:paddingEnd="@dimen/_100sdp"
+                        android:paddingEnd="@dimen/_10sdp"
                         android:text="Search to eat..."
                         android:textColor="#5D5959"
                         android:textSize="@dimen/_13sdp" />
@@ -151,18 +154,19 @@
                 android:visibility="gone"
                 app:layout_collapseMode="pin">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/edtMessage1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:background="@drawable/comment_background"
-                    android:inputType="textMultiLine|textCapSentences"
-                    android:maxLines="4"
+                    android:drawableEnd="@drawable/ic_search"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
                     android:minHeight="45dp"
                     android:paddingVertical="@dimen/_10sdp"
                     android:paddingStart="@dimen/_10sdp"
-                    android:paddingEnd="@dimen/_100sdp"
+                    android:transitionName="searchBar"
                     android:text="Search to eat..."
                     android:textColor="#5D5959"
                     android:textSize="@dimen/_13sdp" />

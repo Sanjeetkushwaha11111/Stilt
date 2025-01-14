@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ourstilt.databinding.ItemHomeAllFragmentsBinding
+import com.ourstilt.homepage.data.ApiData
 
 class HomeAllFragmentsAdapter(
     private val manager: FragmentManager,

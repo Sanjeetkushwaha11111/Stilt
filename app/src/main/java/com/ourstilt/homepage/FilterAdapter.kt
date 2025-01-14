@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ourstilt.databinding.HomeFilterItemBinding
+import com.ourstilt.homepage.data.FilterData
 
 class FilterAdapter(
     private var list: ArrayList<FilterData>,

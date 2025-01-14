@@ -15,6 +15,8 @@ import android.text.TextWatcher
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.AnticipateInterpolator
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -22,16 +24,16 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
 import com.ourstilt.common.Constants.PATTERN
 import org.jsoup.Jsoup
+import timber.log.Timber
 import kotlin.math.roundToInt
 
+private var isAnimating = false
 
 fun Activity.startWithSlideUp(intent: Intent, finishCurrent: Boolean = true) {
     // Create custom animation options
@@ -221,4 +223,33 @@ fun TextView.slideDown(duration: Long = 500) {
         this.duration = duration
         start()
     }
+}
+
+fun View.showWithPopupEffect() {
+    if (visibility == View.VISIBLE || isAnimating) {
+        return
+    }
+    isAnimating = true
+    visibility = View.VISIBLE
+    animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(500)
+        .setInterpolator(OvershootInterpolator()).withStartAction {
+            scaleX = 0f
+            scaleY = 0f
+            alpha = 0f
+        }.withEndAction {
+            isAnimating = false
+        }.start()
+}
+
+fun View.hideWithPopInEffect() {
+    if (visibility == View.GONE || isAnimating) {
+        return
+    }
+    isAnimating = true
+    animate().scaleX(0f).scaleY(0f).alpha(0f).setDuration(500)
+        .setInterpolator(AnticipateInterpolator()).withEndAction {
+            isAnimating = false
+            visibility = View.GONE
+        }.start()
+    invalidate()
 }

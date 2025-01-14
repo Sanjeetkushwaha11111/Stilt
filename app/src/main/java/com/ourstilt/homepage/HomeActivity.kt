@@ -1,5 +1,7 @@
 package com.ourstilt.homepage
 
+import android.app.ActivityOptions
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -30,6 +32,7 @@ import com.ourstilt.common.hide
 import com.ourstilt.common.setTextFromHtmlOrHide
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
+import com.ourstilt.homepage.data.TabData
 import com.ourstilt.userlogin.ui.UserProfileFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,6 +61,22 @@ class HomeActivity : AppCompatActivity() {
             val bottomSheetFragment = UserProfileFragment()
             bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
+        binding.searchEt.setOnClickListener {
+            openSearch(it)
+        }
+        binding.searchBarPinned.setOnClickListener {
+            openSearch(it)
+        }
+    }
+
+    private fun openSearch(view: View) {
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            view,
+            "searchBar"
+        )
+        val intent = Intent(this@HomeActivity, SearchActivity::class.java)
+        startActivity(intent, options.toBundle())
     }
 
     private fun setupUI() {
