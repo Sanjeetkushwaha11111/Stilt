@@ -13,6 +13,7 @@ import javax.inject.Singleton
 class DataStoreRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
+    //data store repo
     val isUserLoggedIn: Flow<Boolean> = dataStore.data.map { preferences ->
         preferences[PreferencesKeys.IS_USER_LOGGED] ?: false
     }
