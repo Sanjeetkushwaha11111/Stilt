@@ -5,4 +5,5 @@ plugins {
     alias(libs.plugins.crashlytics) apply false
     alias(libs.plugins.gsm) apply false
     alias(libs.plugins.firebase.pref) apply false
+    alias(libs.plugins.android.hilt) apply false
 }

@@ -1,9 +1,39 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Stilt" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+
+        <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+            <item name="colorPrimary">@color/md_theme_light_primary</item>
+            <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+            <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+            <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+            <item name="colorError">@color/md_theme_light_error</item>
+            <item name="colorOnError">@color/md_theme_light_onError</item>
+            <item name="android:windowContentTransitions">true</item>
+            <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+            <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+            <item name="colorSurface">@color/md_theme_light_surface</item>
+            <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/launcher_icon_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">2000</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
-    <style name="Theme.Stilt" parent="Base.Theme.Stilt" />
+    <style name="RoundedFragmentStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.MyApp.LoginActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
 </resources>

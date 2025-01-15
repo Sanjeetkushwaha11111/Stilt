@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/phonelogincl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".userlogin.ui.PhoneLoginFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_cl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!-- Title TextView -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/header_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/bebasneue_regular"
+                android:gravity="center"
+                android:letterSpacing="0.5"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="Now Stilt\nyour phone"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_25ssp"
+                app:layout_constraintBottom_toTopOf="@id/phone_ll"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Phone number input -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/phone_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/comment_background"
+                app:layout_constraintEnd_toEndOf="@id/header_title"
+                app:layout_constraintStart_toStartOf="@id/header_title"
+                app:layout_constraintTop_toBottomOf="@id/header_title">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/phone_country_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/montserrat_semi_lbold"
+                    android:gravity="center_vertical"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="+91"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phone_et"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:background="@null"
+                    android:hint="Enter your phone number"
+                    android:inputType="phone"
+                    android:letterSpacing=".05"
+                    android:maxEms="10"
+                    android:maxLines="1"
+                    android:minLines="1"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/_13sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/phone_country_code"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/phone_country_code"
+                    app:layout_constraintTop_toTopOf="@+id/phone_country_code" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Button layout -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btn_cl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_22sdp"
+                app:layout_constraintEnd_toEndOf="@id/phone_ll"
+                app:layout_constraintStart_toStartOf="@id/phone_ll"
+                app:layout_constraintTop_toBottomOf="@id/phone_ll">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/login_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comment_background"
+                    android:backgroundTint="@color/colorBlack"
+                    android:fontFamily="@font/montserrat_semi_lbold"
+                    android:gravity="center"
+                    android:paddingVertical="@dimen/_10sdp"
+                    android:text="Request OTP"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ViewStub
+                    android:id="@+id/loader_stub"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="@dimen/_185sdp"
+                    android:layout="@layout/spinning_loader"
+                    app:layout_constraintBottom_toBottomOf="@+id/login_button"
+                    app:layout_constraintEnd_toEndOf="@+id/login_button"
+                    app:layout_constraintStart_toStartOf="@+id/login_button"
+                    app:layout_constraintTop_toTopOf="@+id/login_button" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Policy text -->
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/policy_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_100sdp"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="By continuing, you agree to our:"
+        android:textColor="@color/colorGrey"
+        android:textSize="@dimen/_9sdp"
+        app:layout_constraintBottom_toTopOf="@id/policy_txt_click"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_cl" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/policy_txt_click"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semi_lbold"
+        android:text="Term of Services and Policies"
+        android:textColor="@color/md_theme_dark_onPrimary"
+        android:textSize="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/policy_txt" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
