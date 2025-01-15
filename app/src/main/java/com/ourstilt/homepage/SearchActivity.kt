@@ -2,7 +2,6 @@ package com.ourstilt.homepage
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -17,16 +16,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ourstilt.R
-import com.ourstilt.base.BaseViewPagerAdapter
-import com.ourstilt.common.hide
-import com.ourstilt.common.hideWithPopInEffect
-import com.ourstilt.common.show
+import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.showKeyboard
 import com.ourstilt.common.showToastShort
-import com.ourstilt.common.showWithPopupEffect
 import com.ourstilt.databinding.ActivitySearchBinding
 import com.ourstilt.homepage.data.TabData
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -62,7 +56,7 @@ class SearchActivity : AppCompatActivity() {
             this@SearchActivity.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_MODE_CHANGED)
             setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    binding.clearSearch.showWithPopupEffect()
+                    binding.root.transitionToEnd()
                 }
             }
             setOnEditorActionListener { _, actionId, _ ->
@@ -74,21 +68,19 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
             addTextChangedListener {
-                binding.clearSearch.apply {
-                    if (it.isNullOrEmpty()){
-                        hideWithPopInEffect()
-                    }else{
-                        showWithPopupEffect()
-                    }
+                if (it.isNullOrEmpty()) {
+                    binding.root.transitionToStart()
+                } else {
+                    binding.root.transitionToEnd()
                 }
             }
         }
 
         binding.clearSearch.setOnClickListener {
+            binding.root.transitionToStart()
             binding.searchEt.text?.clear()
             binding.searchEt.clearFocus()
             hideKeyboard()
-            binding.clearSearch.hideWithPopInEffect()
         }
 
         binding.searchIcon.setOnClickListener {

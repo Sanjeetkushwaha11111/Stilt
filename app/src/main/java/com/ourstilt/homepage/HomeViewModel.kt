@@ -2,7 +2,7 @@ package com.ourstilt.homepage
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ourstilt.base.BaseViewModel
+import com.ourstilt.base.ui.BaseViewModel
 import com.ourstilt.homepage.data.HomeDataModel
 import com.ourstilt.homepage.data.SearchPageData
 import com.ourstilt.homepage.data.TabData

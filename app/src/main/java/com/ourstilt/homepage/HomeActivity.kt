@@ -25,7 +25,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.ourstilt.R
-import com.ourstilt.base.BaseViewPagerAdapter
+import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide

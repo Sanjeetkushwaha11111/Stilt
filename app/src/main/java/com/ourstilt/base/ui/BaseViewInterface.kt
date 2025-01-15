@@ -1,4 +1,4 @@
-package com.ourstilt.base
+package com.ourstilt.base.ui
 
 interface BaseViewInterface {
 

@@ -1,4 +1,4 @@
-package com.ourstilt.base
+package com.ourstilt.base.ui
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope

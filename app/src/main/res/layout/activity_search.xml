@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layoutDescription="@xml/activity_search_scene"
     tools:context=".homepage.SearchActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -58,7 +59,7 @@
         android:elevation="@dimen/_10sdp"
         android:paddingHorizontal="@dimen/_10sdp"
         android:src="@drawable/black_cross"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/search_et"
         app:layout_constraintEnd_toEndOf="@id/search_et"
         app:layout_constraintTop_toTopOf="@+id/search_et" />
@@ -94,4 +95,4 @@
         app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.motion.widget.MotionLayout>

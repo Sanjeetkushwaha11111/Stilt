@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ourstilt.base.BaseFragment
+import com.ourstilt.base.ui.BaseFragment
 import com.ourstilt.databinding.FragmentHomeBinding
 
 

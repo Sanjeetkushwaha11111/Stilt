@@ -1,4 +1,4 @@
-package com.ourstilt.base
+package com.ourstilt.base.ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
