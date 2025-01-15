@@ -33,6 +33,7 @@ import com.ourstilt.common.setTextFromHtmlOrHide
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
 import com.ourstilt.homepage.data.TabData
+import com.ourstilt.search.ui.SearchActivity
 import com.ourstilt.userlogin.ui.UserProfileFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

@@ -39,7 +39,7 @@
         tools:replace="android:icon,android:allowBackup,android:fullBackupContent"
         tools:targetApi="35">
         <activity
-            android:name=".homepage.SearchActivity"
+            android:name=".search.ui.SearchActivity"
             android:exported="false" />
         <activity
             android:name=".userlogin.ui.LoginActivity"

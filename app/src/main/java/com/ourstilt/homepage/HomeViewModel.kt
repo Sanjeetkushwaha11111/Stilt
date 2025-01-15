@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ourstilt.base.ui.BaseViewModel
 import com.ourstilt.homepage.data.HomeDataModel
-import com.ourstilt.homepage.data.SearchPageData
+import com.ourstilt.search.data.SearchPageData
 import com.ourstilt.homepage.data.TabData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,7 +13,7 @@ class HomeViewModel : BaseViewModel() {
 
     val homeData = MutableLiveData<HomeDataModel>()
     val homeFragmentData = MutableLiveData<HomeDataModel>()
-    val searchPageData = MutableLiveData<SearchPageData>()
+
 
 
     fun getHomeActivityData() {
@@ -47,16 +47,4 @@ class HomeViewModel : BaseViewModel() {
     }
 
 
-    fun searchPageData() {
-        val searchPageTabs =
-            arrayListOf(
-                TabData("2", "Most Ordered", "", null),
-                TabData("1", "Categories", "", null)
-            )
-        val sPData = SearchPageData(searchPageTabs, "Search to eat...", "0")
-        viewModelScope.launch {
-            delay(3000)
-            searchPageData.postValue(sPData)
-        }
-    }
 }

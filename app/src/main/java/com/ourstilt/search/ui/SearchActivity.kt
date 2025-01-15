@@ -1,4 +1,4 @@
-package com.ourstilt.homepage
+package com.ourstilt.search.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -20,6 +20,7 @@ import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.showKeyboard
 import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.ActivitySearchBinding
+import com.ourstilt.homepage.HomeFragment
 import com.ourstilt.homepage.data.TabData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class SearchActivity : AppCompatActivity() {
     private val pagerAdapter by lazy {
         BaseViewPagerAdapter(supportFragmentManager, lifecycle)
     }
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class SearchActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        homeViewModel.searchPageData()
+        viewModel.searchPageData()
         viewModelObserver()
         lifecycleScope.launch {
             delay(1000)
@@ -103,14 +104,14 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun viewModelObserver() {
-        homeViewModel.searchPageData.observe(this) {
+        viewModel.searchPageData.observe(this) {
             it?.let {
                 setUpTabView(it.tabsData, it.tabToShow)
             }
         }
     }
 
-    private fun setUpTabView(tabsData: ArrayList<TabData>?, tabToShow: String?) {
+    private fun setUpTabView(tabsData: List<TabData>?, tabToShow: String?) {
         pagerAdapter.clearData()
 
         pagerAdapter.apply {
@@ -118,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
                 for (item in it) {
                     when (item.tabSlug) {
                         "1" -> {
-                            addFragment(HomeFragment(), item.tabName.toString())
+                            addFragment(TrendingFragment(), item.tabName.toString())
                             Timber.e(">>>>>>>>Setting shops fragment")
                         }
 
@@ -161,7 +162,6 @@ class SearchActivity : AppCompatActivity() {
     private fun setUpTabListner() {
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {}
-
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
