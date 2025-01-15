@@ -2,20 +2,26 @@ package com.ourstilt.userlogin.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.ourstilt.base.data.DataStoreRepository
 import com.ourstilt.base.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
 import javax.inject.Inject
 
 
 @HiltViewModel
-class LoginViewModel @Inject constructor() : BaseViewModel() {
-
+class LoginViewModel @Inject constructor(
+    private val dataStoreRepo: DataStoreRepository
+) : BaseViewModel() {
 
     var userLogInSuccess = MutableLiveData<Boolean>()
+
+    val isUserLoggedIn: Flow<Boolean> = dataStoreRepo.isUserLoggedIn
 
     private val _phoneValidation = MutableLiveData<PhoneValidationState>()
     val phoneValidation: LiveData<PhoneValidationState> = _phoneValidation
@@ -53,6 +59,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
             _otpValidation.value = OtpValidationState.Checking
             delay(3000)
             if (otp == "123456") {
+                dataStoreRepo.setUserLoggedIn(true)
                 _otpValidation.value = OtpValidationState.Success
             } else {
                 _otpValidation.value = OtpValidationState.Failed

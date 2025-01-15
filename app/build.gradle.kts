@@ -97,6 +97,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.androidx.annotation)
     implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.datastore.core.android)
+    implementation (libs.androidx.datastore.preferences)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 
