@@ -1,4 +1,4 @@
-package com.ourstilt.homepage
+package com.ourstilt.homepage.ui
 
 import android.app.ActivityOptions
 import android.content.Intent
@@ -33,6 +33,8 @@ import com.ourstilt.common.setTextFromHtmlOrHide
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
 import com.ourstilt.homepage.data.TabData
+import com.ourstilt.homepage.ui.fragments.DailyBiteFragment
+import com.ourstilt.homepage.ui.fragments.HomeFragment
 import com.ourstilt.search.ui.SearchActivity
 import com.ourstilt.userlogin.ui.UserProfileFragment
 import kotlinx.coroutines.Dispatchers
@@ -213,7 +215,7 @@ class HomeActivity : AppCompatActivity() {
         return mapOf(
             "Home" to HomeFragment(),
             "Home2" to HomeFragment(),
-            "Home3" to HomeFragment(),
+            "Daily Bite" to DailyBiteFragment(),
             "Home4" to HomeFragment()
         )
     }

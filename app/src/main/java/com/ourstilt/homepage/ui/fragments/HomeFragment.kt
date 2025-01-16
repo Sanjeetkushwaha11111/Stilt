@@ -1,4 +1,4 @@
-package com.ourstilt.homepage
+package com.ourstilt.homepage.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ourstilt.base.ui.BaseFragment
 import com.ourstilt.databinding.FragmentHomeBinding
+import com.ourstilt.homepage.ui.HomeAllFragmentsAdapter
+import com.ourstilt.homepage.ui.HomeViewModel
 
 
 class HomeFragment : BaseFragment() {

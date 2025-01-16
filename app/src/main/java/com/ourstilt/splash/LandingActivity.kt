@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
-import com.ourstilt.homepage.HomeActivity
+import com.ourstilt.homepage.ui.HomeActivity
 import com.ourstilt.userlogin.ui.LoginActivity
 import com.ourstilt.userlogin.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -14,7 +14,7 @@ import com.ourstilt.common.slideDown
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.customViews.SpinningLoader
 import com.ourstilt.databinding.FragmentOtpBinding
-import com.ourstilt.homepage.HomeActivity
+import com.ourstilt.homepage.ui.HomeActivity
 
 class OtpFragment : BottomSheetDialogFragment() {
 

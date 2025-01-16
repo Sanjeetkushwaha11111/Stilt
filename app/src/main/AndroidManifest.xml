@@ -49,7 +49,7 @@
             android:theme="@style/Theme.MyApp.LoginActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".homepage.HomeActivity"
+            android:name=".homepage.ui.HomeActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />

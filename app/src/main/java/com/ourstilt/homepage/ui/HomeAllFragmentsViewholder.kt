@@ -1,4 +1,4 @@
-package com.ourstilt.homepage
+package com.ourstilt.homepage.ui
 
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView

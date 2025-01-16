@@ -20,7 +20,7 @@ import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.showKeyboard
 import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.ActivitySearchBinding
-import com.ourstilt.homepage.HomeFragment
+import com.ourstilt.homepage.ui.fragments.HomeFragment
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.search.ui.trendingfragment.TrendingFragment
 import kotlinx.coroutines.delay

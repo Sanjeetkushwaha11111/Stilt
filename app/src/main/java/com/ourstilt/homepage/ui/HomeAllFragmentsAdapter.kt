@@ -1,4 +1,4 @@
-package com.ourstilt.homepage
+package com.ourstilt.homepage.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

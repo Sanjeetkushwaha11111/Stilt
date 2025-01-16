@@ -1,10 +1,8 @@
-package com.ourstilt.homepage
+package com.ourstilt.homepage.ui
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.ourstilt.base.ui.BaseViewModel
 import com.ourstilt.homepage.data.HomeDataModel
-import com.ourstilt.search.data.SearchPageData
 import com.ourstilt.homepage.data.TabData
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,7 +21,7 @@ class HomeViewModel : BaseViewModel() {
             val tabsData = arrayListOf(
                 TabData("1", "Home", imgUrl, null),
                 TabData("2", "Home2", imgUrl, null),
-                TabData("3", "Home3", imgUrl, null),
+                TabData("3", "Daily Bite", imgUrl, null),
                 TabData("4", "Home4", imgUrl, null)
             )
             val hd = HomeDataModel(
