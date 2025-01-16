@@ -36,6 +36,7 @@ import com.ourstilt.homepage.data.TabData
 import com.ourstilt.homepage.ui.fragments.DailyBiteFragment
 import com.ourstilt.homepage.ui.fragments.HomeFragment
 import com.ourstilt.search.ui.SearchActivity
+import com.ourstilt.userCustomMenu.ui.CustomMenuActivity
 import com.ourstilt.userlogin.ui.UserProfileFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -57,6 +58,7 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupUI()
+        clickListeners()
         observeViewModel()
         homeViewModel.getHomeActivityData()
         lifecycleScope.launch {
@@ -64,11 +66,18 @@ class HomeActivity : AppCompatActivity() {
             val bottomSheetFragment = UserProfileFragment()
             bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
         }
+    }
+
+    private fun clickListeners() {
         binding.searchEt.setOnClickListener {
             openSearch(it)
         }
         binding.searchBarPinned.setOnClickListener {
             openSearch(it)
+        }
+        binding.userIv.setOnClickListener {
+            val intent = Intent(this, CustomMenuActivity::class.java)
+            startActivity(intent)
         }
     }
 

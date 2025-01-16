@@ -39,6 +39,9 @@
         tools:replace="android:icon,android:allowBackup,android:fullBackupContent"
         tools:targetApi="35">
         <activity
+            android:name=".userCustomMenu.ui.CustomMenuActivity"
+            android:exported="true" />
+        <activity
             android:name=".search.ui.SearchActivity"
             android:exported="false" />
         <activity
