@@ -10,6 +10,7 @@
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBlack">
@@ -65,11 +66,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/menuItemsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"
-            android:layoutAnimation="@anim/custom_menu_rv_layout_animation"
             android:paddingVertical="@dimen/_5sdp"
             android:visibility="gone"
+            android:nestedScrollingEnabled="true"
             app:layout_constraintTop_toBottomOf="@id/divider"
             tools:listitem="@layout/custom_menu_items" />
 

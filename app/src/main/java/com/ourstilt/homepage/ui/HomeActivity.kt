@@ -61,17 +61,6 @@ class HomeActivity : AppCompatActivity() {
         clickListeners()
         observeViewModel()
         homeViewModel.getHomeActivityData()
-        lifecycleScope.launch {
-            delay(2000)
-            if (!this@HomeActivity.isFinishing) {
-                val fragmentManager = supportFragmentManager
-                val existingFragment = fragmentManager.findFragmentByTag(UserProfileFragment.TAG)
-                if (existingFragment == null || !existingFragment.isVisible) {
-                    val bottomSheetFragment = UserProfileFragment()
-                    bottomSheetFragment.show(fragmentManager, UserProfileFragment.TAG)
-                }
-            }
-        }
     }
 
     private fun clickListeners() {
@@ -303,6 +292,20 @@ class HomeActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+
+    fun openProfileFragment() {
+        lifecycleScope.launch {
+            delay(2000)
+            if (!this@HomeActivity.isFinishing) {
+                val fragmentManager = supportFragmentManager
+                val existingFragment = fragmentManager.findFragmentByTag(UserProfileFragment.TAG)
+                if (existingFragment == null || !existingFragment.isVisible) {
+                    val bottomSheetFragment = UserProfileFragment()
+                    bottomSheetFragment.show(fragmentManager, UserProfileFragment.TAG)
+                }
+            }
         }
     }
 }

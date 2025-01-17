@@ -5,28 +5,24 @@
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     android:layout_marginBottom="@dimen/_5sdp"
+    android:animateLayoutChanges="true"
     android:background="@color/colorBlack">
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="14sp"
-
-        app:layout_constraintEnd_toStartOf="@id/itemPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/itemDescription"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:alpha="0.7"
         android:textColor="@color/white"
-
         android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@id/itemPrice"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/itemName" />
 
@@ -35,7 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/itemDescription"
         app:layout_constraintEnd_toEndOf="parent"

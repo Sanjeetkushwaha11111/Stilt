@@ -19,6 +19,11 @@ class CustomMenuViewModel : BaseViewModel() {
     fun getMenusData() {
         val breakFastMenuItems = listOf(
             MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
+            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
+            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
+            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
+            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
+            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
             MenuItems("chai_123", "snacks", "Chai", null, "Sweet and Desi", "12")
         )
         val lunchMenuItems = listOf(

@@ -1,22 +1,18 @@
+// CustomMenuAdapter.kt
 package com.ourstilt.userCustomMenu.ui
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.cardview.widget.CardView
+import androidx.core.animation.addListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ourstilt.R
 import com.ourstilt.databinding.CustomMenuItemsBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 
@@ -40,8 +36,9 @@ class CustomMenuAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         private val menuItemsAdapter = MenuSubItemAdapter()
-        private var isExpanded = false
         private var initialHeight = 0
+        private var isExpanded = false
+        private var currentAnimator: ValueAnimator? = null
 
         init {
             binding.menuItemsRecyclerView.apply {
@@ -55,90 +52,59 @@ class CustomMenuAdapter(
             binding.apply {
                 menuName.text = menu.menuName
                 menuPrice.text = "₹${menu.menuTotalPrice}"
-
-                // Reset states
-                isExpanded = false
-                expandIcon.rotation = 0f
-                menuItemsRecyclerView.visibility = View.GONE
-                divider.alpha = 0f
-
                 menuItemsAdapter.submitList(menu.menuItems)
 
-                expandIcon.setOnClickListener {
-                    isExpanded = !isExpanded
-                    animateDropdown(isExpanded)
+                if (initialHeight == 0) {
+                    menuItemsRecyclerView.post {
+                        initialHeight = measureRecyclerViewHeight()
+                    }
                 }
 
-                // Pre-measure RecyclerView height
-                menuItemsRecyclerView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-                    override fun onPreDraw(): Boolean {
-                        menuItemsRecyclerView.viewTreeObserver.removeOnPreDrawListener(this)
-                        initialHeight = menuItemsRecyclerView.measuredHeight
-                        menuItemsRecyclerView.layoutParams.height = 0
-                        return true
-                    }
-                })
+                expandIcon.setOnClickListener {
+                    currentAnimator?.cancel()
+                    isExpanded = !isExpanded
+                    animateExpandCollapse(isExpanded)
+                }
             }
         }
 
-        private fun animateDropdown(expand: Boolean) {
+        private fun measureRecyclerViewHeight(): Int {
+            binding.menuItemsRecyclerView.measure(
+                View.MeasureSpec.makeMeasureSpec(binding.root.width, View.MeasureSpec.EXACTLY),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            )
+            return binding.menuItemsRecyclerView.measuredHeight
+        }
+        private fun animateExpandCollapse(expand: Boolean) {
             binding.apply {
-                val valueAnimator = if (expand) {
+                val cardView = root
+                val originalHeight = cardView.height
+                val targetHeight = originalHeight + (if (expand) initialHeight else -initialHeight)
+
+                if (expand) {
                     menuItemsRecyclerView.visibility = View.VISIBLE
-                    ValueAnimator.ofInt(0, initialHeight)
-                } else {
-                    ValueAnimator.ofInt(initialHeight, 0)
                 }
 
-                valueAnimator.addUpdateListener { animator ->
-                    menuItemsRecyclerView.layoutParams.height = animator.animatedValue as Int
-                    menuItemsRecyclerView.requestLayout()
-                }
-
-                valueAnimator.addListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
+                ValueAnimator.ofInt(originalHeight, targetHeight).apply {
+                    addUpdateListener { animator ->
+                        cardView.layoutParams = cardView.layoutParams.apply {
+                            height = animator.animatedValue as Int
+                        }
+                    }
+                    addListener(onEnd = {
                         if (!expand) {
                             menuItemsRecyclerView.visibility = View.GONE
                         }
-                    }
-                })
-
-                // Rotate icon animation
-                val rotateAnimator = if (expand) {
-                    ValueAnimator.ofFloat(0f, 180f)
-                } else {
-                    ValueAnimator.ofFloat(180f, 0f)
-                }
-
-                rotateAnimator.addUpdateListener { animator ->
-                    expandIcon.rotation = animator.animatedValue as Float
-                }
-
-                // Divider fade animation
-                val dividerAnimator = if (expand) {
-                    ValueAnimator.ofFloat(0f, 1f)
-                } else {
-                    ValueAnimator.ofFloat(1f, 0f)
-                }
-
-                dividerAnimator.addUpdateListener { animator ->
-                    divider.alpha = animator.animatedValue as Float
-                }
-
-                // Create animation set
-                val animatorSet = AnimatorSet().apply {
-                    playTogether(valueAnimator, rotateAnimator, dividerAnimator)
+                    })
                     duration = 300
                     interpolator = OvershootInterpolator(0.8f)
+                    currentAnimator = this
+                    start()
                 }
-
-                // Start animations
-                animatorSet.start()
             }
         }
     }
 
-    // DiffCallback remains the same
     class CustomMenuDiffCallback : DiffUtil.ItemCallback<CustomMenus>() {
         override fun areItemsTheSame(oldItem: CustomMenus, newItem: CustomMenus): Boolean {
             return oldItem.slug == newItem.slug
