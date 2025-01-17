@@ -13,8 +13,14 @@ import com.ourstilt.databinding.FragmentUserProfileBinding
 import com.ourstilt.userlogin.data.UserDetails
 
 class UserProfileFragment : BottomSheetDialogFragment() {
+
+    companion object {
+        const val TAG = "UserProfileFragment"
+    }
+
     private lateinit var binding: FragmentUserProfileBinding
     private var userData: UserDetails? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -24,6 +30,9 @@ class UserProfileFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userData?.let {
+            // Bind the data to the views
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -48,9 +57,8 @@ class UserProfileFragment : BottomSheetDialogFragment() {
         return dialog
     }
 
-
     fun setData(data: UserDetails) {
         this.userData = data
     }
-
 }
+

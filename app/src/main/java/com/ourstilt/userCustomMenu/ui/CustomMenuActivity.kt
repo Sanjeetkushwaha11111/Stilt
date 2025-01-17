@@ -12,7 +12,7 @@ class CustomMenuActivity : AppCompatActivity() {
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
     private val viewModel: CustomMenuViewModel by viewModels()
     private val customMenuAdapter by lazy {
-        CustomMenuAdapter(viewModel, "Custom Menu Page")
+        CustomMenuAdapter(viewModel)
     }
 
 

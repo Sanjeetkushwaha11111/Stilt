@@ -63,8 +63,14 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.getHomeActivityData()
         lifecycleScope.launch {
             delay(2000)
-            val bottomSheetFragment = UserProfileFragment()
-            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+            if (!this@HomeActivity.isFinishing) {
+                val fragmentManager = supportFragmentManager
+                val existingFragment = fragmentManager.findFragmentByTag(UserProfileFragment.TAG)
+                if (existingFragment == null || !existingFragment.isVisible) {
+                    val bottomSheetFragment = UserProfileFragment()
+                    bottomSheetFragment.show(fragmentManager, UserProfileFragment.TAG)
+                }
+            }
         }
     }
 
