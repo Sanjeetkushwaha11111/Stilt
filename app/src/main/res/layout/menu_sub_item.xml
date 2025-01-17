@@ -1,39 +1,111 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
-    android:layout_marginBottom="@dimen/_5sdp"
-    android:animateLayoutChanges="true"
-    android:background="@color/colorBlack">
+    android:layout_margin="@dimen/_8sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
+    app:cardElevation="4dp"
+    >
 
-    <TextView
-        android:id="@+id/itemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent_cl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/comment_background"
 
-    <TextView
-        android:id="@+id/itemDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/itemName" />
+        >
 
-    <TextView
-        android:id="@+id/itemPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@id/itemDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_60sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chai_normal"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:paddingBottom="@dimen/_2sdp"
+            android:text="Elachi Chai"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toStartOf="@id/order_now"
+            app:layout_constraintStart_toEndOf="@id/img"
+            app:layout_constraintTop_toTopOf="@id/img"
+
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:maxLines="2"
+            android:text="You have enough time to make things happen, but you have no time to waste.."
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_9sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/name"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/order_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/comment_background"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@+id/img"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img"
+            >
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/minus_item"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                app:srcCompat="@drawable/minus"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/item_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:paddingHorizontal="@dimen/_2sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                android:text="10"
+                android:textSize="@dimen/_14sdp"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/add_item"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                app:srcCompat="@drawable/baseline_add_24"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

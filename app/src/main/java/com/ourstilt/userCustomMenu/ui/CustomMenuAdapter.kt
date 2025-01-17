@@ -1,13 +1,12 @@
 // CustomMenuAdapter.kt
 package com.ourstilt.userCustomMenu.ui
 
-import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
-import androidx.cardview.widget.CardView
 import androidx.core.animation.addListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,7 +50,7 @@ class CustomMenuAdapter(
         fun bind(menu: CustomMenus) {
             binding.apply {
                 menuName.text = menu.menuName
-                menuPrice.text = "₹${menu.menuTotalPrice}"
+                priceMain.text = "₹${menu.menuTotalPrice}"
                 menuItemsAdapter.submitList(menu.menuItems)
 
                 if (initialHeight == 0) {
@@ -60,7 +59,7 @@ class CustomMenuAdapter(
                     }
                 }
 
-                expandIcon.setOnClickListener {
+                binding.expandedMenu.setOnClickListener {
                     currentAnimator?.cancel()
                     isExpanded = !isExpanded
                     animateExpandCollapse(isExpanded)
@@ -76,6 +75,9 @@ class CustomMenuAdapter(
             return binding.menuItemsRecyclerView.measuredHeight
         }
         private fun animateExpandCollapse(expand: Boolean) {
+            val rotationStart = if (expand) 0f else 180f
+            val rotationEnd = if (expand) 180f else 0f
+
             binding.apply {
                 val cardView = root
                 val originalHeight = cardView.height
@@ -99,6 +101,14 @@ class CustomMenuAdapter(
                     duration = 300
                     interpolator = OvershootInterpolator(0.8f)
                     currentAnimator = this
+                    start()
+                }
+                ValueAnimator.ofFloat(rotationStart, rotationEnd).apply {
+                    addUpdateListener { animator ->
+                        binding.expandedMenu.rotation = animator.animatedValue as Float
+                    }
+                    duration = 200
+                    interpolator = AccelerateDecelerateInterpolator()
                     start()
                 }
             }
