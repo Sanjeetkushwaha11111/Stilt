@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ourstilt.common.animateTextChangeIfDifferent
 import com.ourstilt.databinding.CustomMenuItemsBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 
@@ -58,7 +59,8 @@ class CustomMenuAdapter(
                 description.text = menu.menuDescription
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
-                    priceMain.text = "₹${state?.totalPrice?.toInt() ?: 0.0}"
+                    val newPrice = "₹${state?.totalPrice?.toInt() ?: 0}"
+                    priceMain.animateTextChangeIfDifferent(priceMain.text.toString(), newPrice,300,true)
                 }
                 menuItemsAdapter.submitList(menu.menuItems)
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ourstilt.common.animateTextChangeIfDifferent
 import com.ourstilt.databinding.MenuSubItemBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
@@ -36,10 +37,10 @@ class MenuSubItemAdapter(
                 name.text = item.foodName
                 description.text = "₹${item.foodPrice} - ${item.foodDescription}"
 
-                // Observe and update item count
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
-                    itemCount.text = state?.itemCounts?.get(item.slug).toString()
+                    val newItemCount = state?.itemCounts?.get(item.slug)?.toString() ?: "0"
+                    itemCount.animateTextChangeIfDifferent(itemCount.text.toString(), newItemCount,50,false)
                 }
 
                 addItem.setOnClickListener {

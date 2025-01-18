@@ -2,6 +2,8 @@ package com.ourstilt.common
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
@@ -30,7 +32,6 @@ import com.google.gson.Gson
 import com.ourstilt.R
 import com.ourstilt.common.Constants.PATTERN
 import org.jsoup.Jsoup
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 private var isAnimating = false
@@ -254,3 +255,30 @@ fun View.hideWithPopInEffect() {
     invalidate()
 }
 
+
+@SuppressLint("SetTextI18n")
+fun TextView.animateTextChangeIfDifferent(
+    oldValue: String, newValue: String, duration: Long = 300, isPrice: Boolean = false
+) {
+    if (oldValue == newValue) return
+    val oldNumber = oldValue.replace("₹", "").toDoubleOrNull()
+    val newNumber = newValue.replace("₹", "").toDoubleOrNull()
+
+    if (oldNumber != null && newNumber != null) {
+        val animator = ValueAnimator.ofFloat(oldNumber.toFloat(), newNumber.toFloat())
+        animator.duration = duration
+        animator.addUpdateListener {
+            if (isPrice) {
+                this.text = "₹${(it.animatedValue as Float).toInt()}"
+            } else {
+                this.text = "${(it.animatedValue as Float).toInt()}"
+            }
+        }
+        animator.start()
+    } else {
+        this.animate().alpha(0f).setDuration(duration / 2).withEndAction {
+            this.text = newValue
+            this.animate().alpha(1f).setDuration(duration / 2).start()
+        }.start()
+    }
+}
