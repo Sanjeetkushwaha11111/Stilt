@@ -3,6 +3,7 @@ package com.ourstilt.userCustomMenu.ui
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -41,6 +42,13 @@ class MenuSubItemAdapter(
                     val state = states?.get(menu.slug.toString())
                     val newItemCount = state?.itemCounts?.get(item.slug)?.toString() ?: "0"
                     itemCount.animateTextChangeIfDifferent(itemCount.text.toString(), newItemCount,50,false)
+
+                    // Access MotionLayout directly through binding
+                    if (newItemCount == "0") {
+                        motionLayout.transitionToEnd()
+                    } else {
+                        motionLayout.transitionToStart()
+                    }
                 }
 
                 addItem.setOnClickListener {
