@@ -24,7 +24,7 @@ data class CustomMenus(
 )
 
 data class MenuItems(
-    var slug: String? = null,
+    var itemSlug: String? = null,
     var type: String? = null,
     var foodName: String? = null,
     var foodImg: String? = null,
@@ -37,5 +37,6 @@ data class MenuState(
     var totalPrice: Double = 0.0,
     var totalItemCount: Int = 0,
     var itemCounts: MutableMap<String, Int> = mutableMapOf(),
-    var itemPrices: MutableMap<String, Double> = mutableMapOf()
+    var itemPrices: MutableMap<String, Double> = mutableMapOf(),
+    var itemSlug: MutableMap<String, String?> = mutableMapOf(),
 )

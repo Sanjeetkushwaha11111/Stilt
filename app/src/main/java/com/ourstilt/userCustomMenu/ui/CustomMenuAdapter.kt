@@ -60,14 +60,15 @@ class CustomMenuAdapter(
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
                     val newPrice = "₹${state?.totalPrice?.toInt() ?: 0}"
-                    priceMain.animateTextChangeIfDifferent(priceMain.text.toString(), newPrice,300,true)
+                    priceMain.animateTextChangeIfDifferent(
+                        priceMain.text.toString(),
+                        newPrice,
+                        300,
+                        true
+                    )
                 }
-                menuItemsAdapter.submitList(menu.menuItems)
-
-                if (initialHeight == 0) {
-                    menuItemsRecyclerView.post {
-                        initialHeight = measureRecyclerViewHeight()
-                    }
+                menuItemsAdapter.submitList(menu.menuItems) {
+                    adjustHeightOnDataChange()
                 }
 
                 expandedMenu.setOnClickListener {
@@ -78,6 +79,17 @@ class CustomMenuAdapter(
             }
         }
 
+        private fun adjustHeightOnDataChange() {
+            binding.menuItemsRecyclerView.post {
+                val newHeight = measureRecyclerViewHeight()
+                if (isExpanded) {
+                    val heightDifference = newHeight - initialHeight
+                    adjustCardHeight(heightDifference)
+                }
+                initialHeight = newHeight
+            }
+        }
+
         private fun measureRecyclerViewHeight(): Int {
             binding.menuItemsRecyclerView.measure(
                 View.MeasureSpec.makeMeasureSpec(binding.root.width, View.MeasureSpec.EXACTLY),
@@ -85,6 +97,21 @@ class CustomMenuAdapter(
             )
             return binding.menuItemsRecyclerView.measuredHeight
         }
+
+        private fun adjustCardHeight(heightDifference: Int) {
+            val cardView = binding.root
+            ValueAnimator.ofInt(cardView.height, cardView.height + heightDifference).apply {
+                addUpdateListener { animator ->
+                    cardView.layoutParams = cardView.layoutParams.apply {
+                        height = animator.animatedValue as Int
+                    }
+                }
+                duration = 300
+                interpolator = AccelerateDecelerateInterpolator()
+                start()
+            }
+        }
+
         private fun animateExpandCollapse(expand: Boolean) {
             val rotationStart = if (expand) 0f else 180f
             val rotationEnd = if (expand) 180f else 0f

@@ -94,26 +94,27 @@ class CustomMenuViewModel : BaseViewModel() {
             val menuSlug = menu.slug ?: return@associate null to null // Skip if slug is null
 
             val itemCounts =
-                menu.menuItems.associate { it.slug!! to it.itemOrderCount }.toMutableMap()
-            val itemPrices = menu.menuItems.associate { it.slug!! to it.foodPrice }.toMutableMap()
+                menu.menuItems.associate { it.itemSlug!! to it.itemOrderCount }.toMutableMap()
+            val itemPrices =
+                menu.menuItems.associate { it.itemSlug!! to it.foodPrice }.toMutableMap()
+            val itemSlug = menu.menuItems.associate { it.itemSlug!! to it.itemSlug }.toMutableMap()
 
             menuSlug to MenuState(
                 menuSlug = menuSlug,
                 totalPrice = menu.menuTotalPrice,
                 totalItemCount = itemCounts.values.sum(),
                 itemCounts = itemCounts,
-                itemPrices = itemPrices
+                itemPrices = itemPrices,
+                itemSlug = itemSlug
             )
         }.filterKeys { it != null } // Filter out any null keys
 
         _menuStates.postValue(initialStates.filterNotNullValues())
     }
 
-
     private fun <K, V> Map<K?, V?>.filterNotNullValues(): Map<K, V> {
         return this.filter { it.key != null && it.value != null } as Map<K, V>
     }
-
 
     fun updateItemCount(menuSlug: String, itemSlug: String, change: Int) {
         val currentState = _menuStates.value?.toMutableMap() ?: return
@@ -139,6 +140,81 @@ class CustomMenuViewModel : BaseViewModel() {
             count * price
         }
 
+        _menuStates.postValue(currentState)
+    }
+
+    // Function to add a new menu item to a specific menu
+    fun addMenuItem(menuSlug: String, newItem: MenuItems) {
+        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val updatedMenus = currentMenus.map { menu ->
+            if (menu.slug == menuSlug) {
+                val updatedItems = menu.menuItems.toMutableList()
+                updatedItems.add(newItem)
+                menu.copy(menuItems = updatedItems)
+            } else {
+                menu
+            }
+        }
+        _customMenuData.postValue(updatedMenus)
+        updateMenuStateAfterAdd(menuSlug, newItem)
+    }
+
+    // Function to remove a menu item from a specific menu
+    fun removeMenuItem(menuSlug: String, itemSlug: String) {
+        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val updatedMenus = currentMenus.map { menu ->
+            if (menu.slug == menuSlug) {
+                val updatedItems = menu.menuItems.filterNot { it.itemSlug == itemSlug }
+                menu.copy(menuItems = updatedItems)
+            } else {
+                menu
+            }
+        }
+        _customMenuData.postValue(updatedMenus)
+        updateMenuStateAfterRemove(menuSlug, itemSlug)
+    }
+
+    // Function to remove an entire menu
+    fun removeMenu(menuSlug: String) {
+        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val updatedMenus = currentMenus.filterNot { it.slug == menuSlug }
+        _customMenuData.postValue(updatedMenus)
+
+        // Also remove the menu state
+        val currentState = _menuStates.value?.toMutableMap() ?: return
+        currentState.remove(menuSlug)
+        _menuStates.postValue(currentState)
+    }
+
+    private fun updateMenuStateAfterAdd(menuSlug: String, newItem: MenuItems) {
+        val currentState = _menuStates.value?.toMutableMap() ?: return
+        val menuState = currentState[menuSlug] ?: return
+
+        val currentCount = menuState.itemCounts.getOrDefault(newItem.itemSlug, 0)
+        val currentPrice = menuState.itemPrices.getOrDefault(newItem.itemSlug, 0.0)
+
+        menuState.itemCounts[newItem.itemSlug!!] = currentCount + newItem.itemOrderCount
+        menuState.itemPrices[newItem.itemSlug!!] = currentPrice + newItem.foodPrice
+        menuState.totalPrice += newItem.foodPrice * newItem.itemOrderCount
+        menuState.totalItemCount += newItem.itemOrderCount
+
+        currentState[menuSlug] = menuState
+        _menuStates.postValue(currentState)
+    }
+
+    private fun updateMenuStateAfterRemove(menuSlug: String, itemSlug: String) {
+        val currentState = _menuStates.value?.toMutableMap() ?: return
+        val menuState = currentState[menuSlug] ?: return
+
+        val itemCount = menuState.itemCounts.remove(itemSlug)
+        val itemPrice = menuState.itemPrices.remove(itemSlug)
+
+        if (itemCount != null && itemPrice != null) {
+            menuState.totalPrice -= itemCount * itemPrice
+            menuState.totalItemCount -= itemCount
+        }
+
+        currentState[menuSlug] = menuState
         _menuStates.postValue(currentState)
     }
 

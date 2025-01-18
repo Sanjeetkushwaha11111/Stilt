@@ -49,9 +49,9 @@ class MenuSubItemAdapter(
 
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
-                    val newItemCount = state?.itemCounts?.get(item.slug)?.toString() ?: "0"
+                    val newItemCount = state?.itemCounts?.get(item.itemSlug)?.toString() ?: "0"
                     itemCount.animateTextChangeIfDifferent(itemCount.text.toString(), newItemCount,50,false)
-                    if (!pendingRemovals.contains(item.slug)) {
+                    if (!pendingRemovals.contains(item.itemSlug)) {
                         itemCount.animateTextChangeIfDifferent(
                             itemCount.text.toString(), newItemCount, 50, false
                         )
@@ -64,20 +64,21 @@ class MenuSubItemAdapter(
                 }
 
                 addItem.setOnClickListener {
-                    viewModel.updateItemCount(menu.slug!!, item.slug!!, 1)
+                    viewModel.updateItemCount(menu.slug!!, item.itemSlug!!, 1)
                 }
 
                 minusItem.setOnClickListener {
-                    viewModel.updateItemCount(menu.slug!!, item.slug!!, -1)
+                    viewModel.updateItemCount(menu.slug!!, item.itemSlug!!, -1)
                 }
 
                 removeItem.setOnClickListener {
-                    if (pendingRemovals.contains(item.slug)) return@setOnClickListener
+                    if (pendingRemovals.contains(item.itemSlug)) return@setOnClickListener
 
-                    item.slug?.let { slug ->
+                    item.itemSlug?.let { slug ->
                         pendingRemovals.add(slug)
                         animateRemoval {
                             Timber.e(">>>>>>.animation endedksjfd")
+                            viewModel.removeMenuItem(menu.slug!!, item.itemSlug!!)
                         }
                     }
                 }
@@ -109,7 +110,7 @@ class MenuSubItemAdapter(
 
 class MenuItemDiffCallback : DiffUtil.ItemCallback<MenuItems>() {
     override fun areItemsTheSame(oldItem: MenuItems, newItem: MenuItems): Boolean {
-        return oldItem.slug == newItem.slug
+        return oldItem.itemSlug == newItem.itemSlug
     }
 
     override fun areContentsTheSame(oldItem: MenuItems, newItem: MenuItems): Boolean {
