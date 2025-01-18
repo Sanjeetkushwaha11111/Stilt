@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ourstilt.base.ui.BaseViewModel
+import com.ourstilt.common.toJson
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
 import com.ourstilt.userCustomMenu.data.MenuState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class CustomMenuViewModel : BaseViewModel() {
     private val _customMenuData = MutableLiveData<List<CustomMenus>>()
@@ -218,4 +220,24 @@ class CustomMenuViewModel : BaseViewModel() {
         _menuStates.postValue(currentState)
     }
 
+    private fun getUpdatedMenuDetails(menuSlug: String): CustomMenus? {
+        val menu = _customMenuData.value?.find { it.slug == menuSlug } ?: return null
+        val menuState = _menuStates.value?.get(menuSlug)
+        val updatedMenuItems = menu.menuItems.map { menuItem ->
+            val itemCount = menuState?.itemCounts?.get(menuItem.itemSlug) ?: menuItem.itemOrderCount
+            val itemPrice = menuState?.itemPrices?.get(menuItem.itemSlug) ?: menuItem.foodPrice
+            menuItem.copy(itemOrderCount = itemCount, foodPrice = itemPrice)
+        }
+        return menu.copy(
+            menuItems = updatedMenuItems,
+            menuTotalPrice = menuState?.totalPrice ?: menu.menuTotalPrice,
+            orderCount = menuState?.totalItemCount ?: menu.orderCount
+        )
+    }
+
+    fun getMenuBySlug(menuSlug: String): CustomMenus? {
+        val menu = getUpdatedMenuDetails(menuSlug)
+        Timber.e(">>>>>>>>${menu.toJson()}")
+        return menu
+    }
 }

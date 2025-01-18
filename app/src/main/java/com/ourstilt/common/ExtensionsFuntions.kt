@@ -282,3 +282,7 @@ fun TextView.animateTextChangeIfDifferent(
         }.start()
     }
 }
+inline fun <reified T> T.toJson(): String {
+    val gson = Gson()
+    return gson.toJson(this)
+}

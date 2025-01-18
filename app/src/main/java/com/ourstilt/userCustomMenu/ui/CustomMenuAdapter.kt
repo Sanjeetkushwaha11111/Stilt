@@ -76,6 +76,15 @@ class CustomMenuAdapter(
                     isExpanded = !isExpanded
                     animateExpandCollapse(isExpanded)
                 }
+                binding.orderNow.apply {
+                    setOnClickListener {
+                        viewModel.getMenuBySlug(menu.slug!!)?.let { customMenu ->
+
+                        } ?: run {
+                            println("Menu with the specified slug not found.")
+                        }
+                    }
+                }
             }
         }
 
