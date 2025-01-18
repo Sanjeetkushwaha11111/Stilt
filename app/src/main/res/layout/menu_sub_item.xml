@@ -7,7 +7,6 @@
     app:cardCornerRadius="@dimen/_8sdp"
     app:cardElevation="4dp"
     >
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent_cl"
         android:layout_width="match_parent"
@@ -79,7 +78,7 @@
                 android:id="@+id/minus_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 app:srcCompat="@drawable/minus"
                 />
@@ -89,11 +88,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_bold"
-                android:paddingHorizontal="@dimen/_2sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 android:gravity="center"
-                android:minWidth="@dimen/_35sdp"
-                android:text="4"
+                android:maxLength="2"
+                android:minWidth="@dimen/_25ssp"
+                android:text="44"
                 android:textSize="@dimen/_14sdp"
                 />
 
@@ -101,7 +100,7 @@
                 android:id="@+id/add_item"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingHorizontal="@dimen/_3sdp"
+                android:paddingHorizontal="@dimen/_5sdp"
                 android:paddingVertical="@dimen/_5sdp"
                 app:srcCompat="@drawable/baseline_add_24"
                 />
@@ -109,5 +108,14 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/remove_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_vertical|end"
+        app:srcCompat="@drawable/rounded_cross_circle_black_bg"
+        />
 
 </androidx.cardview.widget.CardView>
