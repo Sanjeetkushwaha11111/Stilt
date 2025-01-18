@@ -51,6 +51,7 @@ class CustomMenuAdapter(
             binding.apply {
                 menuName.text = menu.menuName
                 priceMain.text = "₹${menu.menuTotalPrice}"
+                description.text = "${menu.menuDescription}"
                 menuItemsAdapter.submitList(menu.menuItems)
 
                 if (initialHeight == 0) {

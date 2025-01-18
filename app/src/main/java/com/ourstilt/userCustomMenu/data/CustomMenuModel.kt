@@ -17,6 +17,7 @@ data class CustomMenus(
     var type: String? = null,
     var menuName: String? = null,
     var menuItems: List<MenuItems>? = null,
+    var menuDescription: String? = null,
     var orderTimeIST: String? = null,
     var orderCount: String? = null,
     var menuTotalPrice: String? = null

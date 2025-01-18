@@ -18,31 +18,89 @@ class CustomMenuViewModel : BaseViewModel() {
 
     fun getMenusData() {
         val breakFastMenuItems = listOf(
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("poha_123", "snacks", "Poha", null, "Easy Pizzy", "40"),
-            MenuItems("chai_123", "snacks", "Chai", null, "Sweet and Desi", "12")
+            MenuItems(
+                "poha_123", "snacks", "Poha", null, "Healthy breakfast and Delicious", "40"
+            ),
+            MenuItems(
+                "poha_123", "snacks", "Poha", null, "Healthy breakfast and Delicious", "40"
+            ),
+            MenuItems(
+                "poha_123", "snacks", "Poha", null, "Healthy breakfast and Delicious", "40"
+            ),
         )
         val lunchMenuItems = listOf(
-            MenuItems("panner_123", "meal", "Panner", null, "Healthy and Tasty ", "80"),
-            MenuItems("roti_123", "meal", "Roti", null, "Fill your appetite", "10"),
+            MenuItems(
+                "panner_123", "meal", "Panner", null, "Healthy breakfast and Delicious", "80"
+            ),
+            MenuItems(
+                "roti_123", "meal", "Roti", null, "Healthy breakfast and Delicious", "10"
+            ),
         )
         val eveningSnacks = listOf(
-            MenuItems("sandwich_123", "snacks", "Sandwiches", null, "Light and Enough", "60"),
-            MenuItems("pasta_123", "pasta", "Pasta", null, "Delightful", "50"),
+            MenuItems(
+                "sandwich_123",
+                "snacks",
+                "Sandwiches",
+                null,
+                "Healthy breakfast and Delicious",
+                "60"
+            ),
+            MenuItems(
+                "pasta_123", "pasta", "Pasta", null, "Healthy breakfast and Delicious", "50"
+            ),
         )
 
         val menusData = listOf(
             CustomMenus(
-                "breakfast", "breakfast", "Breakfast", breakFastMenuItems, null, null, "52"
+                "breakfast",
+                "breakfast",
+                "Breakfast",
+                breakFastMenuItems,
+                "Healthy breakfast and Delicious breakfast  Delicious breakfast and Delicious",
+                null,
+                null,
+                "52"
             ),
-            CustomMenus("lunch", "lunch", "Lunch", lunchMenuItems, null, null, "90"),
-            CustomMenus("dinner", "dinner", "Evening Snacks", eveningSnacks, null, null, "110"),
-            CustomMenus("dinner", "dinner", "Evening Snacks", eveningSnacks, null, null, "110"),
-            CustomMenus("dinner", "dinner", "Evening Snacks", eveningSnacks, null, null, "110"),
+            CustomMenus(
+                "lunch",
+                "lunch",
+                "Lunch",
+                lunchMenuItems,
+                "Healthy breakfast and Delicious breakfast  Delicious breakfast and Delicious",
+                null,
+                null,
+                "90"
+            ),
+            CustomMenus(
+                "dinner",
+                "dinner",
+                "Evening Snacks",
+                eveningSnacks,
+                "Healthy breakfast and Delicious breakfast  Delicious breakfast and Delicious",
+                null,
+                null,
+                "110"
+            ),
+            CustomMenus(
+                "anytime_eat",
+                "anytime_eat",
+                "Anytime Eat",
+                eveningSnacks,
+                "Healthy breakfast and Delicious breakfast  Delicious breakfast and Delicious",
+                null,
+                null,
+                "110"
+            ),
+            CustomMenus(
+                "healthy_one",
+                "healthy_one",
+                "Healthy One",
+                eveningSnacks,
+                "Healthy breakfast and Delicious breakfast  Delicious breakfast and Delicious",
+                null,
+                null,
+                "110"
+            ),
         )
 
         viewModelScope.launch {

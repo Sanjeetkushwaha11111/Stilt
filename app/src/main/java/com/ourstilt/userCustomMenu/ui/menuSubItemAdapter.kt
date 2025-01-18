@@ -26,9 +26,8 @@ class MenuSubItemAdapter : ListAdapter<MenuItems, MenuSubItemAdapter.MenuItemVie
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: MenuItems) {
             binding.apply {
-//                itemName.text = item.foodName
-//                itemDescription.text = item.foodDescription
-//                itemPrice.text = "₹${item.foodPrice}"
+                name.text = item.foodName
+                description.text = "₹${item.foodPrice} - ${item.foodDescription}"
             }
         }
     }
