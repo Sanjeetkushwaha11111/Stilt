@@ -91,7 +91,9 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:paddingHorizontal="@dimen/_2sdp"
                 android:paddingVertical="@dimen/_5sdp"
-                android:text="10"
+                android:gravity="center"
+                android:minWidth="@dimen/_35sdp"
+                android:text="4"
                 android:textSize="@dimen/_14sdp"
                 />
 

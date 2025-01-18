@@ -2,12 +2,14 @@
 package com.ourstilt.userCustomMenu.ui
 
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.core.animation.addListener
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -34,24 +36,30 @@ class CustomMenuAdapter(
     inner class CustomMenuViewHolder(private val binding: CustomMenuItemsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val menuItemsAdapter = MenuSubItemAdapter()
+
         private var initialHeight = 0
         private var isExpanded = false
         private var currentAnimator: ValueAnimator? = null
 
         init {
             binding.menuItemsRecyclerView.apply {
-                adapter = menuItemsAdapter
                 layoutManager = LinearLayoutManager(context)
                 isNestedScrollingEnabled = false
             }
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(menu: CustomMenus) {
+            val menuItemsAdapter = MenuSubItemAdapter(viewModel, menu)
+            binding.menuItemsRecyclerView.adapter = menuItemsAdapter
+
             binding.apply {
                 menuName.text = menu.menuName
-                priceMain.text = "₹${menu.menuTotalPrice}"
-                description.text = "${menu.menuDescription}"
+                description.text = menu.menuDescription
+                viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
+                    val state = states?.get(menu.slug.toString())
+                    priceMain.text = "₹${state?.totalPrice ?: 0.0}"
+                }
                 menuItemsAdapter.submitList(menu.menuItems)
 
                 if (initialHeight == 0) {
@@ -60,7 +68,7 @@ class CustomMenuAdapter(
                     }
                 }
 
-                binding.expandedMenu.setOnClickListener {
+                expandedMenu.setOnClickListener {
                     currentAnimator?.cancel()
                     isExpanded = !isExpanded
                     animateExpandCollapse(isExpanded)
