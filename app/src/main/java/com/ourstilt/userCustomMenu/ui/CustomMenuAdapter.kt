@@ -58,7 +58,7 @@ class CustomMenuAdapter(
                 description.text = menu.menuDescription
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
-                    priceMain.text = "₹${state?.totalPrice ?: 0.0}"
+                    priceMain.text = "₹${state?.totalPrice?.toInt() ?: 0.0}"
                 }
                 menuItemsAdapter.submitList(menu.menuItems)
 
