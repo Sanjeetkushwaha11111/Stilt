@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ourstilt.common.animateTextChangeIfDifferent
+import com.ourstilt.common.hide
+import com.ourstilt.common.show
 import com.ourstilt.databinding.MenuSubItemBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
@@ -55,10 +57,14 @@ class MenuSubItemAdapter(
                         itemCount.animateTextChangeIfDifferent(
                             itemCount.text.toString(), newItemCount, 50, false
                         )
-                        if (newItemCount == "0") {
-                            motionLayout.transitionToEnd()
-                        } else {
-                            motionLayout.transitionToStart()
+                        motionLayout.apply {
+                            if (newItemCount == "0") {
+                                binding.itemTopText.show()
+                                transitionToEnd()
+                            } else {
+                                binding.itemTopText.hide()
+                                transitionToStart()
+                            }
                         }
                     }
                 }

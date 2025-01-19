@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         app:layoutDescription="@xml/menu_item_scene"
         >
-        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parent_cl"
@@ -23,9 +22,29 @@
             android:layout_height="match_parent"
             android:background="@drawable/comment_background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:animateLayoutChanges="true"
             >
+
+            <TextView
+                android:id="@+id/item_top_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_top_corners"
+                android:fontFamily="@font/montserrat_semi_lbold"
+                android:foregroundGravity="center"
+                android:gravity="end"
+                android:visibility="gone"
+                android:paddingVertical="@dimen/_1sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="Will not be included in current order, can remove from menu"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_7sdp"
+                app:layout_constraintBottom_toTopOf="@id/img"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img"
@@ -34,7 +53,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/name"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_top_text"
                 app:srcCompat="@drawable/chai_normal"
                 />
 
@@ -118,6 +137,7 @@
                     />
 
             </LinearLayout>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
