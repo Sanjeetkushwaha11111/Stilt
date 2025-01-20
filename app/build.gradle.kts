@@ -108,6 +108,7 @@ dependencies {
     implementation(libs.androidx.datastore.core.android)
     implementation (libs.androidx.datastore.preferences)
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 

@@ -50,6 +50,7 @@ annotation = "1.9.1"
 navigationFragment = "2.8.5"
 datastoreCoreAndroid = "1.1.1"
 roomCommon = "2.6.1"
+roomKtx = "2.6.1"
 
 
 
@@ -108,6 +109,7 @@ androidx-annotation = { group = "androidx.annotation", name = "annotation", vers
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
 androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 
 
 
