@@ -49,6 +49,7 @@ workRuntimeKtx = "2.10.0"
 annotation = "1.9.1"
 navigationFragment = "2.8.5"
 datastoreCoreAndroid = "1.1.1"
+roomCommon = "2.6.1"
 
 
 
@@ -106,6 +107,7 @@ play-services-auth-api-phone = { module = "com.google.android.gms:play-services-
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 androidx-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 androidx-datastore-core-android = { group = "androidx.datastore", name = "datastore-core-android", version.ref = "datastoreCoreAndroid" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
 
 
 
