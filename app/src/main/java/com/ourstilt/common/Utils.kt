@@ -8,6 +8,8 @@ import android.os.Build
 import android.view.animation.AnimationUtils
 import android.view.animation.Interpolator
 import androidx.annotation.AnimRes
+import java.io.InputStreamReader
+import java.nio.charset.Charset
 
 internal object Utils {
     @SuppressLint("ResourceType")
@@ -42,5 +44,13 @@ internal object Utils {
         } else {
             return connectivityManager.activeNetworkInfo?.isConnected ?: false
         }
+    }
+    fun readFileFromAssets(context: Context, filename: String): String {
+        val assetManager = context.assets
+        val inputStream = assetManager.open(filename)
+        val reader = InputStreamReader(inputStream, Charset.forName("UTF-8"))
+        val jsonString = reader.readText()
+        reader.close()
+        return jsonString
     }
 }

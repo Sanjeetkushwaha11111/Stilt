@@ -62,6 +62,13 @@ android {
         viewBinding = true
     }
     ndkVersion = "28.0.12674087 rc2"
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src/main/assets")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -100,6 +107,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.datastore.core.android)
     implementation (libs.androidx.datastore.preferences)
+    implementation(libs.androidx.room.common)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 
