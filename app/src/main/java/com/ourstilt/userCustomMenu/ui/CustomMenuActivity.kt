@@ -48,7 +48,6 @@ class CustomMenuActivity : AppCompatActivity() {
                 binding.title.text = it.welcomeText
                 it.menus?.let { menusList ->
                     customMenuAdapter.submitList(menusList)
-                //    viewModel.initializeMenuStates(menusList)
                 }
             }
         }

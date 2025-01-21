@@ -19,7 +19,8 @@ import com.ourstilt.userCustomMenu.data.MenuItems
 import timber.log.Timber
 
 class MenuSubItemAdapter(
-    private val viewModel: CustomMenuViewModel, private val menu: CustomMenus
+    private val viewModel: CustomMenuViewModel,
+    private val menu: CustomMenus
 ) : ListAdapter<MenuItems, MenuSubItemAdapter.MenuItemViewHolder>(MenuItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder {
         return MenuItemViewHolder(
@@ -30,17 +31,17 @@ class MenuSubItemAdapter(
     }
 
     override fun onBindViewHolder(holder: MenuItemViewHolder, position: Int) {
-        holder.bind(getItem(position), viewModel, menu)
+        holder.bind(getItem(position))
     }
 
-    class MenuItemViewHolder(private val binding: MenuSubItemBinding) :
+    inner class MenuItemViewHolder(private val binding: MenuSubItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         private val pendingRemovals = mutableSetOf<String>()
         private var removalAnimator: ValueAnimator? = null
 
         @SuppressLint("SetTextI18n")
-        fun bind(item: MenuItems, viewModel: CustomMenuViewModel, menu: CustomMenus) {
+        fun bind(item: MenuItems) {
             binding.apply {
                 removalAnimator?.cancel()
                 root.translationX = 0f
@@ -79,11 +80,9 @@ class MenuSubItemAdapter(
 
                 removeItem.setOnClickListener {
                     if (pendingRemovals.contains(item.itemSlug)) return@setOnClickListener
-
                     item.itemSlug?.let { slug ->
                         pendingRemovals.add(slug)
                         animateRemoval {
-                            Timber.e(">>>>>>.animation endedksjfd")
                             viewModel.removeMenuItem(menu.slug!!, item.itemSlug!!)
                         }
                     }
@@ -93,20 +92,16 @@ class MenuSubItemAdapter(
 
         private fun animateRemoval(onAnimationEnd: () -> Unit) {
             val width = binding.root.width.toFloat()
-
             removalAnimator = ValueAnimator.ofFloat(0f, width).apply {
                 duration = 300
                 interpolator = AccelerateDecelerateInterpolator()
-
                 addUpdateListener { animator ->
                     binding.root.translationX = -(animator.animatedValue as Float)
                     binding.root.alpha = 1 - (animator.animatedValue as Float) / width
                 }
-
                 addListener(onEnd = {
                     onAnimationEnd()
                 })
-
                 start()
             }
         }

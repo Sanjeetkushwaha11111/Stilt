@@ -14,9 +14,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ourstilt.common.Utils
 import com.ourstilt.common.animateTextChangeIfDifferent
+import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.CustomMenuItemsBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
+import timber.log.Timber
 
 class CustomMenuAdapter(
     private val viewModel: CustomMenuViewModel
@@ -79,9 +82,8 @@ class CustomMenuAdapter(
                 binding.orderNow.apply {
                     setOnClickListener {
                         viewModel.getMenuBySlug(menu.slug!!)?.let { customMenu ->
-
                         } ?: run {
-                            println("Menu with the specified slug not found.")
+                            context.showToastShort("Please reload t")
                         }
                     }
                 }

@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ourstilt.base.data.api.NetworkResult
 import com.ourstilt.base.ui.BaseViewModel
-import com.ourstilt.common.toJson
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import com.ourstilt.userCustomMenu.data.CustomMenuRepository
 import com.ourstilt.userCustomMenu.data.CustomMenus
@@ -22,9 +21,7 @@ import javax.inject.Inject
 class CustomMenuViewModel @Inject constructor(
     private val customMenuRepository: CustomMenuRepository
 ) : BaseViewModel() {
-    private val _customMenuData = MutableLiveData<List<CustomMenus>?>()
-
-
+    private val _menuList = MutableLiveData<List<CustomMenus>>()
     private val _customMenuPageData = MutableLiveData<CustomMenuModel>()
     val customMenuPageData: MutableLiveData<CustomMenuModel> = _customMenuPageData
 
@@ -35,7 +32,13 @@ class CustomMenuViewModel @Inject constructor(
                 .onCompletion { _loading.value = false }.collect { result ->
                     when (result) {
                         is NetworkResult.Success -> {
-                            _customMenuPageData.value=result.data
+                            result.data.let { pageData ->
+                                _customMenuPageData.postValue(pageData)
+                                pageData.menus?.let { menus ->
+                                    _menuList.postValue(menus)
+                                    initializeMenuStates(menus)
+                                }
+                            }
                         }
                         is NetworkResult.Error -> {
                             Timber.e("Error Code: ${result.errorCode}, Message: ${result.message}")
@@ -53,9 +56,9 @@ class CustomMenuViewModel @Inject constructor(
     private val _menuStates = MutableLiveData<Map<String, MenuState>?>()
     val menuStates: MutableLiveData<Map<String, MenuState>?> = _menuStates
 
-    fun initializeMenuStates(menus: List<CustomMenus>) {
+    private fun initializeMenuStates(menus: List<CustomMenus>) {
         val initialStates = menus.associate { menu ->
-            val menuSlug = menu.slug ?: return@associate null to null // Skip if slug is null
+            val menuSlug = menu.slug ?: return@associate null to null
 
             val itemCounts =
                 menu.menuItems.associate { it.itemSlug!! to it.itemOrderCount }.toMutableMap()
@@ -107,7 +110,7 @@ class CustomMenuViewModel @Inject constructor(
     }
 
     fun addMenuItem(menuSlug: String, newItem: MenuItems) {
-        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val currentMenus = _menuList.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.map { menu ->
             if (menu.slug == menuSlug) {
                 val updatedItems = menu.menuItems.toMutableList()
@@ -117,12 +120,12 @@ class CustomMenuViewModel @Inject constructor(
                 menu
             }
         }
-        _customMenuData.postValue(updatedMenus)
+        _menuList.postValue(updatedMenus)
         updateMenuStateAfterAdd(menuSlug, newItem)
     }
 
     fun removeMenuItem(menuSlug: String, itemSlug: String) {
-        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val currentMenus = _menuList.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.map { menu ->
             if (menu.slug == menuSlug) {
                 val updatedItems = menu.menuItems.filterNot { it.itemSlug == itemSlug }
@@ -131,14 +134,14 @@ class CustomMenuViewModel @Inject constructor(
                 menu
             }
         }
-        _customMenuData.postValue(updatedMenus)
+        _menuList.postValue(updatedMenus)
         updateMenuStateAfterRemove(menuSlug, itemSlug)
     }
 
     fun removeMenu(menuSlug: String) {
-        val currentMenus = _customMenuData.value?.toMutableList() ?: return
+        val currentMenus = _menuList.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.filterNot { it.slug == menuSlug }
-        _customMenuData.postValue(updatedMenus)
+        _menuList.postValue(updatedMenus)
 
         // Also remove the menu state
         val currentState = _menuStates.value?.toMutableMap() ?: return
@@ -179,7 +182,8 @@ class CustomMenuViewModel @Inject constructor(
     }
 
     private fun getUpdatedMenuDetails(menuSlug: String): CustomMenus? {
-        val menu = _customMenuData.value?.find { it.slug == menuSlug } ?: return null
+        val menu = _menuList.value?.find { it.slug == menuSlug }
+        if (menu == null) return null
         val menuState = _menuStates.value?.get(menuSlug)
         val updatedMenuItems = menu.menuItems.map { menuItem ->
             val itemCount = menuState?.itemCounts?.get(menuItem.itemSlug) ?: menuItem.itemOrderCount
@@ -195,7 +199,6 @@ class CustomMenuViewModel @Inject constructor(
 
     fun getMenuBySlug(menuSlug: String): CustomMenus? {
         val menu = getUpdatedMenuDetails(menuSlug)
-        Timber.e(">>>>>>>>${menu.toJson()}")
         return menu
     }
 }

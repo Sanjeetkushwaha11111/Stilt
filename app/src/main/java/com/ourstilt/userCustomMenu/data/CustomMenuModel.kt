@@ -3,9 +3,6 @@ package com.ourstilt.userCustomMenu.data
 import com.google.gson.annotations.SerializedName
 
 data class CustomMenuModel(
-    var message: String? = null,
-    var code: Int = 0,
-    var status: Boolean = false,
     @SerializedName("homeTopBg") var homeTopBg: String? = null,
     @SerializedName("welcomeText") var welcomeText: String? = null,
     @SerializedName("menus") var menus: List<CustomMenus>? = null
