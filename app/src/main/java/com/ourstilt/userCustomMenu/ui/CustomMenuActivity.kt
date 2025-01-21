@@ -5,9 +5,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ourstilt.common.showToastShort
 import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
+import com.simform.refresh.SSPullToRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -30,7 +36,29 @@ class CustomMenuActivity : AppCompatActivity() {
         clickListeners()
         viewModel.getMenuPageData()
         observerViewModel()
+        setupPullToRefresh()
     }
+
+    private fun setupPullToRefresh() {
+        binding.pullToRefresh.apply {
+            setLottieAnimation("lottie_loader_potato.lottie")
+            setRepeatCount(SSPullToRefreshLayout.RepeatCount.INFINITE)
+            setRefreshStyle(SSPullToRefreshLayout.RefreshStyle.NORMAL)
+            setOnRefreshListener {
+                if (isEnabled) {
+                    isEnabled = false
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(5000)
+                        setRefreshing(false)
+                        isEnabled = true
+                        showToastShort("Refresh Complete")
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private fun clickListeners() {
         binding.btnBack.setOnClickListener {
