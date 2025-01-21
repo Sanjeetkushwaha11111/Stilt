@@ -46,8 +46,9 @@ class CustomMenuActivity : AppCompatActivity() {
         viewModel.customMenuPageData.observe(this) {
             it?.let {
                 binding.title.text = it.welcomeText
-                it.menus?.let { menusList ->
-                    customMenuAdapter.submitList(menusList)
+
+                viewModel.menuList.observe(this) { list ->
+                    customMenuAdapter.submitList(list)
                 }
             }
         }

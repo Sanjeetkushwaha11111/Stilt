@@ -21,7 +21,12 @@ import javax.inject.Inject
 class CustomMenuViewModel @Inject constructor(
     private val customMenuRepository: CustomMenuRepository
 ) : BaseViewModel() {
+
+    // contains all list of menus in data keep updating lists on changing
     private val _menuList = MutableLiveData<List<CustomMenus>>()
+    val menuList: MutableLiveData<List<CustomMenus>> = _menuList
+
+    // contains whole page data of custom menu
     private val _customMenuPageData = MutableLiveData<CustomMenuModel>()
     val customMenuPageData: MutableLiveData<CustomMenuModel> = _customMenuPageData
 
@@ -53,6 +58,7 @@ class CustomMenuViewModel @Inject constructor(
     }
 
 
+    // to handel the changing states of menus item and prices mapping into changing values and remap when done
     private val _menuStates = MutableLiveData<Map<String, MenuState>?>()
     val menuStates: MutableLiveData<Map<String, MenuState>?> = _menuStates
 
