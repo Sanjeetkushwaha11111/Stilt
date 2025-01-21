@@ -6,8 +6,11 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ourstilt.databinding.ActivityCustomMenuBinding
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import kotlin.math.abs
 
+@AndroidEntryPoint
 class CustomMenuActivity : AppCompatActivity() {
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
     private val viewModel: CustomMenuViewModel by viewModels()
@@ -22,13 +25,12 @@ class CustomMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupToolbar()
         setupRecyclerView()
-        viewModel.getMenusData()
+        viewModel.getMenuPageData()
         observerViewModel()
     }
 
     private fun setupToolbar() {
         supportActionBar?.hide()
-        binding.title.text = "Your Custom Menus"
 
         binding.btnBack.setOnClickListener {
             onBackPressed()
@@ -41,9 +43,13 @@ class CustomMenuActivity : AppCompatActivity() {
     }
 
     private fun observerViewModel() {
-        viewModel.customMenuData.observe(this) {
+        viewModel.customMenuPageData.observe(this) {
             it?.let {
-                customMenuAdapter.submitList(it)
+                binding.title.text = it.welcomeText
+                it.menus?.let { menusList ->
+                    customMenuAdapter.submitList(menusList)
+                //    viewModel.initializeMenuStates(menusList)
+                }
             }
         }
     }

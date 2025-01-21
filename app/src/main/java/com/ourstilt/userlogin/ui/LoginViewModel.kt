@@ -2,9 +2,8 @@ package com.ourstilt.userlogin.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.ourstilt.base.data.DataStoreRepository
+import com.ourstilt.base.data.repository.DataStoreRepository
 import com.ourstilt.base.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay

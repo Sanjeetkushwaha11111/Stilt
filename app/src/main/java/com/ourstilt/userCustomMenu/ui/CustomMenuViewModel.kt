@@ -1,97 +1,59 @@
 package com.ourstilt.userCustomMenu.ui
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ourstilt.base.data.api.NetworkResult
 import com.ourstilt.base.ui.BaseViewModel
 import com.ourstilt.common.toJson
+import com.ourstilt.userCustomMenu.data.CustomMenuModel
+import com.ourstilt.userCustomMenu.data.CustomMenuRepository
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
 import com.ourstilt.userCustomMenu.data.MenuState
-import kotlinx.coroutines.delay
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class CustomMenuViewModel : BaseViewModel() {
-    private val _customMenuData = MutableLiveData<List<CustomMenus>>()
-    val customMenuData: LiveData<List<CustomMenus>> = _customMenuData
 
-    fun getMenusData() {
-        val breakFastMenuItems = listOf(
-            MenuItems(
-                "poha_123", "snacks", "Poha", null, "Healthy breakfast and Delicious", 40.0, 1
-            ),
-            MenuItems(
-                "chai_123", "snacks", "Chai", null, "Healthy breakfast and Delicious", 10.0, 1
-            ),
-            MenuItems(
-                "omelette_123",
-                "snacks",
-                "Omelette",
-                null,
-                "Healthy breakfast and Delicious",
-                40.0,
-                1
-            )
-        )
-        val lunchMenuItems = listOf(
-            MenuItems("panner_123", "meal", "Panner", null, "Healthy meal and Delicious", 70.0, 1),
-            MenuItems("roti_123", "meal", "Roti", null, "Healthy meal and Delicious", 10.0, 1)
-        )
-        val eveningSnacks = listOf(
-            MenuItems(
-                "sandwich_123",
-                "snacks",
-                "Sandwiches",
-                null, "Healthy snacks and Delicious", 50.0, 1
-            ),
-            MenuItems("pasta_123", "pasta", "Pasta", null, "Healthy snacks and Delicious", 70.0, 1)
-        )
-        val menusData = listOf(
-            CustomMenus(
-                "breakfast",
-                "breakfast",
-                "Breakfast",
-                breakFastMenuItems,
-                "Healthy and delicious breakfast Healthy and delicious breakfast  Healthy and delicious breakfast ",
-                null,
-                0,
-                90.0
-            ),
-            CustomMenus(
-                "lunch",
-                "lunch",
-                "Lunch",
-                lunchMenuItems,
-                "Healthy and delicious breakfast Healthy and delicious breakfast  Healthy and delicious breakfast ",
-                null,
-                0,
-                80.0
-            ),
-            CustomMenus(
-                "dinner",
-                "dinner",
-                "Evening Snacks",
-                eveningSnacks,
-                "Healthy and delicious breakfast Healthy and delicious breakfast  Healthy and delicious breakfast ",
-                null,
-                0,
-                120.0
-            )
-        )
+@HiltViewModel
+class CustomMenuViewModel @Inject constructor(
+    private val customMenuRepository: CustomMenuRepository
+) : BaseViewModel() {
+    private val _customMenuData = MutableLiveData<List<CustomMenus>?>()
 
+
+    private val _customMenuPageData = MutableLiveData<CustomMenuModel>()
+    val customMenuPageData: MutableLiveData<CustomMenuModel> = _customMenuPageData
+
+
+    fun getMenuPageData() {
         viewModelScope.launch {
-            delay(2000)
-            _customMenuData.postValue(menusData)
-            initializeMenuStates(menusData)
+            customMenuRepository.getMenuPageData().onStart { _loading.value = true }
+                .onCompletion { _loading.value = false }.collect { result ->
+                    when (result) {
+                        is NetworkResult.Success -> {
+                            _customMenuPageData.value=result.data
+                        }
+                        is NetworkResult.Error -> {
+                            Timber.e("Error Code: ${result.errorCode}, Message: ${result.message}")
+                        }
+
+                        is NetworkResult.Loading -> {
+                            Timber.e("Loading...")
+                        }
+                    }
+                }
         }
     }
+
 
     private val _menuStates = MutableLiveData<Map<String, MenuState>?>()
     val menuStates: MutableLiveData<Map<String, MenuState>?> = _menuStates
 
-
-    private fun initializeMenuStates(menus: List<CustomMenus>) {
+    fun initializeMenuStates(menus: List<CustomMenus>) {
         val initialStates = menus.associate { menu ->
             val menuSlug = menu.slug ?: return@associate null to null // Skip if slug is null
 
@@ -110,7 +72,6 @@ class CustomMenuViewModel : BaseViewModel() {
                 itemSlug = itemSlug
             )
         }.filterKeys { it != null } // Filter out any null keys
-
         _menuStates.postValue(initialStates.filterNotNullValues())
     }
 
@@ -145,7 +106,6 @@ class CustomMenuViewModel : BaseViewModel() {
         _menuStates.postValue(currentState)
     }
 
-    // Function to add a new menu item to a specific menu
     fun addMenuItem(menuSlug: String, newItem: MenuItems) {
         val currentMenus = _customMenuData.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.map { menu ->
@@ -161,7 +121,6 @@ class CustomMenuViewModel : BaseViewModel() {
         updateMenuStateAfterAdd(menuSlug, newItem)
     }
 
-    // Function to remove a menu item from a specific menu
     fun removeMenuItem(menuSlug: String, itemSlug: String) {
         val currentMenus = _customMenuData.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.map { menu ->
@@ -176,7 +135,6 @@ class CustomMenuViewModel : BaseViewModel() {
         updateMenuStateAfterRemove(menuSlug, itemSlug)
     }
 
-    // Function to remove an entire menu
     fun removeMenu(menuSlug: String) {
         val currentMenus = _customMenuData.value?.toMutableList() ?: return
         val updatedMenus = currentMenus.filterNot { it.slug == menuSlug }

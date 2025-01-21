@@ -1,34 +1,35 @@
 package com.ourstilt.userCustomMenu.data
 
-import com.ourstilt.homepage.data.ApiData
+import com.google.gson.annotations.SerializedName
 
 data class CustomMenuModel(
-    var data: MutableList<ApiData>? = null,
     var message: String? = null,
     var code: Int = 0,
     var status: Boolean = false,
-    var homeTopBg: String? = null,
-    var welcomeText: String? = null,
-    var menus: List<CustomMenus> = emptyList()
+    @SerializedName("homeTopBg") var homeTopBg: String? = null,
+    @SerializedName("welcomeText") var welcomeText: String? = null,
+    @SerializedName("menus") var menus: List<CustomMenus>? = null
 )
 
 data class CustomMenus(
-    var slug: String? = null,
-    var type: String? = null,
-    var menuName: String? = null,
-    var menuItems: List<MenuItems> = emptyList(),
-    var menuDescription: String? = null,
-    var orderTimeIST: String? = null,
-    var orderCount: Int = 0,
-    var menuTotalPrice: Double = 0.0
+    @SerializedName("menu_slug") var slug: String? = null,
+    @SerializedName("menu_type") var menuType: String? = null,
+    @SerializedName("menu_name") var menuName: String? = null,
+    @SerializedName("menu_items") var menuItems: List<MenuItems> = emptyList(),
+    @SerializedName("menu_description") var menuDescription: String? = null,
+    @SerializedName("menu_order_ist") var orderTimeIST: String? = null,
+    @SerializedName("menu_order_count") var orderCount: Int = 0,
+    @SerializedName("menu_total_price") var menuTotalPrice: Double = 0.0
 )
 
 data class MenuItems(
-    var itemSlug: String? = null,
-    var type: String? = null,
-    var foodName: String? = null,
-    var foodImg: String? = null,
-    var foodDescription: String? = null, var foodPrice: Double = 0.0, var itemOrderCount: Int = 0
+    @SerializedName("menu_item_slug") var itemSlug: String? = null,
+    @SerializedName("menu_item_type") var itemMenuType: String? = null,
+    @SerializedName("menu_item_name") var foodName: String? = null,
+    @SerializedName("menu_item_image") var foodImg: String? = null,
+    @SerializedName("menu_item_description") var foodDescription: String? = null,
+    @SerializedName("menu_item_price") var foodPrice: Double = 0.0,
+    @SerializedName("menu_item_quantity") var itemOrderCount: Int = 0
 )
 
 

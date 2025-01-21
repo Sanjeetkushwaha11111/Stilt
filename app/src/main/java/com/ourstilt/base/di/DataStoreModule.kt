@@ -1,4 +1,4 @@
-package com.ourstilt.base.data
+package com.ourstilt.base.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore

@@ -1,4 +1,4 @@
-package com.ourstilt.base.data
+package com.ourstilt.base.data.api
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 
