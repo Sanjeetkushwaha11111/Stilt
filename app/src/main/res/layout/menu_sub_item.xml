@@ -66,7 +66,6 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:fontFamily="@font/montserrat_semi_lbold"
                 android:paddingBottom="@dimen/_2sdp"
-                android:text="Elachi Chai"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@id/order_now"
@@ -82,7 +81,6 @@
                 android:layout_marginBottom="@dimen/_5sdp"
                 android:fontFamily="@font/montserrat_semi_lbold"
                 android:maxLines="2"
-                android:text="You have enough time to make things happen, but you have no time to waste.."
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_9sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -123,7 +121,6 @@
                     android:maxLength="2"
                     android:minWidth="@dimen/_25ssp"
                     android:paddingVertical="@dimen/_5sdp"
-                    android:text="44"
                     android:textSize="@dimen/_14sdp"
                     />
 

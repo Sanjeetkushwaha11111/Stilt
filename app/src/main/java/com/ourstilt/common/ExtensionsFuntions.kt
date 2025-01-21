@@ -7,11 +7,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -285,4 +288,17 @@ fun TextView.animateTextChangeIfDifferent(
 inline fun <reified T> T.toJson(): String {
     val gson = Gson()
     return gson.toJson(this)
+}
+fun View.vibrateOnClick(duration: Long = 50) {
+    this.setOnClickListener {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            vibrator.vibrate(duration)
+        }
+    }
 }

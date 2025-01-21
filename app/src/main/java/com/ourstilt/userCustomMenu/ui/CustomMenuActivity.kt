@@ -5,19 +5,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import kotlin.math.abs
 
 @AndroidEntryPoint
 class CustomMenuActivity : AppCompatActivity() {
+
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
+
     private val viewModel: CustomMenuViewModel by viewModels()
+
     private val customMenuAdapter by lazy {
         CustomMenuAdapter(viewModel)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,17 +27,19 @@ class CustomMenuActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupToolbar()
         setupRecyclerView()
+        clickListeners()
         viewModel.getMenuPageData()
         observerViewModel()
     }
 
-    private fun setupToolbar() {
-        supportActionBar?.hide()
-
+    private fun clickListeners() {
         binding.btnBack.setOnClickListener {
             onBackPressed()
+            it.vibrateOnClick()
         }
+    }
 
+    private fun setupToolbar() {
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val percentage = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
             binding.toolbarLayout.alpha = percentage

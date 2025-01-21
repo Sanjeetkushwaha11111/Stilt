@@ -6,7 +6,7 @@ import retrofit2.http.GET
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.1.38:3001/"
+        const val BASE_URL = "http://192.168.0.115:3001/"
     }
 
     @GET("data")

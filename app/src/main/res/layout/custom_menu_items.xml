@@ -61,7 +61,6 @@
                 android:minLines="1"
                 android:paddingStart="@dimen/_8sdp"
                 android:paddingEnd="@dimen/_5sdp"
-                android:text="BREAK-FAST"
                 android:textAllCaps="true"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_17sdp"
@@ -145,7 +144,6 @@
                 android:letterSpacing=".2"
                 android:paddingStart="@dimen/_10sdp"
                 android:maxLength="6"
-                android:text="₹1023"
                 android:textColor="@color/colorBlack"
                 android:textSize="@dimen/_17sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -208,7 +206,7 @@
             android:nestedScrollingEnabled="true"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/divider"
-            tools:listitem="@layout/custom_menu_items"
+            tools:listitem="@layout/menu_sub_item"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
