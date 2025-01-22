@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.ourstilt.common.Utils
 import com.ourstilt.common.animateTextChangeIfDifferent
 import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.CustomMenuItemsBinding
@@ -81,9 +80,11 @@ class CustomMenuAdapter(
                 }
                 binding.orderNow.apply {
                     setOnClickListener {
-                        viewModel.getMenuBySlug(menu.slug!!)?.let { customMenu ->
+                        viewModel.getMenuBySlug(menu.slug!!)?.let { customMenus ->
+                            //make api call for saving changed menu data
+                            Timber.e(">>>>>>menu to be ordered $customMenus")
                         } ?: run {
-                            context.showToastShort("Please reload t")
+                            context.showToastShort("Please reload page")
                         }
                     }
                 }

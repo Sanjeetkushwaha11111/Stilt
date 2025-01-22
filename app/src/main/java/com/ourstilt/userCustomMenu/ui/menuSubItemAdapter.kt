@@ -16,7 +16,6 @@ import com.ourstilt.common.show
 import com.ourstilt.databinding.MenuSubItemBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
-import timber.log.Timber
 
 class MenuSubItemAdapter(
     private val viewModel: CustomMenuViewModel,
@@ -46,10 +45,8 @@ class MenuSubItemAdapter(
                 removalAnimator?.cancel()
                 root.translationX = 0f
                 root.alpha = 1f
-
                 name.text = item.foodName
-                description.text = "₹${item.foodPrice} - ${item.foodDescription}"
-
+                description.text = "₹${item.foodPrice.toInt()} - ${item.foodDescription}"
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
                     val state = states?.get(menu.slug.toString())
                     val newItemCount = state?.itemCounts?.get(item.itemSlug)?.toString() ?: "0"
@@ -71,19 +68,31 @@ class MenuSubItemAdapter(
                 }
 
                 addItem.setOnClickListener {
-                    viewModel.updateItemCount(menu.slug!!, item.itemSlug!!, 1)
+                    menu.slug?.let { menuSlug ->
+                        item.itemSlug?.let { itemSlug ->
+                            viewModel.updateItemCount(
+                                menuSlug, itemSlug, 1
+                            )
+                        }
+                    }
                 }
 
                 minusItem.setOnClickListener {
-                    viewModel.updateItemCount(menu.slug!!, item.itemSlug!!, -1)
+                    menu.slug?.let { menuSlug ->
+                        item.itemSlug?.let { itemSlug ->
+                            viewModel.updateItemCount(
+                                menuSlug, itemSlug, -1
+                            )
+                        }
+                    }
                 }
 
                 removeItem.setOnClickListener {
-                    if (pendingRemovals.contains(item.itemSlug)) return@setOnClickListener
                     item.itemSlug?.let { slug ->
+                        if (pendingRemovals.contains(slug)) return@setOnClickListener
                         pendingRemovals.add(slug)
                         animateRemoval {
-                            viewModel.removeMenuItem(menu.slug!!, item.itemSlug!!)
+                            menu.slug?.let { menuSlug -> viewModel.removeMenuItem(menuSlug, slug) }
                         }
                     }
                 }
