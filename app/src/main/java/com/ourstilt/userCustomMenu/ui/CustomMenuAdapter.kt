@@ -43,6 +43,7 @@ class CustomMenuAdapter(
         private var initialHeight = 0
         private var isExpanded = false
         private var currentAnimator: ValueAnimator? = null
+        private var currentMenuSlug: String? = null
 
         init {
             binding.menuItemsRecyclerView.apply {
@@ -53,23 +54,34 @@ class CustomMenuAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bind(menu: CustomMenus) {
-            val menuItemsAdapter = MenuSubItemAdapter(viewModel, menu)
+            currentMenuSlug = menu.slug
+            val menuItemsAdapter = menu.slug?.let {
+                MenuSubItemAdapter(
+                    viewModel,
+                    it
+                )
+            }
             binding.menuItemsRecyclerView.adapter = menuItemsAdapter
 
             binding.apply {
+                root.alpha = 1f
+                root.translationX = 0f
+                menuItemsRecyclerView.visibility = if (isExpanded) View.VISIBLE else View.GONE
                 menuName.text = menu.menuName
                 description.text = menu.menuDescription
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
-                    val state = states?.get(menu.slug.toString())
-                    val newPrice = "₹${state?.totalPrice?.toInt() ?: 0}"
-                    priceMain.animateTextChangeIfDifferent(
-                        priceMain.text.toString(),
-                        newPrice,
-                        300,
-                        true
-                    )
+                    if (currentMenuSlug == menu.slug) {
+                        val state = states?.get(menu.slug.toString())
+                        val newPrice = "₹${state?.totalPrice?.toInt() ?: 0}"
+                        priceMain.animateTextChangeIfDifferent(
+                            priceMain.text.toString(),
+                            newPrice,
+                            300,
+                            true
+                        )
+                    }
                 }
-                menuItemsAdapter.submitList(menu.menuItems) {
+                menuItemsAdapter?.submitList(menu.menuItems) {
                     adjustHeightOnDataChange()
                 }
 

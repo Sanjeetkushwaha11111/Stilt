@@ -19,7 +19,7 @@ import com.ourstilt.userCustomMenu.data.MenuItems
 
 class MenuSubItemAdapter(
     private val viewModel: CustomMenuViewModel,
-    private val menu: CustomMenus
+    private val menuSlug: String
 ) : ListAdapter<MenuItems, MenuSubItemAdapter.MenuItemViewHolder>(MenuItemDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder {
         return MenuItemViewHolder(
@@ -38,9 +38,11 @@ class MenuSubItemAdapter(
 
         private val pendingRemovals = mutableSetOf<String>()
         private var removalAnimator: ValueAnimator? = null
+        private var currentItemSlug: String? = null
 
         @SuppressLint("SetTextI18n")
         fun bind(item: MenuItems) {
+            currentItemSlug = item.itemSlug
             binding.apply {
                 removalAnimator?.cancel()
                 root.translationX = 0f
@@ -48,27 +50,34 @@ class MenuSubItemAdapter(
                 name.text = item.foodName
                 description.text = "₹${item.foodPrice.toInt()} - ${item.foodDescription}"
                 viewModel.menuStates.observe(binding.root.context as LifecycleOwner) { states ->
-                    val state = states?.get(menu.slug.toString())
-                    val newItemCount = state?.itemCounts?.get(item.itemSlug)?.toString() ?: "0"
-                    itemCount.animateTextChangeIfDifferent(itemCount.text.toString(), newItemCount,50,false)
-                    if (!pendingRemovals.contains(item.itemSlug)) {
-                        itemCount.animateTextChangeIfDifferent(
-                            itemCount.text.toString(), newItemCount, 50, false
-                        )
-                        motionLayout.apply {
-                            if (newItemCount == "0") {
-                                binding.itemTopText.show()
-                                transitionToEnd()
-                            } else {
-                                binding.itemTopText.hide()
-                                transitionToStart()
+                    // Only update if this is still the same menu and item
+                    if (currentItemSlug == item.itemSlug) {
+                        val state = states?.get(menuSlug)
+                        val newItemCount = state?.itemCounts?.get(item.itemSlug)?.toString() ?: "0"
+
+                        if (!pendingRemovals.contains(item.itemSlug)) {
+                            itemCount.animateTextChangeIfDifferent(
+                                itemCount.text.toString(),
+                                newItemCount,
+                                50,
+                                false
+                            )
+
+                            motionLayout.apply {
+                                if (newItemCount == "0") {
+                                    itemTopText.show()
+                                    transitionToEnd()
+                                } else {
+                                    itemTopText.hide()
+                                    transitionToStart()
+                                }
                             }
                         }
                     }
                 }
 
                 addItem.setOnClickListener {
-                    menu.slug?.let { menuSlug ->
+                    menuSlug.let { menuSlug ->
                         item.itemSlug?.let { itemSlug ->
                             viewModel.updateItemCount(
                                 menuSlug, itemSlug, 1
@@ -78,7 +87,7 @@ class MenuSubItemAdapter(
                 }
 
                 minusItem.setOnClickListener {
-                    menu.slug?.let { menuSlug ->
+                    menuSlug.let { menuSlug ->
                         item.itemSlug?.let { itemSlug ->
                             viewModel.updateItemCount(
                                 menuSlug, itemSlug, -1
@@ -92,7 +101,7 @@ class MenuSubItemAdapter(
                         if (pendingRemovals.contains(slug)) return@setOnClickListener
                         pendingRemovals.add(slug)
                         animateRemoval {
-                            menu.slug?.let { menuSlug -> viewModel.removeMenuItem(menuSlug, slug) }
+                            menuSlug.let { menuSlug -> viewModel.removeMenuItem(menuSlug, slug) }
                         }
                     }
                 }
