@@ -13,4 +13,8 @@ class CustomMenuRepository @Inject constructor(
 ) : BaseRepository() {
     fun getMenuPageData(forceRefresh: Boolean = false): Flow<NetworkResult<CustomMenuModel>> =
         safeApiCall { apiService.getMenuPageData(forceRefresh) }
+
+    fun placeFoodOrder(customMenus: CustomMenus, forceRefresh: Boolean = false): Flow<NetworkResult<String>> =
+        safeApiCall { apiService.placeFoodOrder(forceRefresh, customMenus) }
+
 }

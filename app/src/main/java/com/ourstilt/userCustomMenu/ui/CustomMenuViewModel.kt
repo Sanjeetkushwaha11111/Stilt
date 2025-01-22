@@ -30,13 +30,20 @@ class CustomMenuViewModel @Inject constructor(
     private val _customMenuPageData = MutableLiveData<CustomMenuModel>()
     val customMenuPageData: MutableLiveData<CustomMenuModel> = _customMenuPageData
 
+    val pageReLoading = MutableLiveData<Boolean>()
 
     fun getMenuPageData(forceRefresh: Boolean = false) {
         viewModelScope.launch {
+            if (forceRefresh) {
+                pageReLoading.value = true
+            }
             customMenuRepository.getMenuPageData(forceRefresh).onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }.collect { result ->
                     when (result) {
                         is NetworkResult.Success -> {
+                            if (forceRefresh) {
+                                pageReLoading.value = false
+                            }
                             result.data.let { pageData ->
                                 _customMenuPageData.postValue(pageData)
                                 pageData.menus?.let { menus ->
@@ -54,6 +61,9 @@ class CustomMenuViewModel @Inject constructor(
                         }
                     }
                 }
+            if(forceRefresh){
+                pageReLoading.value=false
+            }
         }
     }
 
@@ -206,5 +216,27 @@ class CustomMenuViewModel @Inject constructor(
     fun getMenuBySlug(menuSlug: String): CustomMenus? {
         val menu = getUpdatedMenuDetails(menuSlug)
         return menu
+    }
+
+    fun orderFood(customMenus: CustomMenus, forceRefresh: Boolean = false) {
+        viewModelScope.launch {
+            customMenuRepository.placeFoodOrder(customMenus, forceRefresh)
+                .onStart { _loading.value = true }.onCompletion { _loading.value = false }
+                .collect { result ->
+                    when (result) {
+                        is NetworkResult.Success -> {
+                            Timber.d("Order placed successfully: ${result.data}")
+                        }
+
+                        is NetworkResult.Error -> {
+                            Timber.e("Error Code: ${result.errorCode}, Message: ${result.message}")
+                        }
+
+                        is NetworkResult.Loading -> {
+                            Timber.d("Loading...")
+                        }
+                    }
+                }
+        }
     }
 }

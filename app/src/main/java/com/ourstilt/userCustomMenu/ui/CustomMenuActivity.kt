@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
+import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.simform.refresh.SSPullToRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -19,7 +21,9 @@ class CustomMenuActivity : AppCompatActivity() {
     private val viewModel: CustomMenuViewModel by viewModels()
 
     private val customMenuAdapter by lazy {
-        CustomMenuAdapter(viewModel)
+        CustomMenuAdapter(viewModel) {
+            placeOrder(customMenu = it)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +77,7 @@ class CustomMenuActivity : AppCompatActivity() {
                 }
             }
         }
-        viewModel.loading.observe(this) {
+        viewModel.pageReLoading.observe(this) {
             binding.pullToRefresh.apply {
                 if (it) {
                     setRefreshing(true)
@@ -84,6 +88,10 @@ class CustomMenuActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun placeOrder(customMenu: CustomMenus) {
+        viewModel.orderFood(customMenu)
     }
 
     private fun setupRecyclerView() {

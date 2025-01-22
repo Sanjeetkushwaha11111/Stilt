@@ -1,9 +1,12 @@
 package com.ourstilt.base.data.api
 
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
+import com.ourstilt.userCustomMenu.data.CustomMenus
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 
 interface ApiService {
     companion object {
@@ -12,4 +15,10 @@ interface ApiService {
 
     @GET("data")
     suspend fun getMenuPageData(@Header("Force-Refresh") forceRefresh: Boolean = false): Response<ApiResponse<CustomMenuModel>>
+
+    @POST("data")
+    suspend fun placeFoodOrder(
+        @Header("Force-Refresh") forceRefresh: Boolean = false,
+        @Body customMenus: CustomMenus
+    ): Response<ApiResponse<String>>
 }

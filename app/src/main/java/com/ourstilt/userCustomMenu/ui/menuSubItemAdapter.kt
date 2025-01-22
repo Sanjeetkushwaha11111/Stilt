@@ -14,7 +14,6 @@ import com.ourstilt.common.animateTextChangeIfDifferent
 import com.ourstilt.common.hide
 import com.ourstilt.common.show
 import com.ourstilt.databinding.MenuSubItemBinding
-import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.ourstilt.userCustomMenu.data.MenuItems
 
 class MenuSubItemAdapter(

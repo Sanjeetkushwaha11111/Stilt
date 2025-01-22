@@ -15,13 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ourstilt.common.animateTextChangeIfDifferent
-import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.CustomMenuItemsBinding
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import timber.log.Timber
 
 class CustomMenuAdapter(
-    private val viewModel: CustomMenuViewModel
+    private val viewModel: CustomMenuViewModel,
+    private val orderMenuClicked: (CustomMenus) -> Unit
 ) : ListAdapter<CustomMenus, CustomMenuAdapter.CustomMenuViewHolder>(CustomMenuDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomMenuViewHolder {
@@ -92,14 +92,15 @@ class CustomMenuAdapter(
                 }
                 binding.orderNow.apply {
                     setOnClickListener {
-                        viewModel.getMenuBySlug(menu.slug!!)?.let { customMenus ->
-                            //make api call for saving changed menu data
-                            Timber.e(">>>>>>menu to be ordered $customMenus")
-                        } ?: run {
-                            context.showToastShort("Please reload page")
-                        }
+                        triggerOrdering(menu.slug.toString())
                     }
                 }
+            }
+        }
+
+        private fun triggerOrdering(menuSlug: String) {
+            viewModel.getMenuBySlug(menuSlug)?.let { customMenus ->
+                orderMenuClicked(customMenus)
             }
         }
 
