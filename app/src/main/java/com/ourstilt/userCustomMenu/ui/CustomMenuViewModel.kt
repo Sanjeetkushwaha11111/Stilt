@@ -31,9 +31,9 @@ class CustomMenuViewModel @Inject constructor(
     val customMenuPageData: MutableLiveData<CustomMenuModel> = _customMenuPageData
 
 
-    fun getMenuPageData() {
+    fun getMenuPageData(forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            customMenuRepository.getMenuPageData().onStart { _loading.value = true }
+            customMenuRepository.getMenuPageData(forceRefresh).onStart { _loading.value = true }
                 .onCompletion { _loading.value = false }.collect { result ->
                     when (result) {
                         is NetworkResult.Success -> {

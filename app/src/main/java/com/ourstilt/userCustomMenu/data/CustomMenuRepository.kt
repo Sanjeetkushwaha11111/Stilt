@@ -11,6 +11,6 @@ import javax.inject.Singleton
 class CustomMenuRepository @Inject constructor(
     private val apiService: ApiService
 ) : BaseRepository() {
-    fun getMenuPageData(): Flow<NetworkResult<CustomMenuModel>> =
-        safeApiCall { apiService.getMenuPageData() }
+    fun getMenuPageData(forceRefresh: Boolean = false): Flow<NetworkResult<CustomMenuModel>> =
+        safeApiCall { apiService.getMenuPageData(forceRefresh) }
 }

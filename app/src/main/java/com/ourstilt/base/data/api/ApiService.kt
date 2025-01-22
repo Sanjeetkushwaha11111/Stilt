@@ -3,12 +3,13 @@ package com.ourstilt.base.data.api
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Header
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.0.115:3001/"
+        const val BASE_URL = "http://192.168.1.39:3001/"
     }
 
     @GET("data")
-    suspend fun getMenuPageData(): Response<ApiResponse<CustomMenuModel>>
+    suspend fun getMenuPageData(@Header("Force-Refresh") forceRefresh: Boolean = false): Response<ApiResponse<CustomMenuModel>>
 }

@@ -5,15 +5,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ourstilt.common.showToastShort
 import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
 import com.simform.refresh.SSPullToRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 @AndroidEntryPoint
@@ -32,11 +27,11 @@ class CustomMenuActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupToolbar()
+        setupPullToRefresh()
         setupRecyclerView()
         clickListeners()
         viewModel.getMenuPageData()
         observerViewModel()
-        setupPullToRefresh()
     }
 
     private fun setupPullToRefresh() {
@@ -47,12 +42,7 @@ class CustomMenuActivity : AppCompatActivity() {
             setOnRefreshListener {
                 if (isEnabled) {
                     isEnabled = false
-                    CoroutineScope(Dispatchers.Main).launch {
-                        delay(5000)
-                        setRefreshing(false)
-                        isEnabled = true
-                        showToastShort("Refresh Complete")
-                    }
+                    viewModel.getMenuPageData(true)
                 }
             }
         }
@@ -78,9 +68,19 @@ class CustomMenuActivity : AppCompatActivity() {
         viewModel.customMenuPageData.observe(this) {
             it?.let {
                 binding.title.text = it.welcomeText
-
                 viewModel.menuList.observe(this) { list ->
                     customMenuAdapter.submitList(list)
+                }
+            }
+        }
+        viewModel.loading.observe(this) {
+            binding.pullToRefresh.apply {
+                if (it) {
+                    setRefreshing(true)
+                    isEnabled = false
+                } else {
+                    setRefreshing(false )
+                    isEnabled = true
                 }
             }
         }
