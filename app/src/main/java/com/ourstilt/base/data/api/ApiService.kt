@@ -1,5 +1,6 @@
 package com.ourstilt.base.data.api
 
+import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import retrofit2.Response
@@ -7,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     companion object {
@@ -21,4 +23,9 @@ interface ApiService {
         @Header("Force-Refresh") forceRefresh: Boolean = false,
         @Body customMenus: CustomMenus
     ): Response<ApiResponse<String>>
+
+    @GET("deeplink")
+    suspend fun fetchDeepLinkData(
+        @Query("url") deepLinkUrl: String
+    ): Response<ApiResponse<DeepLinkResponse>>
 }

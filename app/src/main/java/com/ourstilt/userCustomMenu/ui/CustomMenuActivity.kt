@@ -1,5 +1,7 @@
 package com.ourstilt.userCustomMenu.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -7,14 +9,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
+import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.simform.refresh.SSPullToRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import kotlin.math.abs
 
 @AndroidEntryPoint
 class CustomMenuActivity : AppCompatActivity() {
+
+    companion object {
+        fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse): Intent {
+            return Intent(context, CustomMenuActivity::class.java).apply {
+                putExtra("DEEP_LINK_RESPONSE", deepLinkResponse)
+            }
+        }
+    }
 
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
 

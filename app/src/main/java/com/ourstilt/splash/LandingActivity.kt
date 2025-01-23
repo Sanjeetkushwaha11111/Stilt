@@ -1,6 +1,5 @@
 package com.ourstilt.splash
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -9,9 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.startWithSlideUp
 import com.ourstilt.databinding.ActivitySplashBinding
+import com.ourstilt.deeplink.DeepLinkHandler
 import com.ourstilt.homepage.ui.HomeActivity
+import com.ourstilt.userlogin.ui.LandingViewModel
 import com.ourstilt.userlogin.ui.LoginActivity
-import com.ourstilt.userlogin.ui.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -25,23 +25,65 @@ class LandingActivity : AppCompatActivity() {
         BaseViewPagerAdapter(supportFragmentManager, lifecycle)
     }
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LandingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+        val deepLink = intent.data
+        viewModel.processDeepLink(deepLink)
+        splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+            splashScreenViewProvider.remove()
+            handleDeepLinkAndLanding()
+        }
+    }
+
+    private fun handleDeepLinkAndLanding() {
         lifecycleScope.launch {
-            viewModel.isUserLoggedIn.collect { isLoggedIn ->
-                splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
-                    splashScreenViewProvider.remove()
-                    val intent = if (isLoggedIn) {
-                        Intent(this@LandingActivity, HomeActivity::class.java)
-                    } else {
-                        Intent(this@LandingActivity, LoginActivity::class.java)
+            viewModel.navigationEvent.collect { navigation ->
+                when (navigation) {
+                    is LandingViewModel.SplashNavigation.NavigateToTarget -> {
+                        val intent = DeepLinkHandler.createIntent(
+                            this@LandingActivity, navigation.deepLinkResponse
+                        )
+                        intent?.let { startWithSlideUp(it) }
                     }
-                    startWithSlideUp(intent)
-                    finish()
+
+                    is LandingViewModel.SplashNavigation.NavigateToLogin -> {
+                        startWithSlideUp(
+                            LoginActivity.newIntent(
+                                this@LandingActivity
+                            )
+                        )
+                    }
+
+                    is LandingViewModel.SplashNavigation.NavigateToHome -> {
+                        startWithSlideUp(
+                            HomeActivity.newIntent(
+                                this@LandingActivity
+                            )
+                        )
+                    }
+
+                    null -> {
+                        viewModel.isUserLoggedIn.collect {
+                            if (it) {
+                                startWithSlideUp(
+                                    HomeActivity.newIntent(
+                                        this@LandingActivity
+                                    )
+                                )
+                            } else {
+                                startWithSlideUp(
+                                    LoginActivity.newIntent(
+                                        this@LandingActivity
+                                    )
+                                )
+                            }
+                        }
+                    }
                 }
+                finish()
             }
         }
     }

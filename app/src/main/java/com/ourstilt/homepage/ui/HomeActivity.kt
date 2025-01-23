@@ -1,6 +1,7 @@
 package com.ourstilt.homepage.ui
 
 import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -32,6 +33,7 @@ import com.ourstilt.common.hide
 import com.ourstilt.common.setTextFromHtmlOrHide
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
+import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.homepage.ui.fragments.DailyBiteFragment
 import com.ourstilt.homepage.ui.fragments.HomeFragment
@@ -46,6 +48,12 @@ import timber.log.Timber
 import kotlin.math.abs
 
 class HomeActivity : AppCompatActivity() {
+
+    companion object {
+        fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse? = null): Intent {
+            return Intent(context, HomeActivity::class.java)
+        }
+    }
 
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     private val homeViewModel: HomeViewModel by viewModels()

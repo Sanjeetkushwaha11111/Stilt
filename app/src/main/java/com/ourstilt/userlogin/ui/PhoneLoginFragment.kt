@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class PhoneLoginFragment : BottomSheetDialogFragment() {
     private lateinit var binding: FragmentPhoneLoginBinding
-    private val viewModel: LoginViewModel by activityViewModels()
+    private val viewModel: LandingViewModel by activityViewModels()
     private var autoProceed = true
     private var loaderView: SpinningLoader? = null
     override fun onCreateView(
@@ -50,26 +50,26 @@ class PhoneLoginFragment : BottomSheetDialogFragment() {
     private fun viewModelObserver() {
         viewModel.phoneValidation.observe(viewLifecycleOwner) { state ->
             when (state) {
-                is LoginViewModel.PhoneValidationState.Empty -> {
+                is LandingViewModel.PhoneValidationState.Empty -> {
                     binding.loginButton.isEnabled = true
                     binding.loginButton.isClickable = true
                 }
 
-                is LoginViewModel.PhoneValidationState.InvalidLength -> {
+                is LandingViewModel.PhoneValidationState.InvalidLength -> {
                     context?.showToastShort("Phone number must be 10 digits")
                     binding.loginButton.isEnabled = true
                     binding.loginButton.isClickable = true
                     autoProceed = true
                 }
 
-                is LoginViewModel.PhoneValidationState.InvalidFormat -> {
+                is LandingViewModel.PhoneValidationState.InvalidFormat -> {
                     context?.showToastShort("Invalid phone number format")
                     binding.loginButton.isEnabled = true
                     binding.loginButton.isClickable = true
                     autoProceed = true
                 }
 
-                is LoginViewModel.PhoneValidationState.Valid -> {
+                is LandingViewModel.PhoneValidationState.Valid -> {
                     sendOtp(state.number)
                 }
             }

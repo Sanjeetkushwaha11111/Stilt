@@ -19,7 +19,7 @@ import com.ourstilt.homepage.ui.HomeActivity
 class OtpFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentOtpBinding
-    private val viewModel: LoginViewModel by activityViewModels()
+    private val viewModel: LandingViewModel by activityViewModels()
     private val expectedOtp = "12345"
     private val loaderView by lazy {
         val viewStub = binding.loaderStub
@@ -79,11 +79,11 @@ class OtpFragment : BottomSheetDialogFragment() {
         viewModel.verifyOtp(otp)
         viewModel.otpValidation.observe(viewLifecycleOwner) {
             when (it) {
-                is LoginViewModel.OtpValidationState.Checking -> {
+                is LandingViewModel.OtpValidationState.Checking -> {
                     showLoader(true, loaderView)
                 }
 
-                is LoginViewModel.OtpValidationState.Failed -> {
+                is LandingViewModel.OtpValidationState.Failed -> {
                     showLoader(false, loaderView)
                     binding.statusText.apply {
                         text = "Wrong otp, Retry!"
@@ -91,7 +91,7 @@ class OtpFragment : BottomSheetDialogFragment() {
                     }
                 }
 
-                is LoginViewModel.OtpValidationState.Success -> {
+                is LandingViewModel.OtpValidationState.Success -> {
                     binding.statusText.apply {
                         text = "Otp Verified"
                         slideDown(400)

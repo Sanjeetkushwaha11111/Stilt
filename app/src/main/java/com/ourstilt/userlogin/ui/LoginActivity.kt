@@ -1,17 +1,25 @@
 package com.ourstilt.userlogin.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ourstilt.databinding.ActivityLoginBinding
+import com.ourstilt.deeplink.DeepLinkResponse
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
+    companion object {
+        fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse?=null): Intent {
+            return Intent(context, LoginActivity::class.java)
+        }
+    }
     private lateinit var binding: ActivityLoginBinding
 
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LandingViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
