@@ -13,18 +13,21 @@ import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import com.simform.refresh.SSPullToRefreshLayout
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import kotlin.math.abs
 
 @AndroidEntryPoint
 class CustomMenuActivity : AppCompatActivity() {
 
     companion object {
+        private const val EXTRA_DEEP_LINK_RESPONSE = "extra_deep_link_response"
         fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse): Intent {
-            return Intent(context, CustomMenuActivity::class.java).apply {
-                putExtra("DEEP_LINK_RESPONSE", deepLinkResponse)
-            }
+            val intent = Intent(context, CustomMenuActivity::class.java)
+            intent.putExtra(EXTRA_DEEP_LINK_RESPONSE, deepLinkResponse)
+            return intent
         }
     }
+    private var deepLinkResponse: DeepLinkResponse? = null
 
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
 
@@ -40,12 +43,20 @@ class CustomMenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+        getDeepLinkDataIfAvail()
         setupToolbar()
         setupPullToRefresh()
         setupRecyclerView()
         clickListeners()
         viewModel.getMenuPageData()
         observerViewModel()
+    }
+
+    private fun getDeepLinkDataIfAvail() {
+        deepLinkResponse = intent.getParcelableExtra(EXTRA_DEEP_LINK_RESPONSE)
+        deepLinkResponse?.let {
+            Timber.e(">>>>>>>>>Deep link response received in CustomMenuActivity: $it")
+        }
     }
 
     private fun setupPullToRefresh() {

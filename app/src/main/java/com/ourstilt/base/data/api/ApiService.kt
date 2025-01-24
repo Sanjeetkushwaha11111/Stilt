@@ -12,10 +12,10 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.0.115:3001/"
+        const val BASE_URL = "http://192.168.1.24:4000/"
     }
 
-    @GET("data")
+    @GET("getMenuData")
     suspend fun getMenuPageData(@Header("Force-Refresh") forceRefresh: Boolean = false): Response<ApiResponse<CustomMenuModel>>
 
     @POST("data")
@@ -24,8 +24,9 @@ interface ApiService {
         @Body customMenus: CustomMenus
     ): Response<ApiResponse<String>>
 
-    @GET("deeplink")
+    @GET("deep_link_data")
     suspend fun fetchDeepLinkData(
+        @Header("Force-Refresh") forceRefresh: Boolean = true,
         @Query("url") deepLinkUrl: String
     ): Response<ApiResponse<DeepLinkResponse>>
 }

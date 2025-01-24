@@ -1,6 +1,7 @@
 package com.ourstilt.search.ui
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -20,14 +21,26 @@ import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.showKeyboard
 import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.ActivitySearchBinding
+import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.homepage.ui.fragments.HomeFragment
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.search.ui.trendingfragment.TrendingFragment
+import com.ourstilt.userCustomMenu.ui.CustomMenuActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class SearchActivity : AppCompatActivity() {
+
+    companion object {
+        private const val EXTRA_DEEP_LINK_RESPONSE = "extra_deep_link_response"
+        fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse): Intent {
+            val intent = Intent(context, CustomMenuActivity::class.java)
+            intent.putExtra(EXTRA_DEEP_LINK_RESPONSE, deepLinkResponse)
+            return intent
+        }
+    }
+
     private val binding by lazy { ActivitySearchBinding.inflate(layoutInflater) }
     private val pagerAdapter by lazy {
         BaseViewPagerAdapter(supportFragmentManager, lifecycle)

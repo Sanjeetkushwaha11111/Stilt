@@ -19,6 +19,6 @@ class LandingRepository @Inject constructor(
         return dataStoreRepository.isUserLoggedIn.first()
     }
 
-    fun getDeepLinkResponse(deepLink: Uri): Flow<NetworkResult<DeepLinkResponse>> =
-        safeApiCall { apiService.fetchDeepLinkData(deepLink.toString()) }
+    fun getDeepLinkResponse(forceRefresh: Boolean, deepLink: Uri): Flow<NetworkResult<DeepLinkResponse>> =
+        safeApiCall { apiService.fetchDeepLinkData(forceRefresh,deepLink.toString()) }
 }

@@ -8,6 +8,7 @@ import com.ourstilt.base.data.api.NetworkResult
 import com.ourstilt.base.data.repository.DataStoreRepository
 import com.ourstilt.base.ui.BaseViewModel
 import com.ourstilt.deeplink.DeepLinkResponse
+import com.ourstilt.deeplink.Event
 import com.ourstilt.userlogin.data.LandingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -106,57 +107,43 @@ class LandingViewModel @Inject constructor(
         data object Success : OtpValidationState()
     }
 
-    private val _navigationEvent = MutableStateFlow<SplashNavigation?>(null)
-    val navigationEvent: StateFlow<SplashNavigation?> = _navigationEvent
-
-
-    val deepLinkResponse = DeepLinkResponse(
-        targetUrl = "someUrl",
-        type = "home",
-        data = listOf(mapOf("key1" to "value1", "key2" to "value2"))
-    )
+    private val _navigationEvent = MutableLiveData<Event<SplashNavigation?>>()
+    val navigationEvent: LiveData<Event<SplashNavigation?>> = _navigationEvent
 
     fun processDeepLink(deepLink: Uri?) {
         viewModelScope.launch {
             if (repository.isUserLoggedIn()) {
                 if (deepLink != null) {
-                    repository.getDeepLinkResponse(deepLink).onStart { _loading.value = true }
+                    repository.getDeepLinkResponse(true, deepLink).onStart { _loading.value = true }
                         .onCompletion { _loading.value = false }.collect { result ->
                             when (result) {
                                 is NetworkResult.Success -> {
-                                    Timber.d("Deep link response received: ${result.data}")
-                                    _navigationEvent.value =
-                                        SplashNavigation.NavigateToTarget(result.data)
+                                    _navigationEvent.postValue(Event(SplashNavigation.NavigateToTarget(result.data)))
                                 }
-
                                 is NetworkResult.Error -> {
-                                    Timber.e("Error fetching deep link data: ${result.message}")
                                     if (repository.isUserLoggedIn()) {
-                                        _navigationEvent.value = SplashNavigation.NavigateToHome
+                                        _navigationEvent.postValue(Event(SplashNavigation.NavigateToHome))
                                     } else {
-                                        _navigationEvent.value = SplashNavigation.NavigateToLogin
+                                        _navigationEvent.postValue(Event(SplashNavigation.NavigateToLogin))
                                     }
                                 }
-
                                 is NetworkResult.Loading -> {
-                                    Timber.d("Fetching deep link data...")
+                                    Timber.e(">>>>>>>>> Fetching deep link data...")
                                 }
                             }
                         }
                 } else {
-                    _navigationEvent.value = SplashNavigation.NavigateToHome
+                    _navigationEvent.postValue(Event(SplashNavigation.NavigateToHome))
                 }
             } else {
-                _navigationEvent.value = SplashNavigation.NavigateToLogin
+                _navigationEvent.postValue(Event(SplashNavigation.NavigateToLogin))
             }
         }
     }
-
 
     sealed class SplashNavigation {
         data class NavigateToTarget(val deepLinkResponse: DeepLinkResponse) : SplashNavigation()
         data object NavigateToLogin : SplashNavigation()
         data object NavigateToHome : SplashNavigation()
     }
-
 }

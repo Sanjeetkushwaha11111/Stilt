@@ -40,14 +40,10 @@ import kotlin.math.roundToInt
 private var isAnimating = false
 
 fun Activity.startWithSlideUp(intent: Intent, finishCurrent: Boolean = true) {
-    // Create custom animation options
     val options = ActivityOptions.makeCustomAnimation(
         this, R.anim.slide_up, R.anim.no_animation
     )
-
-    // Start the activity with the animation
     startActivity(intent, options.toBundle())
-
     if (finishCurrent) {
         finish()
     }
