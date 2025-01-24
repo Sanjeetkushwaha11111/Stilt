@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val EXTRA_DEEP_LINK_RESPONSE = "extra_deep_link_response"
         fun newIntent(context: Context, deepLinkResponse: DeepLinkResponse): Intent {
-            val intent = Intent(context, CustomMenuActivity::class.java)
+            val intent = Intent(context, SearchActivity::class.java)
             intent.putExtra(EXTRA_DEEP_LINK_RESPONSE, deepLinkResponse)
             return intent
         }
