@@ -29,4 +29,14 @@ interface ApiService {
         @Header("Force-Refresh") forceRefresh: Boolean = true,
         @Query("url") deepLinkUrl: String
     ): Response<ApiResponse<DeepLinkResponse>>
+
+    @POST("get_assistant_requested_data")
+    suspend fun processVoiceCommand(
+        @Body request: VoiceRequest
+    ): VoiceResponse
+
+    @POST("place_order")
+    suspend fun placeOrder(
+        @Body orderRequest: OrderRequest
+    ): OrderResponse
 }
