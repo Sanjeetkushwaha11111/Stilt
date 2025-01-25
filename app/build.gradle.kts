@@ -109,7 +109,6 @@ dependencies {
     implementation (libs.androidx.datastore.preferences)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.firebase.crashlytics.ktx)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 
@@ -143,11 +142,6 @@ dependencies {
     implementation (libs.otpview)
     implementation (libs.sspulltorefresh)
 
-    // Google Speech Recognition
-    implementation ("com.google.cloud:google-cloud-speech:2.3.0")
-
-    // Security
-    implementation ("androidx.security:security-crypto:1.1.0-alpha06")
 
     //Testing
 
