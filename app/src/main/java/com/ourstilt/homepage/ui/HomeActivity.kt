@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.add
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -37,9 +38,11 @@ import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.homepage.ui.fragments.DailyBiteFragment
 import com.ourstilt.homepage.ui.fragments.HomeFragment
+import com.ourstilt.homepage.ui.fragments.ShopFragment
 import com.ourstilt.search.ui.SearchActivity
 import com.ourstilt.userCustomMenu.ui.CustomMenuActivity
 import com.ourstilt.userlogin.ui.UserProfileFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,6 +50,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import kotlin.math.abs
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     companion object {
@@ -208,6 +212,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
         bottomBar.setupWithViewPager2(binding.recyclerView)
 
@@ -226,9 +231,8 @@ class HomeActivity : AppCompatActivity() {
     private fun createFragmentMap(): Map<String, Fragment> {
         return mapOf(
             "Home" to HomeFragment(),
-            "Home2" to HomeFragment(),
-            "Daily Bite" to DailyBiteFragment(),
-            "Home4" to HomeFragment()
+            "Shops" to ShopFragment(),
+            "Daily Bite" to DailyBiteFragment()
         )
     }
 

@@ -1,6 +1,7 @@
 package com.ourstilt.base.data.api
 
 import com.ourstilt.deeplink.DeepLinkResponse
+import com.ourstilt.homepage.data.ShopPageData
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import retrofit2.Response
@@ -12,7 +13,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.1.24:4000/"
+        const val BASE_URL = "http://192.168.0.128:4000/"
     }
 
     @GET("getMenuData")
@@ -29,4 +30,9 @@ interface ApiService {
         @Header("Force-Refresh") forceRefresh: Boolean = true,
         @Query("url") deepLinkUrl: String
     ): Response<ApiResponse<DeepLinkResponse>>
+
+    @GET("shop-page-data")
+    suspend fun getShopListData(
+        @Header("Force-Refresh") forceRefresh: Boolean = true,
+    ): Response<ApiResponse<ShopPageData>>
 }

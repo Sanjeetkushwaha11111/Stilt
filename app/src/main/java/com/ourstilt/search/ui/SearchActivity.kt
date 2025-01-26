@@ -26,10 +26,12 @@ import com.ourstilt.homepage.ui.fragments.HomeFragment
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.search.ui.trendingfragment.TrendingFragment
 import com.ourstilt.userCustomMenu.ui.CustomMenuActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     companion object {

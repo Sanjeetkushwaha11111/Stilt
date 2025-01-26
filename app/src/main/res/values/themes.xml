@@ -36,4 +36,12 @@
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
+    <style name="CircularImageViewStyle">
+        <item name="shapeAppearanceOverlay">@style/CircularShape</item>
+    </style>
+
+    <style name="CircularShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">70%</item>
+    </style>
 </resources>

@@ -5,9 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ourstilt.R
+import androidx.fragment.app.viewModels
+import com.ourstilt.databinding.FragmentDailyBiteBinding
+import com.ourstilt.homepage.ui.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DailyBiteFragment : Fragment() {
+
+    private lateinit var binding: FragmentDailyBiteBinding
+
+    private val viewModel : HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +25,9 @@ class DailyBiteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        return inflater.inflate(R.layout.fragment_daily_bite, container, false)
+    ): View {
+        binding = FragmentDailyBiteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
 }

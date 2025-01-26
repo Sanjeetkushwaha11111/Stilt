@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shop_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/_10sdp"
+    app:cardCornerRadius="@dimen/_8sdp"
+    android:layout_margin="@dimen/_8sdp"
+    app:cardMaxElevation="@dimen/_10sdp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardCL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_top_corners"
+        android:backgroundTint="@color/white"
+        android:visibility="visible"
+        >
+
+
+        <TextView
+            android:id="@+id/menu_top_cl_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_background"
+            android:backgroundTint="@color/colorBlack"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:paddingVertical="@dimen/_5sdp"
+            android:text="Hey order and FLAT 30 OFF !!!"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_9sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/shop_images_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toTopOf="@id/headerLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/menu_top_cl_text"
+            app:srcCompat="@drawable/lets_coffe_shop_image1"
+            />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shop_images_slider"
+            >
+
+            <TextView
+                android:id="@+id/shop_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="1dp"
+                android:fontFamily="@font/montserrat_black"
+                android:letterSpacing=".2"
+                android:maxLines="2"
+                android:minLines="1"
+                android:paddingStart="@dimen/_8sdp"
+                android:text="Let's Coffee"
+                android:textAllCaps="true"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/_17sdp"
+                app:layout_constraintEnd_toStartOf="@+id/shop_rating"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+
+            <TextView
+                android:id="@+id/shop_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_semi_lbold"
+                android:maxLines="2"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                android:text="Coffee, Wraps, Sandwich, Burger, Street Food, Shake, Beverages, Desserts"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toTopOf="@id/shop_bottom_text"
+                app:layout_constraintEnd_toEndOf="@+id/shop_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shop_name"
+                />
+
+
+            <TextView
+                android:id="@+id/shop_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:background="@drawable/comment_background"
+                android:backgroundTint="#543AE3"
+                android:drawableEnd="@drawable/star"
+                android:drawablePadding="@dimen/_3sdp"
+                android:drawableTint="@color/white"
+                android:fontFamily="@font/montserrat_bold"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_7sdp"
+                android:paddingVertical="@dimen/_2sdp"
+                android:text="4.3"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/shop_name"
+                app:layout_constraintTop_toTopOf="@+id/shop_name"
+                />
+
+            <TextView
+                android:id="@+id/shop_bottom_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:fontFamily="@font/montserrat_regular"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingTop="@dimen/_7sdp"
+                android:text="------------------   Our Reviews     --------------------"
+                android:textColor="@color/cost_for_one"
+                android:textSize="@dimen/_8sdp"
+                app:layout_constraintBottom_toBottomOf="@id/shop_bottom_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/shop_description"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/shop_bottom_text_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:paddingVertical="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/shop_bottom_text"
+                app:layout_constraintStart_toStartOf="@id/shop_bottom_text"
+                app:layout_constraintTop_toBottomOf="@id/shop_bottom_text"
+                tools:listitem="@layout/shop_bottom_item"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/lunch_rect"
+        android:visibility="gone"
+        />
+
+</androidx.cardview.widget.CardView>
+
