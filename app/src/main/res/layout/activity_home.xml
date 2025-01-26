@@ -4,6 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -35,6 +36,7 @@
                 android:background="@color/transparent"
                 android:backgroundTintMode="add"
                 android:elevation="@dimen/_10sdp"
+                android:paddingTop="@dimen/_25sdp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -150,6 +152,7 @@
                 style="@style/Widget.MaterialComponents.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/_25sdp"
                 android:background="@color/white"
                 android:visibility="gone"
                 app:layout_collapseMode="pin">

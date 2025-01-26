@@ -16,10 +16,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.add
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -49,6 +46,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import kotlin.math.abs
+
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
@@ -99,7 +97,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        configureWindowInsets()
         setupAppBarBehavior()
         setupBlurView()
     }
@@ -299,13 +296,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun configureWindowInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }
 
     fun openProfileFragment() {
         lifecycleScope.launch {
