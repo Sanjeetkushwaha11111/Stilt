@@ -38,17 +38,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.getHomeFragmentData()
         setAdapter()
-        viewModelObserver()
-    }
-
-    private fun viewModelObserver() {
-        homeViewModel.homeFragmentData.observe(viewLifecycleOwner) { homeDataModel ->
-            homeDataModel.data?.let {
-                homeAdapter.updatePageData(it)
-            }
-        }
     }
 
 

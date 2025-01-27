@@ -10,14 +10,12 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsetsController
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -71,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
         setupUI()
         clickListeners()
         observeViewModel()
-        homeViewModel.getHomeActivityData(false)
+        homeViewModel.getHomeActivityData(true)
     }
 
     private fun clickListeners() {
@@ -163,6 +161,12 @@ class HomeActivity : AppCompatActivity() {
         if (tabsData.isNullOrEmpty()) {
             return
         }
+        tabsData.forEachIndexed { _, tabData ->
+            val fragmentTag = tabData.tabName ?: return@forEachIndexed
+            val fragment = fragmentMap[fragmentTag] ?: return@forEachIndexed
+            pagerAdapter.addFragment(fragment, fragmentTag)
+        }
+
         binding.homeViewPager.apply {
             adapter = pagerAdapter
             offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
@@ -180,22 +184,22 @@ class HomeActivity : AppCompatActivity() {
             }
 
             tabsData.forEachIndexed { index, tabData ->
-                val fragment = fragmentMap[tabData.tabName] ?: run {
-                    return@forEachIndexed
-                }
-
                 val icon = icons[index]
-                setupTab(index, tabData, icon, fragment)
+                setupTab(index, tabData, icon)
             }
-
             configureViewPagerWithBottomBar(tabToLand, tabsData.size)
         }
     }
 
-    private fun setupTab(index: Int, tabData: TabData, icon: Drawable?, fragment: Fragment) {
+
+    private fun setupTab(index: Int, tabData: TabData, icon: Drawable?) {
         val fragmentTag = tabData.tabName ?: ""
-        val existingFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-        if (binding.bottomBar.tabs.none { it.title == fragmentTag }) {
+        if (binding.bottomBar.tabs.any { it.title == fragmentTag }) {
+            Timber.w("Tab with title $fragmentTag already exists. Skipping.")
+            return
+        }
+
+        try {
             val tab = binding.bottomBar.createTab(icon = icon, title = fragmentTag, id = index)
             binding.bottomBar.addTab(tab)
 
@@ -203,25 +207,26 @@ class HomeActivity : AppCompatActivity() {
                 val badge = AnimatedBottomBar.Badge(tabData.badgeCount)
                 binding.bottomBar.setBadgeAtTabIndex(index, badge)
             }
-        }
-        if (existingFragment == null) {
-            pagerAdapter.addFragment(fragment, fragmentTag)
+        } catch (e: Exception) {
+            Timber.e("Error setting up tab: ${tabData.tabName}, ${e.message}")
         }
     }
-
-
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
-        bottomBar.setupWithViewPager2(binding.homeViewPager)
-        binding.homeViewPager.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                bottomBar.selectTabAt(position)
-            }
-        })
+        try {
+            bottomBar.setupWithViewPager2(binding.homeViewPager)
+            binding.homeViewPager.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    bottomBar.selectTabAt(position)
+                }
+            })
 
-        val safeTabIndex = tabToLand?.takeIf { it in 0 until totalTabs } ?: 0
-        bottomBar.selectTabAt(safeTabIndex)
-        binding.homeViewPager.setCurrentItem(safeTabIndex, false)
+            val safeTabIndex = tabToLand?.takeIf { it in 0 until totalTabs } ?: 0
+            bottomBar.selectTabAt(safeTabIndex)
+            binding.homeViewPager.setCurrentItem(safeTabIndex, false)
+        } catch (e: Exception) {
+            Timber.e("Error configuring ViewPager with BottomBar: ${e.message}")
+        }
     }
 
     private fun createFragmentMap(): Map<String, Fragment> {
