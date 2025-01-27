@@ -26,6 +26,7 @@ import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
+import com.ourstilt.common.show
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
 import com.ourstilt.deeplink.DeepLinkResponse
@@ -130,6 +131,12 @@ class HomeActivity : AppCompatActivity() {
                                     binding.topBg.requestLayout()
                                 }
                                 start()
+                                delay(1000)
+                                binding.homeTopItemRv.apply {
+                                    show()
+                                    adapter = topItemRecyclerViewAdapter
+                                    topItemRecyclerViewAdapter.submitList(data.homeTopItems)
+                                }
                             }
                         }
                     }
