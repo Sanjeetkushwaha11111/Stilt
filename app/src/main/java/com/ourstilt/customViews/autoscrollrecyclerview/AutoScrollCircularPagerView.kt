@@ -39,7 +39,7 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
     private var centerItemPosition = Int.MAX_VALUE / 2
     private var circularAdapter: CircularAdapter<*>? = null
     private var isAutoScrollEnabled = true
-    private var isHalfVisible = true
+    private var isHalfVisible = false
     private var dotBackground = false
     private var marginDots = -1
     private var dotGravity = DotGravity.BOTTOM.value
@@ -87,8 +87,7 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
                     true
                 )
                 isHalfVisible = getBoolean(
-                    R.styleable.AutoScrollCircularPagerView_is_item_visible,
-                    true
+                    R.styleable.AutoScrollCircularPagerView_is_item_visible, false
                 )
                 dotBackground = getBoolean(
                     R.styleable.AutoScrollCircularPagerView_dot_backgroun,
@@ -127,8 +126,37 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
         val snapHelper: SnapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(binding.rvAutoScroll)
         binding.rvAutoScroll.itemAnimator = null
+        binding.rvAutoScroll.addOnScrollListener(
+            object : OnScrollListener(
+                binding.rvAutoScroll.layoutManager as LinearLayoutManager,
+                object : CenterItemCallback {
+                    override fun onScrollFinished(visibleItemPosition: Int) {
+                        centerItemPosition = visibleItemPosition
+                        onPageSelected(centerItemPosition)
+                    }
+                    @RequiresApi(Build.VERSION_CODES.Q)
+                    override fun onScrolled(dx: Int) {
+                        stopAutoScrollIfRequired()
+                    }
+                },
+                RecyclerView.SCROLL_STATE_IDLE
+            ) {
+                @RequiresApi(Build.VERSION_CODES.Q)
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                        startAutoScrollIfRequired()
+                    }
+                }
+            }
+        )
+        post {
+            startAutoScrollIfRequired()
+            setUpHalfVisibility(isHalfVisible)
+        }
+    }
 
-        if(isHalfVisible) {
+    private fun setUpHalfVisibility(boolean: Boolean) {
+        if (boolean) {
             val horizontalSpace = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._10sdp)
             binding.rvAutoScroll.addItemDecoration(
                 HorizontalSpaceItemDecoration(horizontalSpace)
@@ -142,31 +170,6 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
                     }
                 }
         }
-        binding.rvAutoScroll.addOnScrollListener(
-            object : OnScrollListener(
-                binding.rvAutoScroll.layoutManager as LinearLayoutManager,
-                object : CenterItemCallback {
-                    override fun onScrollFinished(visibleItemPosition: Int) {
-                        centerItemPosition = visibleItemPosition
-                        onPageSelected(centerItemPosition)
-                    }
-                    @RequiresApi(Build.VERSION_CODES.Q)
-                    override fun onScrolled(dx: Int) {
-                        // Show toast when scrolling has started
-                       stopAutoScrollIfRequired()
-                    }
-                },
-                RecyclerView.SCROLL_STATE_IDLE
-            ) {    @RequiresApi(Build.VERSION_CODES.Q)
-                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    super.onScrollStateChanged(recyclerView, newState)
-                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                        // Show toast when scrolling is settled
-                       startAutoScrollIfRequired()
-                    }
-                }
-            }
-        )
     }
 
     fun setAdapter(circularAdapter: CircularAdapter<*>) {
@@ -180,7 +183,6 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
             val circularAdapter = binding.rvAutoScroll.adapter as CircularAdapter<E>
             circularAdapter.setItems(items, clearPreviousElements)
             if (items.size > 1) {
-
                 val number: Int = Int.MAX_VALUE / items.size / 2
                 centerItemPosition = number * items.size
                 binding.rvAutoScroll.layoutManager?.scrollToPosition(centerItemPosition)
@@ -192,6 +194,12 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
                 }
             }
         }
+        startAutoScrollIfRequired()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         startAutoScrollIfRequired()
     }
 

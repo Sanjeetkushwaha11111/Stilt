@@ -31,13 +31,16 @@ class ShopListAdapter(
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.shopBottomRv.apply {
-                show()
                 setAdapter(ShopItemBottomRvAdapter())
+                setAutoScrollDelay(2000)
+                isHalfVisible(true)
+                autoScrollEnabled(false)
+                show()
             }
         }
 
         fun bind(shop: Shop) {
-            binding.shopBottomRv.setItems(shop.reviews as ArrayList<Review>, showDots = false)
+            binding.shopBottomRv.setItems(shop.reviews as ArrayList<Review>,true, showDots = false)
             binding.apply {
                 shopName.text = shop.name
             }
