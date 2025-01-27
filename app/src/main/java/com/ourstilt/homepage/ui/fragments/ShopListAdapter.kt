@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.ourstilt.common.show
 import com.ourstilt.databinding.ShopItemBinding
+import com.ourstilt.homepage.data.Review
 import com.ourstilt.homepage.data.Shop
 import com.ourstilt.homepage.ui.HomeViewModel
-import timber.log.Timber
 
 class ShopListAdapter(
     private val viewModel: HomeViewModel, private val screenName: String
@@ -28,7 +29,18 @@ class ShopListAdapter(
 
     inner class ShopListViewHolder(private val binding: ShopItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.shopBottomRv.apply {
+                show()
+                setAdapter(ShopItemBottomRvAdapter())
+            }
+        }
+
         fun bind(shop: Shop) {
+            binding.shopBottomRv.setItems(shop.reviews as ArrayList<Review>, showDots = false)
+            binding.apply {
+                shopName.text = shop.name
+            }
         }
     }
 }

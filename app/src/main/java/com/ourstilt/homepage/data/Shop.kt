@@ -59,11 +59,12 @@ data class Holiday(
 
 @Parcelize
 data class Review(
-    val userId: String? = null, // Changed to camelCase
+    val userId: String? = null,
+    val userImg: String? = null,
     val userName: String? = null,
     val rating: Double? = null,
     val comment: String? = null,
-    val reactionCount: String? = null // Changed to camelCase
+    val reactionCount: String? = null
 ) : Parcelable
 
 @Parcelize

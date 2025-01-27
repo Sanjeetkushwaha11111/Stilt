@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
                 0,
                 false,
                 tabsData,
-                2,
+                1,
                 "https://i.postimg.cc/xqrc4RDF/home-top-bg.png",
                 "<span style=\"color: black; font-weight: bold; font-size: 26px;\">What you want to eat today?</span>\n"
             )

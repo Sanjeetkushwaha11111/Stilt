@@ -16,8 +16,6 @@
         android:id="@+id/cardCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_top_corners"
-        android:backgroundTint="@color/white"
         android:visibility="visible"
         >
 
@@ -31,7 +29,7 @@
             android:fontFamily="@font/montserrat_semi_lbold"
             android:foregroundGravity="center"
             android:gravity="center"
-            android:paddingVertical="@dimen/_5sdp"
+            android:paddingVertical="@dimen/_2sdp"
             android:text="Hey order and FLAT 30 OFF !!!"
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_9sdp"
@@ -118,10 +116,23 @@
                 android:paddingVertical="@dimen/_2sdp"
                 android:text="4.3"
                 android:textColor="@color/white"
-                android:textSize="@dimen/_10sdp"
+                android:textSize="@dimen/_9sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/shop_name"
                 app:layout_constraintTop_toTopOf="@+id/shop_name"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/shop_rating_bottom_iv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/shop_description"
+                app:layout_constraintEnd_toEndOf="@+id/shop_rating"
+                app:layout_constraintStart_toStartOf="@+id/shop_rating"
+                app:layout_constraintTop_toBottomOf="@+id/shop_rating"
                 />
 
             <TextView
@@ -143,19 +154,20 @@
                 app:layout_constraintTop_toBottomOf="@id/shop_description"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/shop_bottom_text_rv"
+
+            <com.ourstilt.customViews.autoscrollrecyclerview.AutoScrollCircularPagerView
+                android:id="@+id/shop_bottom_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                app:is_auto_scroll="true"
+                app:is_item_visible="false"
+                android:visibility="visible"
                 android:paddingHorizontal="@dimen/_8sdp"
-                android:paddingVertical="@dimen/_5sdp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/shop_bottom_text"
                 app:layout_constraintStart_toStartOf="@id/shop_bottom_text"
                 app:layout_constraintTop_toBottomOf="@id/shop_bottom_text"
-                tools:listitem="@layout/shop_bottom_item"
                 />
 
 
