@@ -3,8 +3,6 @@ package com.ourstilt.homepage.ui
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -20,15 +18,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
+import com.google.android.material.appbar.AppBarLayout
 import com.ourstilt.R
 import com.ourstilt.base.ui.BaseViewPagerAdapter
 import com.ourstilt.common.fadeIn
 import com.ourstilt.common.fadeOut
 import com.ourstilt.common.hide
-import com.ourstilt.common.setTextFromHtmlOrHide
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
 import com.ourstilt.deeplink.DeepLinkResponse
@@ -104,54 +99,17 @@ class HomeActivity : AppCompatActivity() {
         homeViewModel.homeActivityData.observe(this) { data ->
             data?.let {
                 setupTabsWithPager(data.tabsData, data.tabToLand)
-                val welcomeTextBlack = "#111111"
-                val welcomeTextWhite = "#ffffff"
-                binding.optionalTv.apply {
-                    setTextFromHtmlOrHide(data.welcomeText)
-                    setTextColor(Color.parseColor(welcomeTextBlack))
-                }
-                if (!data.homeTopBg.isNullOrEmpty()) {
-                    binding.topBg.apply {
-                        data.homeTopBg?.let { imageUrl ->
-                            Glide.with(context).asBitmap().load(imageUrl)
-                                .listener(object : RequestListener<Bitmap> {
-                                    override fun onResourceReady(
-                                        resource: Bitmap,
-                                        model: Any,
-                                        target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                                        dataSource: DataSource,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        binding.topBg.setImageBitmap(resource)
-                                        expand(binding.topBg, 500)
-                                        return true
-                                    }
-
-                                    override fun onLoadFailed(
-                                        e: GlideException?,
-                                        model: Any?,
-                                        target: com.bumptech.glide.request.target.Target<Bitmap>,
-                                        isFirstResource: Boolean
-                                    ): Boolean {
-                                        Timber.e("Image load failed: ${e?.message}")
-                                        return false
-                                    }
-                                }).into(binding.topBg)
-                        } ?: run {
-                            Timber.e("Banner image is null, hiding imgParent")
-                            hide()
+                data.homeTopBg?.let {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            delay(2000)
+                            expand(binding.topBg, 500)
+                            (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+                                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
                         }
                     }
-                    binding.topBg.setBackgroundResource(R.color.colorBlack)
-                    binding.optionalTv.apply {
-                        setTextFromHtmlOrHide(data.welcomeText)
-                        setTextColor(Color.parseColor(welcomeTextWhite))
-                    }
-                } else {
-                    binding.optionalTv.apply {
-                        setTextFromHtmlOrHide(data.welcomeText)
-                        setTextColor(Color.parseColor(welcomeTextBlack))
-                    }
+                } ?: run {
+                    (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =0
                 }
             }
         }

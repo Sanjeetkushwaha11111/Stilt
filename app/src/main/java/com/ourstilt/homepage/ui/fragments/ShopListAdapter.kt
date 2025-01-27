@@ -33,8 +33,8 @@ class ShopListAdapter(
             binding.shopBottomRv.apply {
                 setAdapter(ShopItemBottomRvAdapter())
                 setAutoScrollDelay(2000)
-                isHalfVisible(true)
-                autoScrollEnabled(false)
+                isHalfVisible(false)
+                autoScrollEnabled(true)
                 show()
             }
         }

@@ -9,10 +9,11 @@
 
     <TextView
         android:id="@+id/top_text_shop_fragment"
-        android:layout_width="416dp"
-        android:layout_height="27dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Shop Items"
+        android:visibility="gone"
         android:textSize="@dimen/_15sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +24,7 @@
         android:id="@+id/rv_shop_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:paddingTop="@dimen/_5sdp"
         android:nestedScrollingEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
