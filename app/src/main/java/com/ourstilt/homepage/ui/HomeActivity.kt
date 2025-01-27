@@ -1,5 +1,6 @@
 package com.ourstilt.homepage.ui
 
+import android.animation.ValueAnimator
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
@@ -8,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import androidx.activity.enableEdgeToEdge
@@ -51,11 +53,19 @@ class HomeActivity : AppCompatActivity() {
             return Intent(context, HomeActivity::class.java)
         }
     }
+
+    private val screenName = "Home"
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     private val homeViewModel: HomeViewModel by viewModels()
     private val pagerAdapter by lazy { BaseViewPagerAdapter(supportFragmentManager, lifecycle) }
     private val bottomBar by lazy { binding.bottomBar }
     private val fragmentMap = createFragmentMap()
+
+    private val topItemRecyclerViewAdapter by lazy {
+        HomeTopItemViewAdapter(
+            homeViewModel, screenName
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,10 +112,25 @@ class HomeActivity : AppCompatActivity() {
                 data.homeTopBg?.let {
                     lifecycleScope.launch {
                         withContext(Dispatchers.Main) {
-                            delay(2000)
+                            delay(1000)
                             expand(binding.topBg, 500)
-                            (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+                            (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams)
+                                .scrollFlags =
                                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+                            delay(2000)
+                            val targetHeight =
+                                resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
+                            ValueAnimator.ofInt(binding.topBg.height, targetHeight).apply {
+                                duration = 300
+                                interpolator = AccelerateDecelerateInterpolator()
+                                addUpdateListener { animator ->
+                                    binding.topBg.layoutParams = binding.topBg.layoutParams.apply {
+                                        height = animator.animatedValue as Int
+                                    }
+                                    binding.topBg.requestLayout()
+                                }
+                                start()
+                            }
                         }
                     }
                 } ?: run {

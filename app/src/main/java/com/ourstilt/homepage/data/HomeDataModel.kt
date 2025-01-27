@@ -9,6 +9,7 @@ class HomeDataModel(
     var data: MutableList<ApiData>? = null,
     var tabToLand: Int? = null,
     var homeTopBg: String? = null,
+    var homeTopItems: ArrayList<HomeTopItem>? = null,
     var welcomeText: String? = null,
 )
 
@@ -19,6 +20,14 @@ data class TabData(
     var tabName: String? = null,
     var tabImage: String? = null,
     var badgeCount: String? = null,
+) : Parcelable
+
+
+@Parcelize
+data class HomeTopItem(
+    var itemSlug: String? = null,
+    var itemImg: String? = null,
+    var itemText: String? = null
 ) : Parcelable
 
 
