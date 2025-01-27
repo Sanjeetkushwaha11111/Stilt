@@ -10,12 +10,14 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsetsController
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -56,7 +58,6 @@ class HomeActivity : AppCompatActivity() {
             return Intent(context, HomeActivity::class.java)
         }
     }
-
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     private val homeViewModel: HomeViewModel by viewModels()
     private val pagerAdapter by lazy { BaseViewPagerAdapter(supportFragmentManager, lifecycle) }
@@ -70,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
         setupUI()
         clickListeners()
         observeViewModel()
-        homeViewModel.getHomeActivityData()
+        homeViewModel.getHomeActivityData(false)
     }
 
     private fun clickListeners() {
@@ -102,7 +103,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        homeViewModel.homeData.observe(this) { data ->
+        homeViewModel.homeActivityData.observe(this) { data ->
             data?.let {
                 setupTabsWithPager(data.tabsData, data.tabToLand)
                 val welcomeTextBlack = "#111111"
@@ -154,7 +155,6 @@ class HomeActivity : AppCompatActivity() {
                         setTextColor(Color.parseColor(welcomeTextBlack))
                     }
                 }
-
             }
         }
     }
@@ -163,7 +163,7 @@ class HomeActivity : AppCompatActivity() {
         if (tabsData.isNullOrEmpty()) {
             return
         }
-        binding.recyclerView.apply {
+        binding.homeViewPager.apply {
             adapter = pagerAdapter
             offscreenPageLimit = ViewPager2.OFFSCREEN_PAGE_LIMIT_DEFAULT
             isUserInputEnabled = false
@@ -211,9 +211,8 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
-        bottomBar.setupWithViewPager2(binding.recyclerView)
-
-        binding.recyclerView.registerOnPageChangeCallback(object :
+        bottomBar.setupWithViewPager2(binding.homeViewPager)
+        binding.homeViewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 bottomBar.selectTabAt(position)
@@ -222,7 +221,7 @@ class HomeActivity : AppCompatActivity() {
 
         val safeTabIndex = tabToLand?.takeIf { it in 0 until totalTabs } ?: 0
         bottomBar.selectTabAt(safeTabIndex)
-        binding.recyclerView.setCurrentItem(safeTabIndex, false)
+        binding.homeViewPager.setCurrentItem(safeTabIndex, false)
     }
 
     private fun createFragmentMap(): Map<String, Fragment> {
@@ -295,7 +294,6 @@ class HomeActivity : AppCompatActivity() {
             binding.bottomBar.setBackgroundResource(R.drawable.rounded_bg_with_border_gradient)
         }
     }
-
 
     fun openProfileFragment() {
         lifecycleScope.launch {

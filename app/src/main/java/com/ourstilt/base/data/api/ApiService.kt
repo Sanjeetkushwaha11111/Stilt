@@ -1,6 +1,7 @@
 package com.ourstilt.base.data.api
 
 import com.ourstilt.deeplink.DeepLinkResponse
+import com.ourstilt.homepage.data.HomeDataModel
 import com.ourstilt.homepage.data.ShopPageData
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import com.ourstilt.userCustomMenu.data.CustomMenus
@@ -35,4 +36,9 @@ interface ApiService {
     suspend fun getShopListData(
         @Header("Force-Refresh") forceRefresh: Boolean = true,
     ): Response<ApiResponse<ShopPageData>>
+
+    @GET("home-activity-data")
+    suspend fun getHomeActivityData(
+        @Header("Force-Refresh") forceRefresh: Boolean = true
+    ): Response<ApiResponse<HomeDataModel>>
 }
