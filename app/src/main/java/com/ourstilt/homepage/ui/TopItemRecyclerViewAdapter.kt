@@ -32,10 +32,8 @@ class HomeTopItemViewAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(homeTopItem: HomeTopItem) {
-            Timber.e(">>>>>>>HomeTopItemViewHolder bind called")
-            Timber.e(">>>>>HomeTopItemViewHolder bind called ${homeTopItem.itemSlug}")
             binding.itemImg.setImageResource(R.drawable.chai_normal)
-            binding.itemText.text = homeTopItem.itemText
+            binding.itemText.text = "Chai"
         }
     }
 }

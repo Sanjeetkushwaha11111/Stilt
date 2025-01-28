@@ -1,5 +1,7 @@
 package com.ourstilt.homepage.ui
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.app.ActivityOptions
 import android.content.Context
@@ -15,6 +17,7 @@ import android.view.animation.Transformation
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +33,7 @@ import com.ourstilt.common.show
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
 import com.ourstilt.deeplink.DeepLinkResponse
+import com.ourstilt.homepage.data.HomeTopItem
 import com.ourstilt.homepage.data.TabData
 import com.ourstilt.homepage.ui.fragments.DailyBiteFragment
 import com.ourstilt.homepage.ui.fragments.HomeFragment
@@ -41,6 +45,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import kotlin.math.abs
@@ -54,6 +59,9 @@ class HomeActivity : AppCompatActivity() {
             return Intent(context, HomeActivity::class.java)
         }
     }
+
+    // ViewStub inflated layouts
+    private var topBg: ConstraintLayout? = null
 
     private val screenName = "Home"
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
@@ -112,37 +120,103 @@ class HomeActivity : AppCompatActivity() {
                 setupTabsWithPager(data.tabsData, data.tabToLand)
                 data.homeTopBg?.let {
                     lifecycleScope.launch {
-                        withContext(Dispatchers.Main) {
-                            delay(1000)
-                            expand(binding.topBg, 500)
-                            (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams)
-                                .scrollFlags =
-                                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
-                            delay(2000)
-                            val targetHeight =
-                                resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
-                            ValueAnimator.ofInt(binding.topBg.height, targetHeight).apply {
-                                duration = 300
-                                interpolator = AccelerateDecelerateInterpolator()
-                                addUpdateListener { animator ->
-                                    binding.topBg.layoutParams = binding.topBg.layoutParams.apply {
-                                        height = animator.animatedValue as Int
-                                    }
-                                    binding.topBg.requestLayout()
-                                }
-                                start()
-                                delay(1000)
-                                binding.homeTopItemRv.apply {
-                                    show()
-                                    adapter = topItemRecyclerViewAdapter
-                                    topItemRecyclerViewAdapter.submitList(data.homeTopItems)
-                                }
-                            }
-                        }
+                        delay(1000)
+                        setUpHomeTopView(data.homeTopItems!!)
                     }
-                } ?: run {
-                    (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =0
+                } ?: resetScrollFlags()
+            }
+        }
+    }
+
+    private fun resetScrollFlags() {
+        (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = 0
+    }
+
+    private suspend fun setUpHomeTopView(homeTopItems: List<HomeTopItem>) {
+        expandTopBackground()
+        delay(3000)
+        animateHeightChange(
+            binding.topBg,
+            targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
+        )
+        showTopItems(homeTopItems)
+    }
+
+    private suspend fun expandTopBackground() {
+        withContext(Dispatchers.Main) {
+            (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
+        }
+
+        suspendCancellableCoroutine { continuation ->
+            val matchParentMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+                (binding.topBg.parent as View).width, View.MeasureSpec.EXACTLY
+            )
+            val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+                0, View.MeasureSpec.UNSPECIFIED
+            )
+
+            binding.topBg.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
+            val targetHeight = binding.topBg.measuredHeight
+            binding.topBg.layoutParams.height = 1
+            binding.topBg.visibility = View.VISIBLE
+
+            val animator = object : Animation() {
+                override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
+                    binding.topBg.layoutParams.height =
+                        if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT
+                        else (targetHeight * interpolatedTime).toInt()
+                    binding.topBg.requestLayout()
                 }
+
+                override fun willChangeBounds(): Boolean = true
+            }
+
+            animator.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    continuation.resume(Unit) {}
+                }
+            })
+
+            animator.duration = 500
+            binding.topBg.startAnimation(animator)
+        }
+    }
+
+    private suspend fun animateHeightChange(view: View, targetHeight: Int) {
+        val currentHeight = view.height
+
+        suspendCancellableCoroutine { continuation ->
+            val animator = ValueAnimator.ofInt(currentHeight, targetHeight).apply {
+                duration = 300
+                interpolator = AccelerateDecelerateInterpolator()
+
+                addUpdateListener { animation ->
+                    view.layoutParams = view.layoutParams.apply {
+                        height = animation.animatedValue as Int
+                    }
+                    view.requestLayout()
+                }
+
+                addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        continuation.resume(Unit) {}
+                    }
+                })
+            }
+
+            animator.start()
+        }
+    }
+
+    private suspend fun showTopItems(items: List<HomeTopItem>) {
+        withContext(Dispatchers.Main) {
+            binding.homeTopItemRv.apply {
+                show()
+                adapter = topItemRecyclerViewAdapter
+                topItemRecyclerViewAdapter.submitList(items)
             }
         }
     }
@@ -225,31 +299,6 @@ class HomeActivity : AppCompatActivity() {
             "Shops" to ShopFragment(),
             "Daily Bite" to DailyBiteFragment()
         )
-    }
-
-    private fun expand(v: View, duration: Long) {
-        val matchParentMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
-        val wrapContentMeasureSpec =
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        v.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
-        val targetHeight = v.measuredHeight
-        v.layoutParams.height = 1
-        v.visibility = View.VISIBLE
-        val animator: Animation = object : Animation() {
-            override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
-                v.layoutParams.height =
-                    if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT
-                    else (targetHeight * interpolatedTime).toInt()
-                v.requestLayout()
-            }
-
-            override fun willChangeBounds(): Boolean {
-                return true
-            }
-        }
-        animator.duration = duration
-        v.startAnimation(animator)
     }
 
     private fun setupAppBarBehavior() {

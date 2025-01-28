@@ -14,7 +14,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.0.102:4000/"
+        const val BASE_URL = "http://192.168.1.28:4000/"
     }
 
     @GET("getMenuData")

@@ -1,5 +1,6 @@
 package com.ourstilt.common
 
+import android.animation.Animator
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -7,7 +8,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Context
-import android.content.Context.VIBRATOR_SERVICE
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -34,6 +34,7 @@ import androidx.core.text.HtmlCompat
 import com.google.gson.Gson
 import com.ourstilt.R
 import com.ourstilt.common.Constants.PATTERN
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.jsoup.Jsoup
 import kotlin.math.roundToInt
 
@@ -302,4 +303,18 @@ fun View.vibrateOnClick(duration: Long = 50) {
 infix fun Int.percentOf(value: Int): Int {
     return if (this == 0) 0
     else ((this.toDouble() / 100) * value).toInt()
+}
+suspend fun ValueAnimator.awaitEnd() = suspendCancellableCoroutine<Unit> { continuation ->
+    addListener(object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator) {}
+        override fun onAnimationEnd(animation: Animator) {
+            continuation.resume(Unit) {}
+        }
+
+        override fun onAnimationCancel(animation: Animator) {
+            continuation.resume(Unit) {}
+        }
+
+        override fun onAnimationRepeat(animation: Animator) {}
+    })
 }

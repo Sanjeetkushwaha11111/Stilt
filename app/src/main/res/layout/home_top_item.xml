@@ -7,7 +7,7 @@
     android:background="@drawable/comment_background"
     android:backgroundTint="@color/colorBlack"
     android:paddingVertical="@dimen/_5sdp"
-    android:layout_marginHorizontal="@dimen/_5sdp"
+    android:layout_marginHorizontal="@dimen/_10sdp"
     >
 
     <LinearLayout
