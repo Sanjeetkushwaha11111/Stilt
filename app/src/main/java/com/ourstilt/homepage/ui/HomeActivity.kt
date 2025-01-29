@@ -19,6 +19,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -26,9 +27,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.ourstilt.R
 import com.ourstilt.base.ui.BaseViewPagerAdapter
-import com.ourstilt.common.fadeIn
-import com.ourstilt.common.fadeOut
-import com.ourstilt.common.hide
 import com.ourstilt.common.show
 import com.ourstilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.ourstilt.databinding.ActivityHomeBinding
@@ -63,26 +61,16 @@ class HomeActivity : AppCompatActivity() {
     // ViewStub inflated layouts
     private var topBg: ConstraintLayout? = null
 
-    private val appBarOffsetListener = AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-        val totalScrollRange = binding.appbar.totalScrollRange
-        val searchBarPinned = binding.searchBarPinned
-        val searchBarFloating = binding.searchBarFloating
-
-        when {
-            verticalOffset == 0 -> {
-                searchBarFloating.fadeIn()
-                searchBarPinned.fadeOut { searchBarPinned.hide() }
+    private val appBarOffsetListener =
+        AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val percentage = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+            binding.searchBarFloating.apply {
+                alpha = 1 - percentage
+                isVisible = percentage < 1f
             }
-
-            abs(verticalOffset) == totalScrollRange -> {
-                searchBarPinned.fadeIn()
-                searchBarFloating.fadeOut()
-            }
-
-            else -> {
-                searchBarPinned.fadeIn()
-                searchBarFloating.fadeOut()
-            }
+            binding.searchBarPinned.apply {
+                alpha = percentage
+                isVisible = percentage > 0f
         }
     }
 

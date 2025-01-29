@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.appbar.AppBarLayout
 import com.ourstilt.common.vibrateOnClick
 import com.ourstilt.databinding.ActivityCustomMenuBinding
 import com.ourstilt.deeplink.DeepLinkResponse
@@ -27,6 +28,12 @@ class CustomMenuActivity : AppCompatActivity() {
             return intent
         }
     }
+
+    private val appBarOffsetListener =
+        AppBarLayout.OnOffsetChangedListener() { appBarLayout, verticalOffset ->
+            val percentage = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
+            binding.toolbarLayout.alpha = percentage
+        }
     private var deepLinkResponse: DeepLinkResponse? = null
 
     private val binding by lazy { ActivityCustomMenuBinding.inflate(layoutInflater) }
@@ -120,5 +127,14 @@ class CustomMenuActivity : AppCompatActivity() {
             adapter = customMenuAdapter
             layoutManager = LinearLayoutManager(context)
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        binding.appBarLayout.addOnOffsetChangedListener(appBarOffsetListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.appBarLayout.removeOnOffsetChangedListener(appBarOffsetListener)
     }
 }
