@@ -63,6 +63,29 @@ class HomeActivity : AppCompatActivity() {
     // ViewStub inflated layouts
     private var topBg: ConstraintLayout? = null
 
+    private val appBarOffsetListener = AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+        val totalScrollRange = binding.appbar.totalScrollRange
+        val searchBarPinned = binding.searchBarPinned
+        val searchBarFloating = binding.searchBarFloating
+
+        when {
+            verticalOffset == 0 -> {
+                searchBarFloating.fadeIn()
+                searchBarPinned.fadeOut { searchBarPinned.hide() }
+            }
+
+            abs(verticalOffset) == totalScrollRange -> {
+                searchBarPinned.fadeIn()
+                searchBarFloating.fadeOut()
+            }
+
+            else -> {
+                searchBarPinned.fadeIn()
+                searchBarFloating.fadeOut()
+            }
+        }
+    }
+
     private val screenName = "Home"
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
     private val homeViewModel: HomeViewModel by viewModels()
@@ -110,8 +133,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        setupAppBarBehavior()
         setupBlurView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.appbar.addOnOffsetChangedListener(appBarOffsetListener)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.appbar.removeOnOffsetChangedListener(appBarOffsetListener)
     }
 
     private fun observeViewModel() {
@@ -299,31 +331,6 @@ class HomeActivity : AppCompatActivity() {
             "Shops" to ShopFragment(),
             "Daily Bite" to DailyBiteFragment()
         )
-    }
-
-    private fun setupAppBarBehavior() {
-        binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
-            val totalScrollRange = binding.appbar.totalScrollRange
-            val searchBarPinned = binding.searchBarPinned
-            val searchBarFloating = binding.searchBarFloating
-
-            when {
-                verticalOffset == 0 -> {
-                    searchBarFloating.fadeIn()
-                    searchBarPinned.fadeOut { searchBarPinned.hide() }
-                }
-
-                abs(verticalOffset) == totalScrollRange -> {
-                    searchBarPinned.fadeIn()
-                    searchBarFloating.fadeOut()
-                }
-
-                else -> {
-                    searchBarPinned.fadeIn()
-                    searchBarFloating.fadeOut()
-                }
-            }
-        }
     }
 
     private fun setupBlurView() {

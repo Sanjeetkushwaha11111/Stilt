@@ -56,14 +56,14 @@ class PhoneLoginFragment : BottomSheetDialogFragment() {
                 }
 
                 is LandingViewModel.PhoneValidationState.InvalidLength -> {
-                    context?.showToastShort("Phone number must be 10 digits")
+                    requireContext().showToastShort("Phone number must be 10 digits")
                     binding.loginButton.isEnabled = true
                     binding.loginButton.isClickable = true
                     autoProceed = true
                 }
 
                 is LandingViewModel.PhoneValidationState.InvalidFormat -> {
-                    context?.showToastShort("Invalid phone number format")
+                    requireContext().showToastShort("Invalid phone number format")
                     binding.loginButton.isEnabled = true
                     binding.loginButton.isClickable = true
                     autoProceed = true
@@ -117,7 +117,7 @@ class PhoneLoginFragment : BottomSheetDialogFragment() {
         }
         lifecycleScope.launch {
             delay(3000)
-            context?.showToastShort("OTP Sent")
+            requireContext().showToastShort("OTP Sent")
             showLoader(false)
             delay(1000)
             findNavController().navigate(R.id.action_loginFragment_to_otpFragment)

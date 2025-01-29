@@ -112,15 +112,17 @@ fun Context.showLongToast(message: String?) {
     currentLongToast = Toast.makeText(this, message, Toast.LENGTH_LONG).apply {
         show()
     }
+    currentLongToast= null
 }
 
 
 private var currentShortToast: Toast? = null
 fun Context.showToastShort(message: String?) {
-    currentShortToast?.cancel() // Cancel the currently showing toast if any
+    currentShortToast?.cancel()
     currentShortToast = Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
         show()
     }
+    currentShortToast = null
 }
 
 fun Any.loggableFormat(): String {
