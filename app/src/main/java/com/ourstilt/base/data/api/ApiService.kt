@@ -3,6 +3,7 @@ package com.ourstilt.base.data.api
 import com.ourstilt.deeplink.DeepLinkResponse
 import com.ourstilt.homepage.data.HomeDataModel
 import com.ourstilt.homepage.data.ShopPageData
+import com.ourstilt.search.data.SearchPageData
 import com.ourstilt.userCustomMenu.data.CustomMenuModel
 import com.ourstilt.userCustomMenu.data.CustomMenus
 import retrofit2.Response
@@ -14,7 +15,7 @@ import retrofit2.http.Query
 
 interface ApiService {
     companion object {
-        const val BASE_URL = "http://192.168.1.28:4000/"
+        const val BASE_URL = "http://192.168.1.26:4000/"
     }
 
     @GET("getMenuData")
@@ -41,4 +42,9 @@ interface ApiService {
     suspend fun getHomeActivityData(
         @Header("Force-Refresh") forceRefresh: Boolean = true
     ): Response<ApiResponse<HomeDataModel>>
+
+    @GET("search-page-data")
+    suspend fun getSearchPageData(
+        @Header("Force-Refresh") forceRefresh: Boolean = true
+    ): Response<ApiResponse<SearchPageData>>
 }

@@ -3,22 +3,32 @@ package com.ourstilt.search.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ourstilt.base.data.api.NetworkResult
 import com.ourstilt.base.ui.BaseViewModel
-import com.ourstilt.homepage.data.TabData
+import com.ourstilt.common.loggableFormat
 import com.ourstilt.search.data.SearchPageData
+import com.ourstilt.search.data.SearchRepository
 import com.ourstilt.search.data.SectionType
 import com.ourstilt.search.data.TrendingItem
 import com.ourstilt.search.data.TrendingSection
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import javax.inject.Inject
 
 
-class SearchViewModel : BaseViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(private val searchRepository: SearchRepository) :
+    BaseViewModel() {
 
     private val _trendingSections = MutableLiveData<List<TrendingSection>>()
     val trendingSections: LiveData<List<TrendingSection>> = _trendingSections
 
-    val searchPageData = MutableLiveData<SearchPageData>()
+    private val _searchPageData = MutableLiveData<SearchPageData>()
+    val searchPageData: MutableLiveData<SearchPageData> = _searchPageData
 
 
     fun fetchTrendingSections() {
@@ -57,16 +67,30 @@ class SearchViewModel : BaseViewModel() {
     }
 
 
-    fun searchPageData() {
-        val searchPageTabs = arrayListOf(
-            TabData("1", "Trending", "", null), TabData("2", "Categories", "", null)
-        )
-        val sPData = SearchPageData(searchPageTabs, "Search to eat...", "1")
+    fun searchPageData(forceRefresh: Boolean = false) {
         viewModelScope.launch {
-            delay(2000)
-            searchPageData.postValue(sPData)
+            searchRepository.getSearchPageData(forceRefresh).onStart {
+                _loading.value = true
+            }.onCompletion {
+                _loading.value = false
+            }.collect { result ->
+                when (result) {
+                    is NetworkResult.Error -> {
+                        Timber.e(">>>>>>>>Error Code: ${result.errorCode}, Message: ${result.message}")
+                    }
+
+                    is NetworkResult.Loading -> {
+                        Timber.e(">>>>>>>Loading...")
+                    }
+
+                    is NetworkResult.Success -> {
+                        result.let {
+                            _searchPageData.postValue(it.data)
+                        }
+                    }
+                }
+            }
         }
     }
-
 
 }

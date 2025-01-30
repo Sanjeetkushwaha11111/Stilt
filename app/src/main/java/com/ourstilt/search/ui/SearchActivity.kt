@@ -18,6 +18,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ourstilt.R
 import com.ourstilt.base.ui.BaseViewPagerAdapter
+import com.ourstilt.common.loggableFormat
 import com.ourstilt.common.showKeyboard
 import com.ourstilt.common.showToastShort
 import com.ourstilt.databinding.ActivitySearchBinding
@@ -58,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        viewModel.searchPageData()
+        viewModel.searchPageData(true)
         viewModelObserver()
         lifecycleScope.launch {
             delay(1000)
@@ -129,24 +130,20 @@ class SearchActivity : AppCompatActivity() {
 
     private fun setUpTabView(tabsData: List<TabData>?, tabToShow: String?) {
         pagerAdapter.clearData()
-
         pagerAdapter.apply {
             tabsData?.let {
                 for (item in it) {
                     when (item.tabSlug) {
-                        "1" -> {
+                        "trending" -> {
                             addFragment(TrendingFragment(), item.tabName.toString())
-                            Timber.e(">>>>>>>>Setting shops fragment")
                         }
 
-                        "2" -> {
+                        "recommended" -> {
                             addFragment(HomeFragment(), item.tabName.toString())
-                            Timber.e(">>>>>>>>Setting Categories fragment")
                         }
 
                         "3" -> {
                             addFragment(HomeFragment(), item.tabName.toString())
-                            Timber.e(">>>>>>>>Setting Others fragment")
                         }
                     }
                 }
