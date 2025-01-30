@@ -9,13 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ourstilt.base.ui.BaseFragment
 import com.ourstilt.databinding.FragmentTrendingBinding
 import com.ourstilt.search.ui.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
+@AndroidEntryPoint
 class TrendingFragment : BaseFragment() {
 
     private lateinit var binding: FragmentTrendingBinding
 
     private val viewModel: SearchViewModel by activityViewModels()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -23,15 +25,15 @@ class TrendingFragment : BaseFragment() {
         binding = FragmentTrendingBinding.inflate(inflater, container, false)
         setupRecyclerView()
         viewModelObserver()
-        viewModel.fetchTrendingSections()
+        viewModel.getTrendingPageData(true)
         return binding.root
     }
 
     private fun viewModelObserver() {
-        viewModel.trendingSections.observe(viewLifecycleOwner) { trendingSections ->
-            trendingSections?.let {
+        viewModel.trendingPageData.observe(viewLifecycleOwner) { trendingPageData ->
+            trendingPageData?.let {
                 (binding.rvTrendingSections.adapter as TrendingSectionAdapter).submitList(
-                    trendingSections
+                    trendingPageData.trendingSections
                 )
             }
         }
