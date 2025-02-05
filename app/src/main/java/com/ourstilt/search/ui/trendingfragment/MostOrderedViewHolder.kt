@@ -9,7 +9,7 @@ class MostOrderedViewHolder(private val binding: MostOrderedItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: TrendingItem) {
-        binding.tvItemTitle.text = item.title
+     //   binding.tvItemTitle.text = item.title
         binding.tvItemType.text = "Type: Most Ordered"
     }
 }
