@@ -10,7 +10,6 @@ import com.ourstilt.base.ui.BaseFragment
 import com.ourstilt.databinding.FragmentTrendingBinding
 import com.ourstilt.search.ui.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class TrendingFragment : BaseFragment() {

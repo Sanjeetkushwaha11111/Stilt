@@ -5,7 +5,7 @@ import com.ourstilt.homepage.data.TabData
 import kotlinx.parcelize.Parcelize
 
 enum class SectionType {
-    CurrentlyTrending, MostOrdered
+    ALL_ITEMS, MOST_ORDERED
 }
 
 @Parcelize
@@ -18,33 +18,36 @@ data class SearchPageData(
 
 @Parcelize
 data class TrendingPageData(
-    var trendingSections: List<TrendingSection>? = null
+    var trendingSections: List<Section>? = null
 ) : Parcelable
 
 
 @Parcelize
-data class TrendingSection(
-    val id: String? = null,
-    val type: SectionType? = null,
-    val title: String? = null,
-    val items: List<TrendingItem>? = null
+data class Section(
+    val sectionId: String? = null,
+    val sectionType: SectionType? = null,
+    val sectionTitle: String? = null,
+    val sectionBg: String? = null,
+    val sectionItems: List<SubSection>? = null
 ) : Parcelable
 
 
 @Parcelize
-data class TrendingItem(
+data class SubSection(
+    val subSectionId: String? = null,
+    val subSectionTitle: String? = null,
+    val subSectionSlug: String? = null,
+    val sectionType: SectionType? = null,
+    val subSectionBg: SectionType? = null,
+    val subSectionItems: List<SubSectionItem>? = null
+) : Parcelable
+
+
+@Parcelize
+data class SubSectionItem(
     val id: String? = null,
     val title: String? = null,
     val slug: String? = null,
-    val type: SectionType? = null,
-    val subItems: List<TrendingSubItem>? = null
-) : Parcelable
-
-
-@Parcelize
-data class TrendingSubItem(
-    val id: String? = null,
-    val title: String? = null,
-    val slug: String? = null,
+    val bg: String? = null,
     val imageUrl: String? = null
 ) : Parcelable

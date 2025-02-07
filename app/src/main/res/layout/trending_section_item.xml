@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/section_parent_cl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,9 +11,9 @@
         android:id="@+id/tvSectionTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:padding="16dp"
-        android:text="type"
+        android:layout_gravity="start"
+        android:text="Type"
         android:textColor="@color/colorBlack"
         android:textSize="18sp" />
 
@@ -22,5 +23,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/currently_trending_item" />
+        tools:listitem="@layout/single_item_with_name"
+        />
 </LinearLayout>

@@ -7,44 +7,54 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ourstilt.databinding.CurrentlyTrendingItemBinding
 import com.ourstilt.databinding.MostOrderedItemBinding
-import com.ourstilt.search.data.TrendingItem
+import com.ourstilt.databinding.SingleItemWithNameBinding
+import com.ourstilt.search.data.SectionType
+import com.ourstilt.search.data.SubSection
+import com.ourstilt.search.data.SubSectionItem
 
-class ItemAdapter<T : RecyclerView.ViewHolder>(
-    private val viewHolderClass: Class<T>
-) : ListAdapter<TrendingItem, T>(ItemDiffCallback()) {
+class SubSectionItemAdapter(
+    private val sectionType: SectionType
+) : ListAdapter<SubSectionItem, RecyclerView.ViewHolder>(SubSectionItemDiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): T {
-        val inflater = LayoutInflater.from(parent.context)
-        return when (viewHolderClass) {
-            CurrentlyTrendingViewHolder::class.java -> CurrentlyTrendingViewHolder(
-                CurrentlyTrendingItemBinding.inflate(
-                    inflater, parent, false
-                )
-            ) as T
+    companion object {
+        private const val VIEW_TYPE_ALL_ITEMS = 1
+        private const val VIEW_TYPE_MOST_ORDERED = 2
+    }
 
-            //dslkncd;asjknfasfadf
-            MostOrderedViewHolder::class.java -> MostOrderedViewHolder(
-                MostOrderedItemBinding.inflate(
-                    inflater, parent, false
-                )
-            ) as T
-
-            else -> throw IllegalArgumentException("Unknown ViewHolder class")
+    override fun getItemViewType(position: Int): Int {
+        return when (sectionType) {
+            SectionType.ALL_ITEMS -> VIEW_TYPE_ALL_ITEMS
+            SectionType.MOST_ORDERED -> VIEW_TYPE_MOST_ORDERED
         }
     }
 
-    override fun onBindViewHolder(holder: T, position: Int) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_ALL_ITEMS -> {
+                val binding = SingleItemWithNameBinding.inflate(inflater, parent, false)
+                AllItemsViewHolder(binding)
+            }
+            VIEW_TYPE_MOST_ORDERED -> {
+                val binding = MostOrderedItemBinding.inflate(inflater, parent, false)
+                MostOrderedViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val item = getItem(position)
         when (holder) {
-            is CurrentlyTrendingViewHolder -> holder.bind(getItem(position))
-            is MostOrderedViewHolder -> holder.bind(getItem(position))
+            is AllItemsViewHolder -> holder.bind(item)
+            is MostOrderedViewHolder -> holder.bind(item)
         }
     }
 }
-
-class ItemDiffCallback : DiffUtil.ItemCallback<TrendingItem>() {
-    override fun areItemsTheSame(oldItem: TrendingItem, newItem: TrendingItem) =
+class SubSectionItemDiffCallback : DiffUtil.ItemCallback<SubSectionItem>() {
+    override fun areItemsTheSame(oldItem: SubSectionItem, newItem: SubSectionItem) =
         oldItem.id == newItem.id
 
-    override fun areContentsTheSame(oldItem: TrendingItem, newItem: TrendingItem) =
+    override fun areContentsTheSame(oldItem: SubSectionItem, newItem: SubSectionItem) =
         oldItem == newItem
 }

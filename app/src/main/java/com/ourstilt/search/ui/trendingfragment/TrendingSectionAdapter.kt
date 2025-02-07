@@ -5,15 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ourstilt.databinding.TrendingSectionItemBinding
-import com.ourstilt.search.data.TrendingSection
+import com.ourstilt.search.data.Section
+import com.ourstilt.search.data.SectionType
 
 
 class TrendingSectionAdapter :
-    ListAdapter<TrendingSection, TrendingSectionViewHolder>(SectionDiffCallback()) {
+    ListAdapter<Section, TrendingSectionViewHolder>(TrendingSectionDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrendingSectionViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = TrendingSectionItemBinding.inflate(inflater, parent, false)
+        val binding = TrendingSectionItemBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return TrendingSectionViewHolder(binding)
     }
 
@@ -22,10 +24,10 @@ class TrendingSectionAdapter :
     }
 }
 
-class SectionDiffCallback : DiffUtil.ItemCallback<TrendingSection>() {
-    override fun areItemsTheSame(oldItem: TrendingSection, newItem: TrendingSection) =
-        oldItem.id == newItem.id
+class TrendingSectionDiffCallback : DiffUtil.ItemCallback<Section>() {
+    override fun areItemsTheSame(oldItem: Section, newItem: Section) =
+        oldItem.sectionId == newItem.sectionId
 
-    override fun areContentsTheSame(oldItem: TrendingSection, newItem: TrendingSection) =
+    override fun areContentsTheSame(oldItem: Section, newItem: Section) =
         oldItem == newItem
 }
