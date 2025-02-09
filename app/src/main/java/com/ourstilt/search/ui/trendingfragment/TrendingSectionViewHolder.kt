@@ -16,7 +16,7 @@ class TrendingSectionViewHolder(private val binding: TrendingSectionItemBinding)
         section.sectionBg?.let {
             binding.sectionParentCl.setBackgroundColor(Color.parseColor(it))
         }?:{
-            binding.sectionParentCl.setBackgroundColor(Color.parseColor("#000000"))
+            binding.sectionParentCl.setBackgroundColor(Color.parseColor("#770000"))
         }
         val firstSubSection = section.sectionItems?.firstOrNull()
 
