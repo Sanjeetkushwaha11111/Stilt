@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "735795438852",
-    "project_id": "ourstilt",
-    "storage_bucket": "ourstilt.firebasestorage.app"
+    "project_number": "666935758171",
+    "project_id": "mystilt-8d608",
+    "storage_bucket": "mystilt-8d608.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:735795438852:android:6c887ee5fdbfa7a3c49c51",
+        "mobilesdk_app_id": "1:666935758171:android:a0e5f31eefd11539b71e7e",
         "android_client_info": {
-          "package_name": "com.ourstilt"
+          "package_name": "com.mystilt"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAelbQ6OGnu_mTudTELx8bIWqKHwgJ3Pug"
+          "current_key": "AIzaSyAT-bVYmj0GCRhHK37j0bj7kdLw71RsPBo"
         }
       ],
       "services": {

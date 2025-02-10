@@ -10,12 +10,12 @@ plugins {
 }
 val bType = ""
 android {
-    namespace = "com.ourstilt"
+    namespace = "com.mystilt"
     compileSdk = 35
 
     defaultConfig {
         buildConfigField("boolean", "lazyLoad", "${"lazyLoad" == bType}")
-        applicationId = "com.ourstilt"
+        applicationId = "com.mystilt"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -109,6 +109,7 @@ dependencies {
     implementation (libs.androidx.datastore.preferences)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
+    implementation(libs.firebase.crashlytics)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
 
