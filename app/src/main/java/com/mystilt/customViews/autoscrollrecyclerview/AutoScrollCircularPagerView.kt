@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -15,6 +16,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -284,8 +286,15 @@ class AutoScrollCircularPagerView @JvmOverloads constructor(
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun autoScrollViewpager() {
         binding.rvAutoScroll.adapter?.let {
+            val layoutManager = binding.rvAutoScroll.layoutManager as LinearLayoutManager
+            val scroller = object : LinearSmoothScroller(context) {
+                override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                    return 200f / displayMetrics.densityDpi
+                }
+            }
+            scroller.targetPosition = centerItemPosition + 1
+            layoutManager.startSmoothScroll(scroller)
             centerItemPosition += 1
-            binding.rvAutoScroll.smoothScrollToPosition(centerItemPosition)
         }
         stopAutoScrollIfRequired()
         startAutoScrollIfRequired()
