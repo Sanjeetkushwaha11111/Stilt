@@ -44,7 +44,6 @@
                     android:layoutAnimation="@anim/custom_menu_rv_layout_animation"
                     android:nestedScrollingEnabled="true"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/_8sdp"
                     android:paddingBottom="@dimen/_10sdp"
                     android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
