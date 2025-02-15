@@ -22,10 +22,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="com.ourstilt" />
-                  <option name="mobileSdkAppId" value="1:735795438852:android:6c887ee5fdbfa7a3c49c51" />
-                  <option name="projectId" value="ourstilt" />
-                  <option name="projectNumber" value="735795438852" />
+                  <option name="appId" value="com.mystilt" />
+                  <option name="mobileSdkAppId" value="1:666935758171:android:a0e5f31eefd11539b71e7e" />
+                  <option name="projectId" value="mystilt-8d608" />
+                  <option name="projectNumber" value="666935758171" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
