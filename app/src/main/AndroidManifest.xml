@@ -40,7 +40,12 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:icon,android:allowBackup,android:fullBackupContent"
-        tools:targetApi="35">
+        tools:targetApi="35"
+        >
+        <activity
+            android:name=".shops.ui.ShopPageActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".userCustomMenu.ui.CustomMenuActivity"
             android:exported="true"
@@ -84,7 +89,6 @@
             </intent-filter>
         </activity>
 
-
         <service
             android:name=".notification.MyFirebaseMessagingService"
             android:exported="false"
@@ -93,7 +97,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
 
         <uses-library
             android:name="org.apache.http.legacy"

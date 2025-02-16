@@ -1,5 +1,6 @@
 package com.mystilt.homepage.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mystilt.base.ui.BaseFragment
 import com.mystilt.databinding.FragmentShopBinding
+import com.mystilt.homepage.data.Shop
 import com.mystilt.homepage.ui.HomeViewModel
+import com.mystilt.shops.ui.ShopPageActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -20,7 +23,15 @@ class ShopFragment : BaseFragment() {
     private val homeViewModel: HomeViewModel by viewModels()
 
     private val shopListAdapter: ShopListAdapter by lazy {
-        ShopListAdapter(homeViewModel, screenName)
+        ShopListAdapter(homeViewModel, screenName) {
+            openShopPage(shop = it)
+        }
+    }
+
+    private fun openShopPage(shop: Shop) {
+        val intent = Intent(requireContext(), ShopPageActivity::class.java)
+        startActivity(intent)
+
     }
 
     private val screenName = "ShopItems"

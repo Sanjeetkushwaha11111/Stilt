@@ -12,14 +12,16 @@ import com.mystilt.homepage.data.Shop
 import com.mystilt.homepage.ui.HomeViewModel
 
 class ShopListAdapter(
-    private val viewModel: HomeViewModel, private val screenName: String
+    private val viewModel: HomeViewModel,
+    private val screenName: String,
+    private val itemShopClick: (Shop) -> Unit
 ) : ListAdapter<Shop, ShopListAdapter.ShopListViewHolder>(CustomShopDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopListViewHolder {
         return ShopListViewHolder(
             ShopItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            )
+            ), itemShopClick
         )
     }
 
@@ -27,7 +29,10 @@ class ShopListAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class ShopListViewHolder(private val binding: ShopItemBinding) :
+    inner class ShopListViewHolder(
+        private val binding: ShopItemBinding,
+        private val itemShopClick: (Shop) -> Unit // Accept itemClick lambda
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.shopBottomRv.apply {
@@ -43,6 +48,9 @@ class ShopListAdapter(
             binding.shopBottomRv.setItems(shop.reviews as ArrayList<Review>,true, showDots = false)
             binding.apply {
                 shopName.text = shop.name
+                shopCardView.setOnClickListener {
+                    itemShopClick(shop)
+                }
             }
         }
     }

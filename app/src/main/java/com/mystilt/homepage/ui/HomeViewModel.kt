@@ -21,6 +21,9 @@ class HomeViewModel @Inject constructor(private val homeRepository: HomeReposito
     private val _homeActivityData = MutableLiveData<HomeDataModel>()
     val homeActivityData: MutableLiveData<HomeDataModel> = _homeActivityData
 
+
+
+
     fun getHomeActivityData(forceRefresh: Boolean = false) {
         launch {
             homeRepository.getHomeActivityData(forceRefresh).onStart { _loading.value = true }

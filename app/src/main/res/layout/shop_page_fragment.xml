@@ -1,0 +1,151 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_top_corners"
+    android:backgroundTint="@color/white"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/shopheaderLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/shop_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="@font/montserrat_black"
+            android:letterSpacing=".2"
+            android:maxLines="2"
+            android:minLines="1"
+            android:paddingStart="@dimen/_8sdp"
+            android:text="Let's Coffee"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_17sdp"
+            app:layout_constraintEnd_toStartOf="@+id/shop_rating"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
+        <TextView
+            android:id="@+id/shop_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semi_lbold"
+            android:maxLines="2"
+            android:paddingStart="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:text="Coffee, Wraps, Sandwich, Burger, Street Food, Shake, Beverages, Desserts"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toTopOf="@id/shop_bottom_text"
+            app:layout_constraintEnd_toEndOf="@+id/shop_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/shop_name"
+            />
+
+
+        <TextView
+            android:id="@+id/shop_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginHorizontal="@dimen/_5sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:background="@drawable/comment_background"
+            android:backgroundTint="#543AE3"
+            android:drawableEnd="@drawable/star"
+            android:drawablePadding="@dimen/_3sdp"
+            android:drawableTint="@color/white"
+            android:fontFamily="@font/montserrat_bold"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_7sdp"
+            android:paddingVertical="@dimen/_2sdp"
+            android:text="4.3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_9sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/shop_name"
+            app:layout_constraintTop_toTopOf="@+id/shop_name"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/shop_rating_bottom_iv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/shop_description"
+            app:layout_constraintEnd_toEndOf="@+id/shop_rating"
+            app:layout_constraintStart_toStartOf="@+id/shop_rating"
+            app:layout_constraintTop_toBottomOf="@+id/shop_rating"
+            />
+
+        <TextView
+            android:id="@+id/shop_bottom_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_7sdp"
+            android:fontFamily="@font/montserrat_regular"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:paddingTop="@dimen/_7sdp"
+            android:text="------------------   Our Reviews     --------------------"
+            android:textColor="@color/cost_for_one"
+            android:textSize="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@id/shop_bottom_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shop_description"
+            />
+
+
+        <com.mystilt.customViews.autoscrollrecyclerview.AutoScrollCircularPagerView
+            android:id="@+id/shop_bottom_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/shop_bottom_text"
+            app:layout_constraintStart_toStartOf="@id/shop_bottom_text"
+            app:layout_constraintTop_toBottomOf="@id/shop_bottom_text"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.simform.refresh.SSPullToRefreshLayout
+        android:id="@+id/pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shopheaderLayout"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/menu_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+    </com.simform.refresh.SSPullToRefreshLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
