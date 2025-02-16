@@ -80,9 +80,20 @@
 
                 <data android:scheme="https" />
                 <data android:scheme="stilt" />
-                <data android:host="stilt.app" />
+                <data android:host="mystilt.app" />
             </intent-filter>
         </activity>
+
+
+        <service
+            android:name=".notification.MyFirebaseMessagingService"
+            android:exported="false"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
 
         <uses-library
             android:name="org.apache.http.legacy"

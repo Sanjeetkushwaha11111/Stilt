@@ -11,6 +11,7 @@ import com.mystilt.deeplink.DeepLinkResponse
 import com.mystilt.deeplink.Event
 import com.mystilt.userlogin.data.LandingRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
@@ -136,6 +137,12 @@ class LandingViewModel @Inject constructor(
             } else {
                 _navigationEvent.postValue(Event(SplashNavigation.NavigateToLogin))
             }
+        }
+    }
+
+    fun fcmToken(token: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepo.fcmToken(token)
         }
     }
 

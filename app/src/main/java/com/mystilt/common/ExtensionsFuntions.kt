@@ -12,9 +12,11 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
@@ -29,11 +31,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.mystilt.R
 import com.mystilt.common.Constants.PATTERN
+import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.jsoup.Jsoup
 import kotlin.math.roundToInt
@@ -319,4 +324,88 @@ suspend fun ValueAnimator.awaitEnd() = suspendCancellableCoroutine<Unit> { conti
 
         override fun onAnimationRepeat(animation: Animator) {}
     })
+}
+
+// Extension for Activity
+fun Activity.requestPermission(
+    permission: AppPermission,
+    onGranted: () -> Unit,
+    onDenied: () -> Unit = {},
+    onShowRationale: () -> Unit = { showDefaultRationale(permission) },
+    onPermanentlyDenied: () -> Unit = { showSettingsDialog() }
+) {
+    when (PermissionUtils.checkPermission(this, permission)) {
+        PermissionUtils.PermissionResult.Granted -> onGranted()
+        PermissionUtils.PermissionResult.ShowRationale -> onShowRationale()
+        PermissionUtils.PermissionResult.Denied -> {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission.permission),
+                permission.requestCode
+            )
+        }
+        PermissionUtils.PermissionResult.PermanentlyDenied -> onPermanentlyDenied()
+    }
+}
+
+
+// Extension for Fragment
+fun Fragment.requestPermission(
+    permission: AppPermission,
+    onGranted: () -> Unit,
+    onDenied: () -> Unit = {},
+    onShowRationale: () -> Unit = { requireActivity().showDefaultRationale(permission) },
+    onPermanentlyDenied: () -> Unit = { requireActivity().showSettingsDialog() }
+) {
+    context?.let { context ->
+        when (PermissionUtils.checkPermission(context, permission)) {
+            PermissionUtils.PermissionResult.Granted -> onGranted()
+            PermissionUtils.PermissionResult.ShowRationale -> onShowRationale()
+            PermissionUtils.PermissionResult.Denied -> {
+                requestPermissions(
+                    arrayOf(permission.permission),
+                    permission.requestCode
+                )
+            }
+            PermissionUtils.PermissionResult.PermanentlyDenied -> onPermanentlyDenied()
+        }
+    }
+}
+
+private fun Activity.showDefaultRationale(permission: AppPermission) {
+    androidx.appcompat.app.AlertDialog.Builder(this)
+        .setTitle("Permission Required")
+        .setMessage(permission.rationale)
+        .setPositiveButton("Grant") { _, _ ->
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permission.permission),
+                permission.requestCode
+            )
+        }
+        .setNegativeButton("Deny") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
+}
+
+private fun Context.showSettingsDialog() {
+    androidx.appcompat.app.AlertDialog.Builder(this)
+        .setTitle("Permission Required")
+        .setMessage("This permission is required. Please enable it in app settings.")
+        .setPositiveButton("Settings") { _, _ ->
+            openAppSettings()
+        }
+        .setNegativeButton("Cancel") { dialog, _ ->
+            dialog.dismiss()
+        }
+        .show()
+}
+
+private fun Context.openAppSettings() {
+    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", packageName, null)
+        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(this)
+    }
 }

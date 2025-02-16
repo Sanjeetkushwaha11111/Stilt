@@ -6,6 +6,7 @@ import android.animation.ValueAnimator
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -25,10 +26,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
-import com.google.firebase.Firebase
-import com.google.firebase.crashlytics.crashlytics
 import com.mystilt.R
 import com.mystilt.base.ui.BaseViewPagerAdapter
+import com.mystilt.common.AppPermission
+import com.mystilt.common.requestPermission
 import com.mystilt.common.show
 import com.mystilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.mystilt.databinding.ActivityHomeBinding
@@ -110,6 +111,19 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, CustomMenuActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun sendNoti() {
+        requestPermission(
+            permission = AppPermission.CAMERA,
+            onGranted = {
+               Timber.e(">>>>>> permission granted")
+            }
+            ,
+            {
+                Timber.e(">>>>>> permission denied")
+            }
+        )
     }
 
     private fun openSearch(view: View) {
@@ -345,6 +359,25 @@ class HomeActivity : AppCompatActivity() {
                 if (existingFragment == null || !existingFragment.isVisible) {
                     val bottomSheetFragment = UserProfileFragment()
                     bottomSheetFragment.show(fragmentManager, UserProfileFragment.TAG)
+                }
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        // Handle permission result using the enum
+        AppPermission.fromRequestCode(requestCode)?.let { permission ->
+            if (grantResults.isNotEmpty() &&
+                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                when (permission) {
+                    // Handle other permissions
+                    else -> { /* Handle other cases */ }
                 }
             }
         }

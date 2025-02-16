@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 data class DeepLinkResponse(
     val targetUrl: String,
     val type: String,
-    val deepLinkData: List<DeepLinkData>
+    val deepLinkData: List<DeepLinkData>,
 ) : Parcelable
 
 @Parcelize

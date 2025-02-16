@@ -40,5 +40,11 @@ class DataStoreRepository @Inject constructor(
             preferences.clear()
         }
     }
+
+    suspend fun fcmToken(token: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.FCM_TOKEN] = token
+        }
+    }
 }
 
