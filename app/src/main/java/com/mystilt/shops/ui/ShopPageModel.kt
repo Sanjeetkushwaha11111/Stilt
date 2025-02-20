@@ -26,7 +26,9 @@ data class MenuCategory(
     @SerializedName("has_subcategories") val hasSubcategories: Boolean? = null,
     @SerializedName("subcategories") val subcategories: List<MenuSubCategory>? = null,
     @SerializedName("items") val items: List<MenuItem>? = null,
-    @SerializedName("expanded") var expanded: Boolean? = null
+    @SerializedName("expanded") var expanded: Boolean? = null,
+    @SerializedName("view_orientation") val viewOrientation: String? = null,
+
 )
 
 data class MenuSubCategory(
@@ -34,7 +36,8 @@ data class MenuSubCategory(
     @SerializedName("category_id") val categoryId: String? = null,
     @SerializedName("name") val name: String? = null,
     @SerializedName("items") val items: List<MenuItem>? = null,
-    @SerializedName("expanded") var expanded: Boolean? = null
+    @SerializedName("expanded") var expanded: Boolean? = null,
+    @SerializedName("view_orientation") val viewOrientation: String? = null,
 )
 
 data class MenuItem(
@@ -50,5 +53,6 @@ data class MenuItem(
     @SerializedName("is_recommended") val isRecommended: Boolean? = null,
     @SerializedName("is_spicy") val isSpicy: Boolean? = null,
     @SerializedName("tags") val tags: List<String>? = null,
-    @SerializedName("quantity") var quantity: Int? = null
+    @SerializedName("quantity") var quantity: Int? = null,
+    @SerializedName("view_orientation") val viewOrientation: String? = null,
 )

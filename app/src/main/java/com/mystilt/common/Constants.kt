@@ -7,4 +7,6 @@ object Constants {
     private const val REG = "^[6-9]\\d{9}$"
     var PATTERN: Pattern = Pattern.compile(REG)
     const val tabToLand = "TAB_TO_LAND"
+    const val ORIENTATION_PORTRAIT = "portrait"
+    const val ORIENTATION_HORIZONTAL = "horizontal"
 }

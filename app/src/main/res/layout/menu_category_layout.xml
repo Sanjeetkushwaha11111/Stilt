@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_8sdp"
+        android:paddingStart="@dimen/_8sdp"
+        android:fontFamily="@font/montserrat_semi_lbold"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/_14sdp"
+        app:layout_constraintEnd_toStartOf="@+id/expandIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Category Name"/>
+
+    <ImageView
+        android:id="@+id/expandIcon"
+        android:layout_width="@dimen/_24sdp"
+        android:layout_height="@dimen/_24sdp"
+        android:paddingVertical="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_2sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        android:src="@drawable/expand_circle_down"
+        app:layout_constraintBottom_toBottomOf="@+id/categoryName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/categoryName"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/subCategoriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:listitem="@layout/menu_item_layout"
+        app:layout_constraintTop_toBottomOf="@+id/categoryName"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/itemsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:listitem="@layout/menu_item_layout"
+        app:layout_constraintTop_toBottomOf="@+id/subCategoriesRecyclerView"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

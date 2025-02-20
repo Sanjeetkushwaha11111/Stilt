@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mystilt.R
 import com.mystilt.databinding.ShopPageFragmentBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ShopPageFragment : BottomSheetDialogFragment() {
 
 
@@ -19,8 +22,9 @@ class ShopPageFragment : BottomSheetDialogFragment() {
     }
 
     private lateinit var binding: ShopPageFragmentBinding
-    private var userData: ShopPageModel? = null
 
+    private var shopPageData: ShopPageModel? = null
+    private val menuCategoryAdapter = MenuCategoryAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -30,10 +34,11 @@ class ShopPageFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userData?.let {
-            // Bind the data to the views
-        }
+
+
     }
+
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = BottomSheetDialog(requireContext(), theme)
@@ -58,7 +63,6 @@ class ShopPageFragment : BottomSheetDialogFragment() {
     }
 
     fun setData(data: ShopPageModel) {
-        this.userData = data
+        this.shopPageData = data
     }
-
 }

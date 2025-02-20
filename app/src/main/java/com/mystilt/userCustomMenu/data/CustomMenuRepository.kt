@@ -12,7 +12,7 @@ class CustomMenuRepository @Inject constructor(
     private val apiService: ApiService
 ) : BaseRepository() {
     fun getMenuPageData(forceRefresh: Boolean = false): Flow<NetworkResult<CustomMenuModel>> =
-        safeApiCall { apiService.getMenuPageData(forceRefresh) }
+        safeApiCall { apiService.getCustomMenuPageData(forceRefresh) }
 
     fun placeFoodOrder(customMenus: CustomMenus, forceRefresh: Boolean = false): Flow<NetworkResult<String>> =
         safeApiCall { apiService.placeFoodOrder(forceRefresh, customMenus) }

@@ -5,6 +5,7 @@ import com.mystilt.homepage.data.HomeDataModel
 import com.mystilt.homepage.data.ShopPageData
 import com.mystilt.search.data.SearchPageData
 import com.mystilt.search.data.TrendingPageData
+import com.mystilt.shops.ui.ShopPageModel
 import com.mystilt.userCustomMenu.data.CustomMenuModel
 import com.mystilt.userCustomMenu.data.CustomMenus
 import retrofit2.Response
@@ -20,7 +21,7 @@ interface ApiService {
     }
 
     @GET("getMenuData")
-    suspend fun getMenuPageData(@Header("Force-Refresh") forceRefresh: Boolean = false): Response<ApiResponse<CustomMenuModel>>
+    suspend fun getCustomMenuPageData(@Header("Force-Refresh") forceRefresh: Boolean = false): Response<ApiResponse<CustomMenuModel>>
 
     @POST("data")
     suspend fun placeFoodOrder(
@@ -34,7 +35,7 @@ interface ApiService {
         @Query("url") deepLinkUrl: String
     ): Response<ApiResponse<DeepLinkResponse>>
 
-    @GET("shop-page-data")
+    @GET("shop-item-data")
     suspend fun getShopListData(
         @Header("Force-Refresh") forceRefresh: Boolean = true,
     ): Response<ApiResponse<ShopPageData>>
@@ -53,4 +54,12 @@ interface ApiService {
     suspend fun getTrendingPageData(
         @Header("Force-Refresh") forceRefresh: Boolean = true
     ): Response<ApiResponse<TrendingPageData>>
+
+
+    @GET("shop-page-data")
+    suspend fun getShopPageData(
+        @Header("Force-Refresh") forceRefresh: Boolean = true
+    ): Response<ApiResponse<ShopPageModel>>
+
+
 }

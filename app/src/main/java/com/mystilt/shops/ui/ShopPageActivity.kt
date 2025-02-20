@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.mystilt.databinding.ActivityShopPageBinding
 import com.mystilt.deeplink.DeepLinkResponse
@@ -26,7 +27,10 @@ class ShopPageActivity : AppCompatActivity() {
             val percentage = abs(verticalOffset).toFloat() / appBarLayout.totalScrollRange
             binding.toolbarLayout.alpha = percentage
         }
-    private val homeViewModel: ShopsViewModel by viewModels()
+    private var shopPageData: ShopPageModel? = null
+    private val menuCategoryAdapter = MenuCategoryAdapter()
+    private val shopsViewModel: ShopsViewModel by viewModels()
+
     private var deepLinkResponse: DeepLinkResponse? = null
 
     private val binding by lazy { ActivityShopPageBinding.inflate(layoutInflater) }
@@ -36,8 +40,57 @@ class ShopPageActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupToolbar()
+        setupMenuRecyclerView()
+        setupPullToRefresh()
+        shopsViewModel.getShopPageData(true)
+        setupObservers()
+    }
+
+    private fun setupObservers() {
+        shopsViewModel.shopPageData.observe(this) { shopPageData ->
+            shopPageData?.let {
+                bindData(it)
+            }
+        }
+    }
+
+
+    private fun setupMenuRecyclerView() {
+        binding.menuRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = menuCategoryAdapter
+        }
+
+        menuCategoryAdapter.setOnItemClickListener { menuItem ->
+            handleMenuItemClick(menuItem)
+        }
+    }
+
+    private fun bindData(shopPageData: ShopPageModel) {
+        shopPageData.let { data ->
+            binding.apply {
+                shopName.text = data.name
+                shopDescription.text = data.cuisineTypes?.joinToString(", ")
+                shopRating.text = data.rating?.toString() ?: "-"
+            }
+
+            data.menu?.categories?.let { categories ->
+                menuCategoryAdapter.setData(categories)
+            }
+        }
+    }
+
+    private fun handleMenuItemClick(menuItem: MenuItem) {
 
     }
+
+    private fun setupPullToRefresh() {
+        binding.pullToRefresh.setOnRefreshListener {
+            // Implement your refresh logic here
+            binding.pullToRefresh.setRefreshing(false)
+        }
+    }
+
 
     private fun setupToolbar() {
         binding.appBarLayout.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
