@@ -18,5 +18,5 @@ class SearchRepository @Inject constructor(
 
     fun getTrendingPageData(forceRefresh: Boolean = false): Flow<NetworkResult<TrendingPageData>> =
         safeApiCall { apiService.getTrendingPageData(forceRefresh) }
-
+//kanfalfafg
 }
