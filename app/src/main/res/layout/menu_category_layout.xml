@@ -11,7 +11,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/_8sdp"
-        android:paddingStart="@dimen/_8sdp"
+        android:paddingStart="@dimen/_10sdp"
         android:fontFamily="@font/montserrat_semi_lbold"
         android:textColor="@color/colorBlack"
         android:textSize="@dimen/_14sdp"
@@ -24,10 +24,9 @@
         android:id="@+id/expandIcon"
         android:layout_width="@dimen/_24sdp"
         android:layout_height="@dimen/_24sdp"
-        android:paddingVertical="@dimen/_5sdp"
-        android:paddingEnd="@dimen/_2sdp"
-        android:layout_marginBottom="@dimen/_4sdp"
         android:src="@drawable/expand_circle_down"
+        android:padding="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="@+id/categoryName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/categoryName"
@@ -38,15 +37,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        tools:listitem="@layout/menu_item_layout"
+        tools:listitem="@layout/menu_item_layout_type_1_rect"
         app:layout_constraintTop_toBottomOf="@+id/categoryName"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:listitem="@layout/menu_item_layout"
+        tools:listitem="@layout/menu_item_layout_type_1_rect"
         app:layout_constraintTop_toBottomOf="@+id/subCategoriesRecyclerView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
