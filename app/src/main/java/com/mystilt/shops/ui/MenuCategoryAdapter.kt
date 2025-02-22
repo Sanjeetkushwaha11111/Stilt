@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mystilt.databinding.MenuCategoryLayoutBinding
-import com.mystilt.databinding.MenuItemLayoutBinding
 import timber.log.Timber
 
 class MenuCategoryAdapter : RecyclerView.Adapter<MenuCategoryAdapter.CategoryViewHolder>() {
