@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mystilt.databinding.MenuCategoryLayoutBinding
 import timber.log.Timber
+//jhvjh
 
 class MenuCategoryAdapter : RecyclerView.Adapter<MenuCategoryAdapter.CategoryViewHolder>() {
     private var categories: List<MenuCategory> = emptyList()
