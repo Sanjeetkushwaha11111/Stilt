@@ -106,6 +106,7 @@
                 app:srcCompat="@drawable/minus"
                 />
 
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/item_count"
                 android:layout_width="wrap_content"
