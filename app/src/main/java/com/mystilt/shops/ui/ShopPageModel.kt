@@ -16,7 +16,6 @@ data class ShopPageModel(
     @SerializedName("menu") val menu: MenuData? = null
 )
 
-// comment added
 
 data class MenuData(
     @SerializedName("categories") val categories: List<MenuCategory>? = null
