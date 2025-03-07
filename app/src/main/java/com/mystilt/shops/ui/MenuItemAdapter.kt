@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mystilt.databinding.MenuItemLayoutBinding
+import com.mystilt.databinding.MenuItemLayoutType1RectBinding
 
 class MenuItemAdapter : RecyclerView.Adapter<MenuItemAdapter.MenuItemViewHolder>() {
     private var items: List<MenuItem> = emptyList()
@@ -20,7 +20,7 @@ class MenuItemAdapter : RecyclerView.Adapter<MenuItemAdapter.MenuItemViewHolder>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuItemViewHolder {
-        val binding = MenuItemLayoutBinding.inflate(
+        val binding = MenuItemLayoutType1RectBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return MenuItemViewHolder(binding)
@@ -40,22 +40,21 @@ class MenuItemAdapter : RecyclerView.Adapter<MenuItemAdapter.MenuItemViewHolder>
     }
 
     inner class MenuItemViewHolder(
-        private val binding: MenuItemLayoutBinding
+        private val binding: MenuItemLayoutType1RectBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MenuItem) {
-            binding.apply {
-                itemName.text = item.name
-                itemDescription.text = item.description
-                itemPrice.text = "₹ ${item.price}"
-
-                // Load image using your preferred image loading library
-                // Glide.with(itemImage).load(item.imageUrl).into(itemImage)
-
-                addButton.setOnClickListener {
-                    onItemClickListener?.invoke(item)
-                }
-            }
+//            binding.apply {
+//                itemName.text = item.name
+//                itemDescription.text = item.description
+//                itemPrice.text = "₹ ${item.price}"
+//
+//                // Glide.with(itemImage).load(item.imageUrl).into(itemImage)
+//
+//                addButton.setOnClickListener {
+//                    onItemClickListener?.invoke(item)
+//                }
+//            }
         }
     }
 }
