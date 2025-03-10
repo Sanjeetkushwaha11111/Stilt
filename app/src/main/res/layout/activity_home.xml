@@ -221,6 +221,7 @@
         android:id="@+id/blurView"
         android:elevation="@dimen/_4sdp"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom">
 

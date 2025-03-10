@@ -137,7 +137,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupUI() {
-        setupBlurView()
+      //setupBlurView()
     }
 
     override fun onResume() {
