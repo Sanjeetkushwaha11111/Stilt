@@ -1,5 +1,6 @@
 package com.mystilt.common
 
+import android.R.attr.defaultValue
 import android.animation.Animator
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -20,6 +21,7 @@ import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnticipateInterpolator
@@ -41,6 +43,7 @@ import com.mystilt.common.Constants.PATTERN
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.jsoup.Jsoup
+import timber.log.Timber
 import kotlin.math.roundToInt
 
 private var isAnimating = false
@@ -177,6 +180,20 @@ private fun Activity.getScreenWidth(): Int {
         return windowManager.currentWindowMetrics.bounds.width()
     }
 }
+
+fun Activity.getScreenHeightPercentage(percentage: Float): Int {
+    val displayMetrics = DisplayMetrics()
+    val windowManager = this.windowManager
+    val screenHeight = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        displayMetrics.heightPixels
+    } else {
+        windowManager.currentWindowMetrics.bounds.height()
+    }
+
+    return (screenHeight * (percentage / 100)).toInt()
+}
+
 
 fun ImageView.animateBackButton() {
     // Create a rounded black background
@@ -408,4 +425,8 @@ private fun Context.openAppSettings() {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(this)
     }
+}
+internal fun pxToDp(px: Int): Int {
+    val density = Resources.getSystem().displayMetrics.density
+    return (px / density).toInt()
 }

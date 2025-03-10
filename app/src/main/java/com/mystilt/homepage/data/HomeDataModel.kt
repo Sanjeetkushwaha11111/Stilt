@@ -9,6 +9,10 @@ class HomeDataModel(
     var tabToLand: Int? = null,
     var homeTopBg: String? = null,
     var homeTopItems: ArrayList<HomeTopItem>? = null,
+    var shrinkDelay: Long = 2000,
+    var expansionDelay: Long = 100,
+    var targetExpansionHeight: Int = 500,
+    var targetShrinkHeight: Int = 300,
     var welcomeText: String? = null,
 )
 

@@ -29,6 +29,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.mystilt.R
 import com.mystilt.base.ui.BaseViewPagerAdapter
 import com.mystilt.common.AppPermission
+import com.mystilt.common.dpPx
 import com.mystilt.common.requestPermission
 import com.mystilt.common.show
 import com.mystilt.customViews.animatedbottombar.AnimatedBottomBar
@@ -153,11 +154,13 @@ class HomeActivity : AppCompatActivity() {
     private fun observeViewModel() {
         homeViewModel.homeActivityData.observe(this) { data ->
             data?.let {
-                setupTabsWithPager(data.tabsData, data.tabToLand)
-                data.homeTopBg?.let {
+                data.homeTopBg?.let {it->
+                    setupTabsWithPager(data.tabsData, data.tabToLand)
                     lifecycleScope.launch {
-                        delay(1000)
-                        setUpHomeTopView(data.homeTopItems!!)
+                        data.homeTopItems?.let {homeTopItems->
+                            delay(data.expansionDelay)
+                            setUpHomeTopView(homeTopItems,data.shrinkDelay,data.targetExpansionHeight,data.targetShrinkHeight)
+                        }
                     }
                 } ?: resetScrollFlags()
             }
@@ -168,17 +171,23 @@ class HomeActivity : AppCompatActivity() {
         (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = 0
     }
 
-    private suspend fun setUpHomeTopView(homeTopItems: List<HomeTopItem>) {
-        expandTopBackground()
-        delay(3000)
+    private suspend fun setUpHomeTopView(
+        homeTopItems: ArrayList<HomeTopItem>,
+        expansionDelay: Long,
+        targetExpansionHeight: Int,
+        targetShrinkHeight: Int
+    ) {
+
+        expandTopBackground(targetExpansionHeight.dpPx)
+        delay(expansionDelay)
         animateHeightChange(
             binding.topBg,
-            targetHeight = resources.getDimensionPixelSize(com.intuit.sdp.R.dimen._250sdp)
+            targetHeight = targetShrinkHeight.dpPx
         )
         showTopItems(homeTopItems)
     }
 
-    private suspend fun expandTopBackground() {
+    private suspend fun expandTopBackground(targetHeight: Int) {
         withContext(Dispatchers.Main) {
             (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags =
                 AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP
@@ -193,15 +202,15 @@ class HomeActivity : AppCompatActivity() {
             )
 
             binding.topBg.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
-            val targetHeight = binding.topBg.measuredHeight
+            val finalTargetHeight = if (targetHeight == 0) ViewGroup.LayoutParams.WRAP_CONTENT else targetHeight
             binding.topBg.layoutParams.height = 1
             binding.topBg.visibility = View.VISIBLE
 
             val animator = object : Animation() {
                 override fun applyTransformation(interpolatedTime: Float, t: Transformation?) {
                     binding.topBg.layoutParams.height =
-                        if (interpolatedTime == 1f) ViewGroup.LayoutParams.WRAP_CONTENT
-                        else (targetHeight * interpolatedTime).toInt()
+                        if (interpolatedTime == 1f) finalTargetHeight
+                        else (finalTargetHeight * interpolatedTime).toInt()
                     binding.topBg.requestLayout()
                 }
 
