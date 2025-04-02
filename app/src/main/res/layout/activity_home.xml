@@ -14,8 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:expanded="true"
-        android:background="@drawable/rounded_bottom_corners"
-        android:backgroundTint="@color/colorBlack"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -76,7 +74,7 @@
                 android:background="@color/transparent"
                 android:backgroundTintMode="add"
                 android:elevation="@dimen/_10sdp"
-                android:paddingTop="@dimen/_25sdp"
+                android:paddingTop="@dimen/_35sdp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +96,8 @@
                         app:layout_constraintEnd_toStartOf="@id/name_tv"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/location" />
+                        app:srcCompat="@drawable/location"
+                        />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/name_tv"
@@ -107,7 +106,7 @@
                         android:includeFontPadding="false"
                         android:text="Hello! Sanjeet"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_15ssp"
+                        android:textSize="@dimen/_18ssp"
                         android:textStyle="bold"
                         app:fontFamily="@font/montserrat_bold"
                         app:layout_constraintBottom_toTopOf="@id/address_tv"
@@ -122,7 +121,7 @@
                         android:includeFontPadding="true"
                         android:text="Unit 821, 8th floor"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/_10ssp"
+                        android:textSize="@dimen/_12ssp"
                         app:fontFamily="@font/montserrat_regular"
                         app:layout_constraintBottom_toBottomOf="@id/location_iv"
                         app:layout_constraintEnd_toEndOf="@id/name_tv"
@@ -159,13 +158,15 @@
                     style="@style/Widget.MaterialComponents.Toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
                     android:clickable="false"
                     android:contextClickable="false"
                     android:transitionName="searchBar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/optional_tv"
-                    app:layout_scrollFlags="scroll|enterAlways">
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    >
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/search_et"
@@ -179,9 +180,9 @@
                         android:paddingVertical="@dimen/_10sdp"
                         android:paddingStart="@dimen/_10sdp"
                         android:paddingEnd="@dimen/_10sdp"
-                        android:text="Search to eat..."
                         android:textColor="#5D5959"
-                        android:textSize="@dimen/_13sdp" />
+                        android:textSize="@dimen/_13sdp"
+                        />
                 </com.google.android.material.appbar.MaterialToolbar>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -192,7 +193,7 @@
                 style="@style/Widget.MaterialComponents.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_25sdp"
+                android:paddingTop="@dimen/_35sdp"
                 android:background="@color/white"
                 android:visibility="gone"
                 app:layout_collapseMode="pin">
@@ -222,6 +223,7 @@
         android:elevation="@dimen/_4sdp"
         android:layout_width="match_parent"
         android:background="@color/white"
+        android:visibility="gone"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom">
 

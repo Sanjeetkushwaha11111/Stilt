@@ -2,6 +2,7 @@ package com.mystilt.common
 
 import android.R.attr.defaultValue
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -12,9 +13,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.provider.Settings
@@ -24,8 +28,12 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
+import android.view.animation.Animation
 import android.view.animation.AnticipateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -40,11 +48,16 @@ import androidx.fragment.app.Fragment
 import com.google.gson.Gson
 import com.mystilt.R
 import com.mystilt.common.Constants.PATTERN
+import com.mystilt.homepage.data.CustomText
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.jsoup.Jsoup
 import timber.log.Timber
 import kotlin.math.roundToInt
+import androidx.core.graphics.toColorInt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 private var isAnimating = false
 
@@ -114,23 +127,24 @@ internal val Int.dpPx: Int
 internal val Int.spPx: Int
     get() = (this * Resources.getSystem().displayMetrics.scaledDensity).roundToInt()
 
-private var currentLongToast: Toast? = null
 fun Context.showLongToast(message: String?) {
-    currentLongToast?.cancel() // Cancel the currently showing toast if any
-    currentLongToast = Toast.makeText(this, message, Toast.LENGTH_LONG).apply {
-        show()
-    }
-    currentLongToast= null
+    ToastManager.show(this, message, true)
 }
 
-
-private var currentShortToast: Toast? = null
 fun Context.showToastShort(message: String?) {
-    currentShortToast?.cancel()
-    currentShortToast = Toast.makeText(this, message, Toast.LENGTH_SHORT).apply {
-        show()
+    ToastManager.show(this, message, false)
+}
+
+private object ToastManager {
+    private var currentToast: Toast? = null
+    fun show(context: Context, message: String?, isLong: Boolean) {
+        currentToast?.cancel()
+        currentToast = Toast.makeText(
+            context.applicationContext,
+            message,
+            if (isLong) Toast.LENGTH_LONG else Toast.LENGTH_SHORT
+        ).apply { show() }
     }
-    currentShortToast = null
 }
 
 fun Any.loggableFormat(): String {
@@ -430,3 +444,65 @@ internal fun pxToDp(px: Int): Int {
     val density = Resources.getSystem().displayMetrics.density
     return (px / density).toInt()
 }
+
+fun View.slideUp(duration: Long = 500) {
+    this.post {
+        this.translationY = this.height.toFloat() // Start from bottom
+        this.visibility = View.VISIBLE
+        this.animate()
+            .translationY(0f) // Move to original position
+            .setDuration(duration)
+            .setInterpolator(DecelerateInterpolator()) // Smooth deceleration
+            .start()
+    }
+}
+
+
+fun TextView.applyCustomText(customText: CustomText) {
+    text = customText.text ?: ""
+    customText.size?.toFloatOrNull()?.let { textSize = it }
+    customText.color?.let { colorHex ->
+        runCatching { setTextColor(colorHex.toColorInt()) }
+            .onFailure { Timber.e("Invalid color: $colorHex") }
+    }
+    customText.fontWeight?.let { weight ->
+        setTypeface(typeface, when (weight.lowercase()) {
+            "bold" -> Typeface.BOLD
+            "italic" -> Typeface.ITALIC
+            "bold_italic" -> Typeface.BOLD_ITALIC
+            else -> Typeface.NORMAL
+        })
+    }
+}
+
+fun View.setBackgroundWithBorder(
+    backgroundColor: String,
+    borderColor: String=backgroundColor,
+    borderWidth: Int = 0,
+    cornerRadius: Float = 0f
+) {
+    val drawable = GradientDrawable().apply {
+        setColor(backgroundColor.toColorInt())
+        setStroke(borderWidth, borderColor.toColorInt())
+        this.cornerRadius = cornerRadius
+    }
+    this.background = drawable
+}
+
+fun TextView.startRotatingHintsWithCoroutine(
+    hints: List<String>,
+    interval: Long = 3000,
+    lifecycleScope: CoroutineScope,
+    hintColor: Int = Color.BLACK
+) {
+    lifecycleScope.launch {
+        var index = 0
+        while (true) {
+            text = hints[index]
+            setHintTextColor(hintColor) // Apply hint color
+            index = (index + 1) % hints.size
+            delay(interval)
+        }
+    }
+}
+

@@ -7,6 +7,7 @@ import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -25,17 +26,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.mystilt.R
 import com.mystilt.base.ui.BaseViewPagerAdapter
 import com.mystilt.common.AppPermission
 import com.mystilt.common.dpPx
+import com.mystilt.common.hide
 import com.mystilt.common.requestPermission
+import com.mystilt.common.setBackgroundWithBorder
 import com.mystilt.common.show
+import com.mystilt.common.slideUp
+import com.mystilt.common.startRotatingHintsWithCoroutine
 import com.mystilt.customViews.animatedbottombar.AnimatedBottomBar
 import com.mystilt.databinding.ActivityHomeBinding
 import com.mystilt.deeplink.DeepLinkResponse
 import com.mystilt.homepage.data.HomeTopItem
+import com.mystilt.homepage.data.HomeTopTheming
 import com.mystilt.homepage.data.TabData
 import com.mystilt.homepage.ui.fragments.DailyBiteFragment
 import com.mystilt.homepage.ui.fragments.HomeFragment
@@ -96,22 +104,8 @@ class HomeActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
         setupUI()
-        clickListeners()
         observeViewModel()
         homeViewModel.getHomeActivityData(true)
-    }
-
-    private fun clickListeners() {
-        binding.searchEt.setOnClickListener {
-            openSearch(it)
-        }
-        binding.searchBarPinned.setOnClickListener {
-            openSearch(it)
-        }
-        binding.userIv.setOnClickListener {
-            val intent = Intent(this, CustomMenuActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun sendNoti() {
@@ -141,6 +135,7 @@ class HomeActivity : AppCompatActivity() {
       //setupBlurView()
     }
 
+
     override fun onResume() {
         super.onResume()
         binding.appbar.addOnOffsetChangedListener(appBarOffsetListener)
@@ -153,19 +148,29 @@ class HomeActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         homeViewModel.homeActivityData.observe(this) { data ->
-            data?.let {
-                data.homeTopBg?.let {it->
-                    setupTabsWithPager(data.tabsData, data.tabToLand)
+            data?.let { homeData ->
+                homeData.topTheming?.let { it ->
+                    homeTopTheming(it)
+                }
+                homeData.homeTopBg?.let {
+                    setupTabsWithPager(homeData.tabsData, homeData.tabToLand)
                     lifecycleScope.launch {
-                        data.homeTopItems?.let {homeTopItems->
-                            delay(data.expansionDelay)
-                            setUpHomeTopView(homeTopItems,data.shrinkDelay,data.targetExpansionHeight,data.targetShrinkHeight)
+                        homeData.homeTopItems?.let { homeTopItems ->
+                            delay(homeData.expansionDelay)
+                            setUpHomeTopView(
+                                homeTopItems,
+                                homeData.shrinkDelay,
+                                homeData.targetExpansionHeight,
+                                homeData.targetShrinkHeight
+                            )
+                            binding.blurView.slideUp(1000)
                         }
                     }
                 } ?: resetScrollFlags()
             }
         }
     }
+
 
     private fun resetScrollFlags() {
         (binding.collapsingBar.layoutParams as AppBarLayout.LayoutParams).scrollFlags = 0
@@ -320,6 +325,7 @@ class HomeActivity : AppCompatActivity() {
             Timber.e("Error setting up tab: ${tabData.tabName}, ${e.message}")
         }
     }
+
     private fun configureViewPagerWithBottomBar(tabToLand: Int?, totalTabs: Int) {
         try {
             bottomBar.setupWithViewPager2(binding.homeViewPager)
@@ -335,6 +341,75 @@ class HomeActivity : AppCompatActivity() {
             binding.homeViewPager.setCurrentItem(safeTabIndex, false)
         } catch (e: Exception) {
             Timber.e("Error configuring ViewPager with BottomBar: ${e.message}")
+        }
+    }
+
+    fun homeTopTheming(data: HomeTopTheming) {
+        data.apply {
+            locationImg?.let { url ->
+                binding.locationIv.apply {
+                    Glide.with(this@HomeActivity).load(url)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .transform(RoundedCorners(12)).into(this)
+                    setOnClickListener {
+
+                    }
+                }
+            }
+            nameToShow?.let {
+                binding.nameTv.text = it
+            }
+            addressToShow?.let {
+                binding.addressTv.text = it
+            }
+            userImg?.let { url ->
+                binding.userIv.apply {
+                    Glide.with(this@HomeActivity).load(url)
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .transform(RoundedCorners(12)).into(this)
+                    setOnClickListener {
+                        val intent = Intent(this@HomeActivity, CustomMenuActivity::class.java)
+                        startActivity(intent)
+                    }
+                }
+
+            }
+
+            binding.optionalTv.apply {
+                optionalToShow?.let {
+                    text = it
+                }
+            }
+
+            searchBoxFloating?.let {
+                binding.searchBarFloating.apply {
+                    setBackgroundWithBorder(it.bgColor)
+                }
+                binding.searchEt.apply {
+                    startRotatingHintsWithCoroutine(
+                        hints = it.hints, 1000, lifecycleScope = lifecycleScope, Color.BLACK
+                    )
+                    setBackgroundWithBorder(
+                        it.barBgColor, it.barBorderColor, it.barBorderWidth, it.barRadius
+                    )
+                    setOnClickListener { openSearch(it) }
+                }
+            }?:{binding.searchBarFloating.hide()}
+
+            searchBoxPinned?.let {
+                binding.searchBarPinned.apply {
+                    setBackgroundWithBorder(it.bgColor)
+                }
+                binding.edtMessage1.apply {
+                    startRotatingHintsWithCoroutine(
+                        hints = it.hints, 1000, lifecycleScope = lifecycleScope, Color.BLACK
+                    )
+                    setOnClickListener { openSearch(it) }
+                    setBackgroundWithBorder(
+                        it.barBgColor, it.barBorderColor, it.barBorderWidth, it.barRadius
+                    )
+                }
+            }
         }
     }
 
